@@ -19,7 +19,7 @@ An automated dashboard to gather static information from the Splunk Deployment a
 -   Search Statistics - _introspection + PerProcess event data
 -   Search Concurrency -_introspection + PerProcess event data
 -   User Concurrency - _audit index
--   # of Active Dashboards -_introspection + PerProcess event data
+-   of Active Dashboards -_introspection + PerProcess event data
 -   Total Dashboard Count by Splunk App - REST access to search heads /servicesNS/-/-/data/ui/views
 
 #### Splunk - vCPU Reporting
