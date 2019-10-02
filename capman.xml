@@ -1,0 +1,190 @@
+<form>
+  <label>Capacity Manager (KLG v1.0)</label>
+  <description>Capacity Manager</description>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="timer">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="stack" searchWhenChanged="true">
+      <label>Stack</label>
+      <fieldForLabel>stack</fieldForLabel>
+      <fieldForValue>stack</fieldForValue>
+      <search>
+        <query>| inputlookup stack.csv</query>
+        <earliest>-15m</earliest>
+        <latest>now</latest>
+      </search>
+      <default>3mm</default>
+      <initialValue>3mm</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Health Check Status</title>
+      <table>
+        <title>nothing can be critical here!!</title>
+        <search>
+          <query>index=customer_introspection
+ (component=Hostwide OR component=IOstats) stack=$stack$
+ | eval cpu_kpi_status=case(searchmatch("data.cpu_idle_pct&gt;=90"),"low", searchmatch("data.cpu_idle_pct&lt;90 AND data.cpu_idle_pct&gt;10"), "moderate", searchmatch("data.cpu_idle_pct&lt;=10"),"critical" )  
+ | eval data.mem_perc_util=round(('data.mem_used'/'data.mem')*100,2)
+ | eval mem_kpi_status=case(searchmatch("data.mem_perc_util&lt;10.00"),"low", searchmatch("data.mem_perc_util&gt;10.00 AND data.mem_perc_util&lt;90.00"), "moderate", searchmatch("data.mem_perc_util&gt;=90.00"),"critical" ) 
+ | eval io_kpi_status=case(searchmatch("data.avg_total_ms&lt;10.000"),"low", searchmatch("data.avg_total_ms&gt;10.000 AND data.avg_total_ms&gt;25.000 "), "moderate", searchmatch("data.avg_total_ms&gt;=25.00"),"critical" ) | stats mode(*status) AS *status by stack</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Capacity by CloudStack (testing KLG v1)</title>
+      <table>
+        <title>estimates capacity based on utilization AND passing all the Health Check Criteria (*logic not built yet)</title>
+        <search>
+          <query>index=customer_introspection stack=$stack$ component=IOStats OR component=Hostwide role=indexer 
+| bucket _time span=1m 
+| stats last(data.normalized_load_avg_1min) AS last_norm_cpu_util, last(data.reads_kb_ps) AS rps last(data.writes_kb_ps) AS wps by stack, host, _time 
+| eval extrap_daily_gb=((rps+wps)*1440)/1024/1024 
+| stats median(last_norm_cpu_util) AS CUTIL dc(host) AS HCOUNT median(extrap_daily_gb) AS "ICS" by stack 
+| eval ICS=round(ICS,2)
+| eval TCAP=(HCOUNT*ICS)*(1+CUTIL) 
+| eval TCAP=round(TCAP,2) 
+| rename TCAP AS "Total Extrapolated Capacity  - Total GB/per-DEPLOYMENT-per-day ratio" 
+| rename ICS AS "Indexer Capacity Score - current GB/per-indexer-per-day ratio" 
+| rename CUTIL AS "Current Utilization Factor" | rename HCOUNT AS "Indexer Count"</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>CPU Health Summary</title>
+      <input type="dropdown" token="cpu_min" searchWhenChanged="true">
+        <label>cpu_min</label>
+        <choice value="20">20</choice>
+        <choice value="30">30</choice>
+        <choice value="40">40</choice>
+        <default>20</default>
+        <initialValue>20</initialValue>
+      </input>
+      <input type="dropdown" token="cpu_max" searchWhenChanged="true">
+        <label>cpu_max</label>
+        <choice value="90">90</choice>
+        <choice value="80">80</choice>
+        <choice value="75">75</choice>
+        <default>90</default>
+        <initialValue>90</initialValue>
+      </input>
+      <input type="dropdown" token="cpu_critical" searchWhenChanged="true">
+        <label>cpu_critical</label>
+        <choice value="10">10</choice>
+        <choice value="5">5</choice>
+        <initialValue>10</initialValue>
+        <default>10</default>
+      </input>
+      <table>
+        <search>
+          <query>index=customer_introspection
+ component=Hostwide stack=$stack$ 
+ | eval cpu_kpi_status=case(searchmatch("data.cpu_idle_pct&gt;=$cpu_max$"),"low", searchmatch("data.cpu_idle_pct&lt;$cpu_max$ AND data.cpu_idle_pct&gt;$cpu_min$"), "moderate", searchmatch("data.cpu_idle_pct&lt;=$cpu_min$"),"aggressive",searchmatch("data.cpu_idle_pct&lt;=$cpu_critical$"),"critical" ) | stats count by cpu_kpi_status, role | eval health_score=if(searchmatch("count&gt;0 AND cpu_kpi_status=critical"), "CPU Exhaustion Detected", "Healthy") | table role health_score</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">true</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Memory Health Status</title>
+      <input type="dropdown" token="mem_min" searchWhenChanged="true">
+        <label>mem_min</label>
+        <choice value="10">10</choice>
+        <default>10</default>
+        <initialValue>10</initialValue>
+      </input>
+      <input type="dropdown" token="mem_max" searchWhenChanged="true">
+        <label>mem_max</label>
+        <choice value="90">90</choice>
+        <default>90</default>
+        <initialValue>90</initialValue>
+      </input>
+      <table>
+        <search>
+          <query>index=customer_introspection
+ component=Hostwide stack=$stack$ 
+ | eval data.mem_perc_util=round(('data.mem_used'/'data.mem')*100,2)
+ | eval mem_kpi_status=case(searchmatch("data.mem_perc_util&lt;$mem_min$"),"low", 
+  searchmatch("data.mem_perc_util&gt;$mem_min$ AND data.mem_perc_util&lt;$mem_max$"), "moderate", 
+  searchmatch("data.mem_perc_util&gt;=$mem_max$"),"critical" ) 
+  | stats count by mem_kpi_status, role 
+  | eval health_score=if(searchmatch("count&gt;0 AND mem_kpi_status=critical"), "Memory Exhaustion Detected", "Healthy") 
+  | table role health_score</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" token="io_low" searchWhenChanged="true">
+        <label>io_low</label>
+        <choice value="5.000">5</choice>
+        <default>5.000</default>
+        <initialValue>5.000</initialValue>
+      </input>
+      <input type="dropdown" token="io_max" searchWhenChanged="true">
+        <label>io_max</label>
+        <choice value="10.000">10</choice>
+        <initialValue>10.000</initialValue>
+        <default>10.000</default>
+      </input>
+      <input type="dropdown" token="io_critical" searchWhenChanged="true">
+        <label>io_critical</label>
+        <choice value="50.00">50</choice>
+        <initialValue>50.00</initialValue>
+        <default>50.00</default>
+      </input>
+      <table>
+        <title>Storage Health Status</title>
+        <search>
+          <query>index=customer_introspection
+ component=IOstats stack=$stack$ 
+ | eval io_kpi_status=case(searchmatch("data.avg_total_ms&lt;$io_low$"),"low", 
+  searchmatch("data.avg_total_ms&gt;$io_low$ AND data.avg_total_ms&gt;$io_max$ "), "moderate", 
+  searchmatch("data.avg_total_ms&gt;=$io_critical$"),"critical" ) 
+  | stats count by io_kpi_status, role , data.mount_point
+  | eval health_score=if(searchmatch("count&gt;0 AND io_kpi_status=critical"), "Critical IOwait Detected", "Healthy") 
+  | table role health_score</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>
