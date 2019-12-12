@@ -1,0 +1,103 @@
+<dashboard>
+  <label>Summary of Status</label>
+  <row>
+    <panel>
+      <title>CPU Exhaustion Detected - distribution of idle availability</title>
+      <table>
+        <title>Extreme = &lt;10% idle available | High = 10-20% idle available | Normal = 30+% idle available</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=Hostwide | bucket _time span=2m | stats last("data.cpu_idle_pct") AS "CPU-Idle" by host,_time | eval status=case(searchmatch("CPU-Idle&lt;10.00"), "Extreme", searchmatch("CPU-Idle&gt;10.00 AND CPU-Idle&lt;20.00"), "High", searchmatch("CPU-Idle&gt;30.00"), "Normal") | stats count by status</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Pie Chart</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=Hostwide | bucket _time span=2m | stats last("data.cpu_idle_pct") AS "CPU-Idle" by host,_time | eval status=case(searchmatch("CPU-Idle&lt;10.00"), "Extreme", searchmatch("CPU-Idle&gt;10.00 AND CPU-Idle&lt;20.00"), "High", searchmatch("CPU-Idle&gt;30.00"), "Normal") | stats count by status</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>High IOwait (ms) reported - distribution of iowait by threshold</title>
+      <table>
+        <title>Excessive = &gt;50ms | High= 25-50ms | Moderate = 5-25ms | Low = &lt;5ms</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=IOstats | eval iothreshold=case('data.avg_total_ms'&lt;=5, "low", 'data.avg_total_ms'&lt;=25, "moderate", 'data.avg_total_ms'&lt;=50, "high", 'data.avg_total_ms'&gt;50, "excessive") | stats count by iothreshold | sort -count</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Pie Chart</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=IOstats | eval iothreshold=case('data.avg_total_ms'&lt;=5, "low", 'data.avg_total_ms'&lt;=25, "moderate", 'data.avg_total_ms'&lt;=50, "high", 'data.avg_total_ms'&gt;50, "excessive") | stats count by iothreshold | sort -count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>High Memory Utilization</title>
+      <table>
+        <title>Excessive = &gt;90% | High = 50-90% | Moderate = 15-50% | Low = &lt;15%</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=Hostwide host=splswdcidxp22 | eval mem_perc_used=round(('data.mem_used'/'data.mem')*100,1) | eval mem_util=case('mem_perc_used'&lt;=15.0, "low", 'mem_perc_used'&lt;=50.0 AND 'mem_perc_used'&gt;15.0, "moderate", 'mem_perc_used'&gt;50.0 AND 'mem_perc_used'&lt;90.0, "high", 'mem_perc_used'&gt;90.0, "excessive") | stats count by mem_util</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Pie Chart</title>
+        <search>
+          <query>index=citi sourcetype="resource_usage" component=Hostwide host=splswdcidxp22 | eval mem_perc_used=round(('data.mem_used'/'data.mem')*100,1) | eval mem_util=case('mem_perc_used'&lt;=15.0, "low", 'mem_perc_used'&lt;=50.0 AND 'mem_perc_used'&gt;15.0, "moderate", 'mem_perc_used'&gt;50.0 AND 'mem_perc_used'&lt;90.0, "high", 'mem_perc_used'&gt;90.0, "excessive") | stats count by mem_util</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

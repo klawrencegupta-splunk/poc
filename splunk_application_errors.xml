@@ -1,0 +1,136 @@
+<form>
+  <label>Splunk Application Errors</label>
+  <description>Splunk applications errors found (by component)</description>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="text" token="idx" searchWhenChanged="true">
+      <label>Index</label>
+      <default>reg</default>
+      <initialValue>reg</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>User Quota reached</title>
+      <table>
+        <title>users are hitting disk quotas - indicative of poor search quality or very high usage</title>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR  log_level=ERROR component=SearchScheduler | stats count by user</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>LDAP Authentication Errors</title>
+      <table>
+        <title>It's not a best practice recommendation to LDAP configured on the indexer tier</title>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR  log_level=ERROR component=AuthenticationManagerLDAP | stats count by host</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Broken Pipes for TCPInputProcessor  (capacity issue)</title>
+      <table>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR  log_level=ERROR component=TcpInputProc | stats count by host | sort -count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Lookup Table Errors</title>
+      <table>
+        <title>lookup tables are referenced but not available</title>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR  log_level=ERROR component=CsvDataProvider | rex field=_raw "The lookup table '(?&lt;lookup_table_name&gt;\w+)' (?&lt;error_message&gt;.+\.)" | stats count by  lookup_table_name, error_message</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Cluster Master - Replications Errors (capacity related)</title>
+      <table>
+        <title>CM is unable to replicate</title>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR host=*cm* | stats last(event_message) AS "Last Error" count by log_level, component, host | sort -count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>SH fails to send data to indexer tier</title>
+      <table>
+        <title>possibly network acl or capacity related</title>
+        <search>
+          <query>index=$idx$ sourcetype=splunkd log_level=ERROR host=*sh* component=TcpOutputFd "9997 failed" | stats count by host | sort -count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>
