@@ -1,0 +1,194 @@
+<form>
+  <label>Splunk Search Review</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="timer">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+    <input type="dropdown" token="customer" searchWhenChanged="true">
+      <label>customer</label>
+      <fieldForLabel>customer</fieldForLabel>
+      <fieldForValue>customer</fieldForValue>
+      <search>
+        <query>| inputlookup diag_hosts.csv | fields customer | dedup customer</query>
+      </search>
+    </input>
+    <input type="dropdown" token="role">
+      <label>role</label>
+      <default>idx</default>
+      <initialValue>idx</initialValue>
+      <fieldForLabel>role</fieldForLabel>
+      <fieldForValue>role</fieldForValue>
+      <search>
+        <query>| inputlookup diag_hosts.csv | fields role | dedup role</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+    <input type="multiselect" token="host" searchWhenChanged="true">
+      <label>host</label>
+      <search>
+        <query>| inputlookup diag_hosts.csv | search role=$role$ AND customer=$customer$ | fields host | dedup host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <delimiter> OR host=</delimiter>
+      <prefix>host=</prefix>
+    </input>
+    <input type="radio" token="index" searchWhenChanged="true">
+      <label>index (hidden)</label>
+      <choice value="main">main</choice>
+      <default>main</default>
+      <initialValue>main</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Search Concurrency Metrics</title>
+      <chart>
+        <title>concurrency = 6 base searches per host + 2x physical cores available per SH with a default perCPU thread multiplier of 1</title>
+        <search>
+          <query>index=$index$ $host$ sourcetype="audit" OR sourcetype=resource_usage  | eval concurrency_limit='data.virtual_cpu_count'+6 | timechart span=15m max(concurrency_limit) AS total_search_capacity dc(search_id) AS current_search_load by host</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisEnd</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">top</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Search Run Time statistics</title>
+      <input type="text" token="lds" searchWhenChanged="true">
+        <label>Length of Default Search Time "Wanted" - in seconds</label>
+        <default>15</default>
+        <initialValue>15</initialValue>
+      </input>
+      <table>
+        <title>*kind of like an SLA on runtime</title>
+        <search>
+          <query>index=$index$ $host$ sourcetype="audit" | eval x=if(total_run_time&gt;$lds$, "long", "short") | stats earliest(_time) AS start_time latest(_time) AS end_time dc(search_id) AS "Searches Run" avg(total_run_time) AS "Average runtime in seconds" perc95(total_run_time) AS "%95 percentile runtime in seconds" by x | convert ctime(end_time) AS end_time | convert ctime(start_time) AS start_time</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Timechart stack searches by type based on overall CPU utilization</title>
+      <input type="dropdown" token="res">
+        <label>Time Resolution</label>
+        <choice value="5m">5m</choice>
+        <choice value="10m">10m</choice>
+        <choice value="30m">30m</choice>
+        <choice value="1h">1h</choice>
+        <default>5m</default>
+        <initialValue>5m</initialValue>
+      </input>
+      <chart>
+        <search>
+          <query>index=$index$ $host$ sourcetype="resource_usage" component=PerProcess | bucket _time span=$res$ | chart max("data.normalized_pct_cpu") over _time by data.search_props.type usenull=f</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">0</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">_aggregation</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Searches Consuming CPU</title>
+      <table>
+        <title>sorted by normalized CPU loads ~ threads</title>
+        <search>
+          <query>index=$index$ sourcetype="resource_usage" component=PerProcess $host$ | stats max(data.read_mb) AS read_mb max(data.written_mb) AS write_mb max("data.normalized_pct_cpu") AS CPU_util by data.search_props.label,data.search_props.provenance,data.search_props.app,data.search_props.user | sort -CPU_util | head 10 | rename data.search_props.label AS savedsearch_name</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
