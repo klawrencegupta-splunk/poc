@@ -13,4 +13,4 @@ touch /etc/passwd-s3fs
 echo <access_key>:<secret_key> > /etc/passwd-s3fs
 chmod 600 /etc/passwd-s3fs
 mkdir /s3
-/usr/local/bin/s3fs klgupload -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /s3
+/usr/local/bin/s3fs <bucket_name> -o use_cache=/tmp -o allow_other -o uid=1001 -o mp_umask=002 -o multireq_max=5 /s3
