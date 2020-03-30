@@ -10,3 +10,12 @@ bofa,SH,mptelcbnx023
 bofa,idx,lva10besplid12
 bofa,idx,lva10besplid13
 bofa,idx,lva10besplid7s
+citigroup,CM,splgtdcmasp01
+citigroup,SH,splgtdcshdp11
+citigroup,SH,splgtdcshdp12
+citigroup,SH,splswdcshdp11
+citigroup,SH,splswdcshdp12
+citigroup,idx,splgtdcidxd50
+citigroup,idx,splgtdcidxp01
+citigroup,idx,splswdcidxd50
+citigroup,idx,splswdcidxp01

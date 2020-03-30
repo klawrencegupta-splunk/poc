@@ -1,6 +1,6 @@
 <form>
   <label>Splunk Search Review</label>
- <fieldset submitButton="false" autoRun="true">
+  <fieldset submitButton="false" autoRun="true">
     <input type="time" token="timer">
       <label>Time Range</label>
       <default>
@@ -104,7 +104,7 @@
       <table>
         <title>*kind of like an SLA on runtime</title>
         <search>
-          <query>index=$index$ $host$ sourcetype="audit" | eval x=if(total_run_time&gt;$lds$, "long", "short") | stats count(search) AS "Searches Run" perc50(total_run_time) AS "%50 percentile runtime in seconds" perc95(total_run_time) AS "%95 percentile runtime in seconds"   by x</query>
+          <query>index=$index$ $host$ sourcetype="audit" | eval x=if(total_run_time&gt;$lds$, "long", "short") | stats earliest(_time) AS start_time latest(_time) AS end_time dc(search_id) AS "Searches Run" avg(total_run_time) AS "Average runtime in seconds" perc95(total_run_time) AS "%95 percentile runtime in seconds" by x | convert ctime(end_time) AS end_time | convert ctime(start_time) AS start_time</query>
           <earliest>$timer.earliest$</earliest>
           <latest>$timer.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -122,7 +122,7 @@
   </row>
   <row>
     <panel>
-      <title>Timechart stack searches by type</title>
+      <title>Timechart stack searches by type based on overall CPU utilization</title>
       <input type="dropdown" token="res">
         <label>Time Resolution</label>
         <choice value="5m">5m</choice>

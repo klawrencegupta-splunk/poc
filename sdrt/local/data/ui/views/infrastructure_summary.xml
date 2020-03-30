@@ -89,32 +89,27 @@
       <title>CPU Health Summary</title>
       <input type="dropdown" token="cpu_min" searchWhenChanged="true">
         <label>cpu_min</label>
-        <choice value="20">20</choice>
-        <choice value="30">30</choice>
-        <choice value="40">40</choice>
-        <default>20</default>
-        <initialValue>20</initialValue>
+        <choice value="15">15</choice>
+        <default>15</default>
+        <initialValue>15</initialValue>
       </input>
       <input type="dropdown" token="cpu_max" searchWhenChanged="true">
         <label>cpu_max</label>
-        <choice value="90">90</choice>
-        <choice value="80">80</choice>
-        <choice value="75">75</choice>
-        <default>90</default>
-        <initialValue>90</initialValue>
+        <choice value="85">85</choice>
+        <default>85</default>
+        <initialValue>85</initialValue>
       </input>
       <input type="dropdown" token="cpu_critical" searchWhenChanged="true">
         <label>cpu_critical</label>
-        <choice value="10">10</choice>
-        <choice value="5">5</choice>
-        <initialValue>10</initialValue>
-        <default>10</default>
+        <choice value="15">15</choice>
+        <initialValue>15</initialValue>
+        <default>15</default>
       </input>
       <chart>
         <title>CPU Utilization ranges (Critical/Moderate/Low) by Host</title>
         <search>
           <query>component=Hostwide index=$index$ $host$
- | eval cpu_kpi_status=case(searchmatch("data.cpu_idle_pct&gt;=$cpu_max$"),"low", searchmatch("data.cpu_idle_pct&lt;$cpu_max$ AND data.cpu_idle_pct&gt;$cpu_min$"), "moderate",searchmatch("data.cpu_idle_pct&gt;=$cpu_critical$"),"critical" ) | stats count min(data.cpu_idle_pct) AS cpu_LK_status by cpu_kpi_status host</query>
+ | eval cpu_kpi_status=case(searchmatch("data.cpu_idle_pct&gt;$cpu_max$"),"low", searchmatch("data.cpu_idle_pct&gt;$cpu_min$ AND data.cpu_idle_pct&lt;$cpu_max$"),"moderate", searchmatch("data.cpu_idle_pct&lt;$cpu_min$"), "critical") | stats count by host cpu_kpi_status</query>
           <earliest>$timer.earliest$</earliest>
           <latest>$timer.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -196,7 +191,7 @@
       <input type="dropdown" token="mp" searchWhenChanged="true">
         <label>Mount Point</label>
         <search>
-          <query>index=main  component=IOstats  | rename data.mount_point AS mp  | fields mp| dedup mp</query>
+          <query>index=main $host$ component=IOstats  | rename data.mount_point AS mp  | fields mp| dedup mp</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

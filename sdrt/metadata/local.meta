@@ -9,26 +9,26 @@ modtime = 1585144952.228582000
 [views/infrastructure_summary]
 owner = admin
 version = 8.0.2.1
-modtime = 1585237126.094674000
+modtime = 1585587365.920368000
 
 [views/infrastructure_review_clone]
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.0.2.1
-modtime = 1585237618.993380000
+modtime = 1585590427.095966000
 
 [views/splunk_search_review]
 owner = admin
 version = 8.0.2.1
-modtime = 1585163552.700818000
+modtime = 1585592528.989081000
 
 [views/splunk_application_errors_clone]
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.0.2.1
-modtime = 1585163463.063490000
+modtime = 1585591240.201056000
 
 [savedsearches/Diag%20Host%20Lookup%20table%20generator]
 access = read : [ * ], write : [ admin, power ]

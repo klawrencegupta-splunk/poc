@@ -1,7 +1,7 @@
 <form>
   <label>Splunk Application Errors</label>
   <description>Splunk applications errors found (by component)</description>
-    <fieldset submitButton="false" autoRun="true">
+  <fieldset submitButton="false" autoRun="true">
     <input type="time" token="timer">
       <label>Time Range</label>
       <default>
@@ -17,7 +17,7 @@
         <query>| inputlookup diag_hosts.csv | fields customer | dedup customer</query>
       </search>
     </input>
-    <input type="dropdown" token="role">
+    <input type="dropdown" token="role" searchWhenChanged="true">
       <label>role</label>
       <default>idx</default>
       <initialValue>idx</initialValue>
@@ -52,7 +52,7 @@
     <panel>
       <title>Blocked Queues</title>
       <chart>
-        <title>Count by Queue by Host</title>
+        <title>Count by Queue by Host - IF Empty does not rule out blocks that were not captured either due to sampling or log rolloff</title>
         <search>
           <query>index=$index$ $host$ sourcetype=*metrics* blocked | chart count over host by name | sort -count</query>
           <earliest>$timer.earliest$</earliest>

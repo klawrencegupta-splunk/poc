@@ -41,6 +41,17 @@
       <delimiter> OR host=</delimiter>
       <prefix>host=</prefix>
     </input>
+    <input type="dropdown" token="res" searchWhenChanged="true">
+      <label>Time Resolution</label>
+      <choice value="1m">1m</choice>
+      <choice value="2m">2m</choice>
+      <choice value="5m">5m</choice>
+      <choice value="15m">15m</choice>
+      <choice value="30m">30m</choice>
+      <choice value="1h">1h</choice>
+      <default>15m</default>
+      <initialValue>15m</initialValue>
+    </input>
     <input type="radio" token="index" searchWhenChanged="true">
       <label>index (hidden)</label>
       <choice value="main">main</choice>
@@ -51,17 +62,6 @@
   <row>
     <panel>
       <title>CPU - Idle 1 min spans</title>
-      <input type="dropdown" token="res" searchWhenChanged="true">
-        <label>Time Resolution</label>
-        <choice value="1m">1m</choice>
-        <choice value="2m">2m</choice>
-        <choice value="5m">5m</choice>
-        <choice value="15m">15m</choice>
-        <choice value="30m">30m</choice>
-        <choice value="1h">1h</choice>
-        <default>1m</default>
-        <initialValue>1m</initialValue>
-      </input>
       <chart>
         <search>
           <query>index=$index$ component=Hostwide $host$ | timechart span=$res$ min("data.cpu_idle_pct") by host</query>
@@ -109,7 +109,7 @@
       <title>Memory Utilization % - 2 min spans</title>
       <chart>
         <search>
-          <query>index=$index$ component=Hostwide $host$ | eval mem_perc_used=('data.mem_used'/'data.mem')*100 | timechart span=15m last(mem_perc_used) AS "% Memory Used" by host</query>
+          <query>index=$index$ component=Hostwide $host$ | eval mem_perc_used=('data.mem_used'/'data.mem')*100 | timechart span=$res$ last(mem_perc_used) AS "% Memory Used" by host</query>
           <earliest>$timer.earliest$</earliest>
           <latest>$timer.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -157,7 +157,7 @@
         <fieldForLabel>mp</fieldForLabel>
         <fieldForValue>mp</fieldForValue>
         <search>
-          <query>index=main  component=IOstats  | rename data.mount_point AS mp  | stats mode(mp) AS mp | fields mp | dedup mp</query>
+          <query>index=main  $host$ component=IOstats  | rename data.mount_point AS mp  | fields mp | dedup mp</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -167,76 +167,37 @@
       <chart>
         <title>finds most common mount point</title>
         <search>
-          <query>index=$index$ component=IOstats $host$ $mp$| bucket _time span=2m  | stats median(data.avg_total_ms) AS "Median IOwait" perc75(data.avg_total_ms) AS "75% percentile of IOwait" max(data.avg_total_ms) AS "Max IOwait" by data.mount_point host</query>
+          <query>index=$index$ component=IOstats $host$ $mp$ | bucket _time span=$res$ | stats avg(data.avg_total_ms) AS "Average IOwait" median(data.avg_total_ms) AS "Median IOwait" perc95(data.avg_total_ms) AS "Perc95 IOwait" max(data.avg_total_ms) AS "Max IOwait" by host _time | eval "Average IOwait"=round('Average IOwait',3)</query>
           <earliest>$timer.earliest$</earliest>
           <latest>$timer.latest$</latest>
           <sampleRatio>1</sampleRatio>
         </search>
-        <option name="charting.axisTitleX.visibility">collapsed</option>
-        <option name="charting.axisTitleY.visibility">collapsed</option>
-        <option name="charting.axisTitleY2.visibility">collapsed</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
         <option name="charting.axisY.abbreviation">auto</option>
         <option name="charting.axisY.scale">log</option>
-        <option name="charting.chart">bar</option>
-        <option name="charting.chart.showDataLabels">all</option>
-        <option name="charting.drilldown">none</option>
-        <option name="charting.legend.placement">bottom</option>
-        <option name="refresh.display">progressbar</option>
-        <option name="trellis.enabled">1</option>
-        <option name="trellis.size">medium</option>
-        <option name="trellis.splitBy">host</option>
-      </chart>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <title>Iowait by mount_point over time by host</title>
-      <input type="dropdown" token="res" searchWhenChanged="true">
-        <label>Time Resolution</label>
-        <choice value="5m">5m</choice>
-        <choice value="10m">10m</choice>
-        <choice value="30m">30m</choice>
-        <choice value="1h">1h</choice>
-        <choice value="2h">2h</choice>
-        <default>1h</default>
-        <initialValue>1h</initialValue>
-      </input>
-      <chart>
-        <search>
-          <query>index=$index$ sourcetype="resource_usage" component=IOstats $host$ $mp$  | timechart span=$res$ median(data.avg_total_ms) AS "Median IOwait" max(data.avg_total_ms) AS "Max IOwait" by host</query>
-          <earliest>$timer.earliest$</earliest>
-          <latest>$timer.latest$</latest>
-        </search>
-        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
-        <option name="charting.axisTitleX.visibility">collapsed</option>
-        <option name="charting.axisTitleY.visibility">collapsed</option>
-        <option name="charting.axisTitleY2.visibility">collapsed</option>
-        <option name="charting.axisY2.enabled">0</option>
         <option name="charting.chart">column</option>
-        <option name="charting.chart.nullValueMode">zero</option>
         <option name="charting.chart.showDataLabels">minmax</option>
-        <option name="charting.chart.stackMode">default</option>
         <option name="charting.drilldown">none</option>
-        <option name="charting.layout.splitSeries">0</option>
-        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
-        <option name="charting.legend.labelStyle.overflowMode">ellipsisStart</option>
-        <option name="charting.legend.mode">standard</option>
-        <option name="charting.legend.placement">bottom</option>
-        <option name="height">469</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="height">934</option>
         <option name="refresh.display">progressbar</option>
         <option name="trellis.enabled">1</option>
         <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">large</option>
         <option name="trellis.splitBy">host</option>
       </chart>
     </panel>
   </row>
   <row>
     <panel>
-      <title>IO utilization in 5m buckets</title>
+      <title>IO utilization in KB/s over time vs data.cpu_pct utilization | samples as time resolution rate using last(value)</title>
       <chart>
-        <title>data.cpu_pct is the amount of time the server spent processing requests</title>
+        <title>data.cpu_pct is the amount of time the server spent processing requests ??? 1 thread?</title>
         <search>
-          <query>index=$index$ $host$ component=IOStats| timechart span=$res$ max("data.cpu_pct") max(data.reads_kb_ps) max(data.writes_kb_ps) by host</query>
+          <query>index=$index$ $host$ component=IOStats| timechart span=$res$ last("data.cpu_pct") last(data.reads_kb_ps) last(data.writes_kb_ps) by host</query>
           <earliest>$timer.earliest$</earliest>
           <latest>$timer.latest$</latest>
         </search>
@@ -246,7 +207,8 @@
         <option name="charting.axisY2.enabled">1</option>
         <option name="charting.chart">area</option>
         <option name="charting.chart.nullValueMode">zero</option>
-        <option name="charting.chart.overlayFields">max(data.cpu_pct)</option>
+        <option name="charting.chart.overlayFields">last(data.cpu_pct)</option>
+        <option name="charting.chart.stackMode">default</option>
         <option name="charting.drilldown">none</option>
         <option name="charting.layout.splitSeries">0</option>
         <option name="charting.legend.mode">standard</option>
