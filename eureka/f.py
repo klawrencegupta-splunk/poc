@@ -40,10 +40,7 @@ def s3_unpack(new_name,NEW_BUCKET):
         key_name=str(s3_file.key)    
     try:
         obj = s3.Object(new_name,key_name)
-        diag_file_list = tarfile.getmembers(obj)
-        for x in diag_file_list:
-            if "splunkd.log" in x:
-                splunkd_log=tarfile.extractall()              
+        content= tarfile.extractall(obj)              
     except Exception as e:
         raise
     
