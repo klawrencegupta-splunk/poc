@@ -40,8 +40,9 @@ def s3_unpack(NEW_BUCKET):
         key_name=str(s3_file.key)
         zip_obj = s3_resource.Object(bucket_name=new_name, key=key_name)
         for filename in z.namelist():
+            key_name_2=str(filename)
             file_info = z.getinfo(filename)
-            s3_resource.meta.client.upload_fileobj(z.open(filename),Bucket=new_name,Key=f'{filename}')
+            s3_resource.meta.client.upload_fileobj(z.open(filename),Bucket=new_name,Key=key_name_2)
 
 if __name__ == '__main__':
     s3_move_diag(BUCKET,NEW_BUCKET)
