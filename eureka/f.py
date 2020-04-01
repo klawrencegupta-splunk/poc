@@ -34,7 +34,7 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
-def s3_unpack(NEW_BUCKET):
+def s3_unpack(new_name):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)    
     try:
@@ -49,4 +49,4 @@ def s3_unpack(NEW_BUCKET):
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
-        s3_unpack(NEW_BUCKET)
+        s3_unpack(new_name)
