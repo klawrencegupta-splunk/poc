@@ -49,4 +49,4 @@ def s3_unpack(new_name, BUCKET):
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
-        s3_unpack(new_name)
+        s3_unpack(new_name,BUCKET)
