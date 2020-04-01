@@ -4,6 +4,7 @@ import boto3
 import botocore
 from io import BytesIO
 import gzip
+import tarfile
 import sys
 
 ACCESS_KEY = sys.argv[1]
@@ -39,12 +40,10 @@ def s3_unpack(new_name,NEW_BUCKET):
         key_name=str(s3_file.key)    
     try:
         obj = s3.Object(new_name,key_name)
-        n = obj.get()['Body'].read()
-        gzipfile = BytesIO(n)
-        gzipfile = gzip.GzipFile(fileobj=gzipfile)
-        content = gzipfile.read()
-        if "CMBucket" in content:
-            print(content)
+        diag_file_list = TarFile.getmembers(obj)
+        for x in diag_file_list:
+            if "splunkd.log" in x:
+                splunkd_log=TarFile.extractall()              
     except Exception as e:
         raise
     
