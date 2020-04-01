@@ -46,7 +46,7 @@ def s3_unpack(NEW_BUCKET):
         print(content)
     except Exception as e:
         print(e)
-        raise e
+        raise str(e)
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
