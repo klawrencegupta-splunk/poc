@@ -34,7 +34,7 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
-def s3_unpack(new_name):
+def s3_unpack(new_name, BUCKET):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)    
     try:
