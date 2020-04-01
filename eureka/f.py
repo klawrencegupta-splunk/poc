@@ -39,11 +39,12 @@ def s3_unpack(new_name,NEW_BUCKET):
         key_name=str(s3_file.key)    
     try:
         obj = s3.Object(new_name,key_name)
-        n = obj.get()['Body'].read()
+        #n = obj.get()['Body'].read()
+        n = obj.get()['ContentDisposition'].read()
         gzipfile = BytesIO(n)
         gzipfile = gzip.GzipFile(fileobj=gzipfile)
-        #content = gzipfile.read()
-        gzipfile.decompress(obj)
+        content = gzipfile.read()
+        print(content)
     except Exception as e:
         raise
     
