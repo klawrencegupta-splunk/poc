@@ -45,8 +45,7 @@ def s3_unpack(NEW_BUCKET):
         content = gzipfile.read()
         print(content)
     except Exception as e:
-        print(e)
-        raise str(e)
+        raise
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
