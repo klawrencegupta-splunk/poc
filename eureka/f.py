@@ -41,8 +41,8 @@ def s3_unpack(new_name,NEW_BUCKET):
     try:
         obj = s3.Object(new_name,key_name)
         print(obj)
-        tar = tarfile.open(obj)
-        tar.extractall()        
+        #tar = tarfile.open(obj)
+        #tar.extractall()        
     except Exception as e:
         raise
     
