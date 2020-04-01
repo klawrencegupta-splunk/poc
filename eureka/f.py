@@ -35,16 +35,19 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                     raise
 
 def s3_unpack(NEW_BUCKET):
-    for s3_file in NEW_BUCKET.objects.all():
-        key_name=str(s3_file.key)
-        zip_obj = s3_resource.Object(bucket_name=new_name, key=key_name)
-        buffer = BytesIO(zip_obj.get()["Body"].read())
-        z = gzip.GzipFile(buffer)        
-        for filename in z.namelist():
-            key_name_2=str(filename)
-            file_info = z.getinfo(filename)
-            s3_resource.meta.client.upload_fileobj(z.open(key_name),Bucket=new_name,Key=key_name_2)
-
+    for s3_file in BUCKET.objects.all():
+        key_name=str(s3_file.key)    
+    try:
+        obj = s3.Object(BUCKET,key_name)
+        n = obj.get()['Body'].read()
+        gzipfile = BytesIO(n)
+        gzipfile = gzip.GzipFile(fileobj=gzipfile)
+        content = gzipfile.read()
+        print(content)
+    except Exception as e:
+        print(e)
+        raise e
+    
 if __name__ == '__main__':
-    s3_move_diag(BUCKET,NEW_BUCKET)
-    s3_unpack(NEW_BUCKET)
+        s3_move_diag(BUCKET,NEW_BUCKET)
+        s3_unpack(NEW_BUCKET)
