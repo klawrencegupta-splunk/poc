@@ -42,8 +42,9 @@ def s3_unpack(new_name,NEW_BUCKET):
         n = obj.get()['Body'].read()
         gzipfile = BytesIO(n)
         gzipfile = gzip.GzipFile(fileobj=gzipfile)
-        content = gzipfile.filename 
-        print(content)
+        content = gzipfile.read()
+        if "CMBucket" in content:
+            print(content)
     except Exception as e:
         raise
     
