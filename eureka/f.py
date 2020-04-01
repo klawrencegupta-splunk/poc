@@ -5,8 +5,7 @@ import botocore
 from io import BytesIO
 import gzip
 
-ACCESS_KEY='AKIAI5XJ4HGLKM5MJ6DA'
-SECRET_KEY='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'
+
 
 s3_resource = boto3.resource('s3')
 s3 = boto3.resource('s3',
