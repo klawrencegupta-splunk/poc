@@ -39,10 +39,16 @@ def s3_unpack(new_name,NEW_BUCKET):
         key_name=str(s3_file.key)    
     try:
         obj = s3.Object(new_name,key_name)
-        n = obj.get()['Body'].read()
-        gzipfile = BytesIO(n)
-        gzipfile = gzip.GzipFile(fileobj=gzipfile)
-        content = gzipfile.read()
+        #n = obj.get()['Body'].read()
+        #gzipfile = BytesIO(n)
+        #gzipfile = gzip.GzipFile(fileobj=gzipfile)
+        #content = gzipfile.read() 
+        fp = open("splunkd.log","rb")
+        data = fp.read()
+        bindata = bytearray(data)
+        with gzip.open(obj, "wb") as f:
+            #f.write(bindata) 
+            print(bindata)
     except Exception as e:
         raise
     
