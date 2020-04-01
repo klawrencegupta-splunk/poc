@@ -34,11 +34,11 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
-def s3_unpack(new_name, BUCKET):
-    for s3_file in BUCKET.objects.all():
+def s3_unpack(NEW_BUCKET):
+    for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)    
     try:
-        obj = s3.Object(BUCKET,key_name)
+        obj = s3.Object(NEW_BUCKET,key_name)
         n = obj.get()['Body'].read()
         gzipfile = BytesIO(n)
         gzipfile = gzip.GzipFile(fileobj=gzipfile)
@@ -49,4 +49,4 @@ def s3_unpack(new_name, BUCKET):
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
-        s3_unpack(new_name,BUCKET)
+        s3_unpack(NEW_BUCKET)
