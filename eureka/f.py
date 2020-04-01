@@ -15,7 +15,7 @@ s3 = boto3.resource('s3',
         aws_secret_access_key=SECRET_KEY)
 
 name = "klgdiag"
-new_name = "klgdiagunpacked"
+new_name = "klgdiagout"
 BUCKET = s3.Bucket(name)
 NEW_BUCKET = s3.Bucket(new_name)
 
