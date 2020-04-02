@@ -55,7 +55,7 @@ def s3_copy_diag_files(files_needed, NEW_BUCKET):
             raise
 
 
-def s3_unpack(new_name,NEW_BUCKET):
+def s3_get_unpacked_list(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
         s3_object = client.get_object(Bucket=new_name,Key=key_name)
@@ -69,8 +69,8 @@ def s3_unpack(new_name,NEW_BUCKET):
             name=str(name)
             for x in listOflogs:
                 if x in name:
+                    tarx = tarfile.extract(fileobj=x)
                     print(name)
-                    return x
     except Exception as e:
         raise
     
