@@ -20,8 +20,6 @@ new_name = "klgdiagout"
 BUCKET = s3.Bucket(name)
 NEW_BUCKET = s3.Bucket(new_name)
 
-
-
 def s3_move_diag(BUCKET,NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)
@@ -37,17 +35,20 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
+def py_files(members):
+    for tarinfo in members:
+        if os.path.splitext(tarinfo.name)[1] == ".py":
+            yield tarinfo
+
             
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
+        s3_file.
     try:
-        wholefile = gzip.open['Body'].read()
-        fileobj = io.BytesIO(wholefile)
-        tarf = tarfile.open(fileobj=fileobj)
-        names = tarf.getnames()
-        for name in names:
-            print(name)        
+        tar = tarfile.open(s3_file)
+        tar.extractall(members=py_files(tar))
+        tar.close()         
     except Exception as e:
         raise
     
