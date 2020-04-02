@@ -40,14 +40,15 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
             
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
+        s3_object = s3client.get_object(Bucket=new_name,Key=s3_file)
         key_name=str(s3_file.key)
     try:
-        wholefile = gzip.open['Body'].read()
+        wholefile = s3_object['Body'].read()
         fileobj = io.BytesIO(wholefile)
         tarf = tarfile.open(fileobj=fileobj)
         names = tarf.getnames()
         for name in names:
-            print(name)        
+            print(name)     
     except Exception as e:
         raise
     
