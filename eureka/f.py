@@ -11,7 +11,7 @@ ACCESS_KEY = sys.argv[1]
 SECRET_KEY = sys.argv[2]
 
 s3_resource = boto3.resource('s3')
-s3_client = boto3.client('s3')
+client = boto3.client('s3')
 s3 = boto3.resource('s3',
         aws_access_key_id=ACCESS_KEY,
         aws_secret_access_key=SECRET_KEY)
@@ -41,7 +41,7 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
             
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
-        s3_object = s3client.get_object(Bucket=new_name,Key=s3_file)
+        s3_object = client.get_object(Bucket=new_name,Key=s3_file)
         key_name=str(s3_file.key)
     try:
         wholefile = s3_object['Body'].read()
