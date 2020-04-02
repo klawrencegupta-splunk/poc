@@ -42,16 +42,17 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 
 
 def s3_copy_diag_files(files_needed, NEW_BUCKET):
-            try:
-                copy_source = {
-                'Bucket': new_name,
-               'Key': files_needed}
-                NEW_BUCKET.copy(copy_source, key_name)
-            except botocore.exceptions.ClientError as e:
-                if e.response['Error']['Code'] == "404":
-                    print("The object does not exist.")
-                else:
-                    raise
+    key_name=str(files_needed)
+    try:
+        copy_source = {
+        'Bucket': new_name,
+        'Key': key_name}
+        NEW_BUCKET.copy(copy_source, key_name)
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            print("The object does not exist.")
+        else:
+            raise
 
 
 def s3_unpack(new_name,NEW_BUCKET):
@@ -68,8 +69,8 @@ def s3_unpack(new_name,NEW_BUCKET):
             name=str(name)
             for x in listOflogs:
                 if x in name:
-                   print(name)
-                   return x
+                    print(name)
+                    return x
     except Exception as e:
         raise
     
