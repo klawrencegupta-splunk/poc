@@ -45,7 +45,7 @@ def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)    
     try:
-        tar = tarfile.open(key_name)
+        tar = tarfile.open(s3_file)
         tar.extractall(members=py_files(tar))
         tar.close()         
     except Exception as e:
