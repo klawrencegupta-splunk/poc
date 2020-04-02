@@ -76,5 +76,5 @@ def s3_get_unpacked_list(new_name,NEW_BUCKET):
     
 if __name__ == '__main__':
         s3_copy_diag(BUCKET,NEW_BUCKET)
-        files_needed = s3_unpack(new_name,NEW_BUCKET)
+        files_needed = s3_get_unpacked_list(new_name,NEW_BUCKET)
         s3_copy_diag_files(files_needed, NEW_BUCKET)
