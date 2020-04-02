@@ -2,7 +2,7 @@
 
 import boto3
 import botocore
-from io import BytesIO
+import io
 import gzip
 import tarfile
 import sys
