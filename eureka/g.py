@@ -22,6 +22,8 @@ BUCKET = s3.Bucket(name)
 NEW_BUCKET = s3.Bucket(new_name)
 
 
+# List of string 
+listOflogs =["splunkd.log","resource_usage.log","audit.log","metrics.log"]
 
 def s3_move_diag(BUCKET,NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
@@ -51,7 +53,7 @@ def s3_unpack(new_name,NEW_BUCKET):
         names = tarf.getnames()
         for name in names:
             name=str(name)
-            if "splunkd.log" OR "resource_usage.log" OR "audit.log" OR "metrics.log" in name:
+            if name in listOflogs:
                 print(name)     
     except Exception as e:
         raise
