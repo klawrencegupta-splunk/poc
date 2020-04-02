@@ -2,7 +2,7 @@
 
 import boto3
 import botocore
-from io import BytesIO
+import io
 import gzip
 import tarfile
 import sys
@@ -11,6 +11,7 @@ ACCESS_KEY = sys.argv[1]
 SECRET_KEY = sys.argv[2]
 
 s3_resource = boto3.resource('s3')
+client = boto3.client('s3')
 s3 = boto3.resource('s3',
         aws_access_key_id=ACCESS_KEY,
         aws_secret_access_key=SECRET_KEY)
@@ -19,6 +20,8 @@ name = "klgdiag"
 new_name = "klgdiagout"
 BUCKET = s3.Bucket(name)
 NEW_BUCKET = s3.Bucket(new_name)
+
+
 
 def s3_move_diag(BUCKET,NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
@@ -35,20 +38,19 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
-def py_files(members):
-    for tarinfo in members:
-        if os.path.splitext(tarinfo.name)[1] == ".py":
-            yield tarinfo
-
             
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
-        s3_file.
+        s3_object = client.get_object(Bucket=new_name,Key=key_name)
+        
     try:
-        tar = tarfile.open(s3_file)
-        tar.extractall(members=py_files(tar))
-        tar.close()         
+        wholefile = s3_object['Body'].read()
+        fileobj = io.BytesIO(wholefile)
+        tarf = tarfile.open(fileobj=fileobj)
+        names = tarf.getnames()
+        for name in names:
+            print(name)     
     except Exception as e:
         raise
     
