@@ -41,8 +41,9 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
             
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
-        s3_object = client.get_object(Bucket=new_name,Key=s3_file)
         key_name=str(s3_file.key)
+        s3_object = client.get_object(Bucket=new_name,Key=key_name)
+        
     try:
         wholefile = s3_object['Body'].read()
         fileobj = io.BytesIO(wholefile)
