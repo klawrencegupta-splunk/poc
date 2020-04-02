@@ -50,11 +50,12 @@ def s3_unpack(new_name,NEW_BUCKET):
         wholefile = s3_object['Body'].read()
         fileobj = io.BytesIO(wholefile)
         tarf = tarfile.open(fileobj=fileobj)
-        names = tarf.getnames()
+        names = tarf.getnames() 
         for name in names:
             name=str(name)
-            if name in listOflogs:
-                print(name)     
+            res = [ele for ele in listOflogs if(ele in name)]
+            print res
+            print(name)     
     except Exception as e:
         raise
     
