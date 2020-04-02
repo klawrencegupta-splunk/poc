@@ -11,6 +11,7 @@ ACCESS_KEY = sys.argv[1]
 SECRET_KEY = sys.argv[2]
 
 s3_resource = boto3.resource('s3')
+s3_client = boto3.client('s3')
 s3 = boto3.resource('s3',
         aws_access_key_id=ACCESS_KEY,
         aws_secret_access_key=SECRET_KEY)
