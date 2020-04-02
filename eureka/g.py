@@ -50,7 +50,8 @@ def s3_unpack(new_name,NEW_BUCKET):
         tarf = tarfile.open(fileobj=fileobj)
         names = tarf.getnames()
         for name in names:
-            print(name)     
+            if "splunkd.log" in name:
+                print(name)     
     except Exception as e:
         raise
     
