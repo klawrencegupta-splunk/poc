@@ -35,17 +35,23 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
+def py_files(members):
+    for tarinfo in members:
+        if os.path.splitext(tarinfo.name)[1] == ".py":
+            yield tarinfo
+
+            
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)    
     try:
-        obj = s3.Object(new_name,key_name)
-        print(obj)
-        #tar = tarfile.open(obj)
-        #tar.extractall()        
+        tar = tarfile.open(key_name)
+        tar.extractall(members=py_files(tar))
+        tar.close()         
     except Exception as e:
         raise
     
 if __name__ == '__main__':
         s3_move_diag(BUCKET,NEW_BUCKET)
         s3_unpack(new_name,NEW_BUCKET)
+     
