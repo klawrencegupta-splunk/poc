@@ -25,7 +25,7 @@ NEW_BUCKET = s3.Bucket(new_name)
 # List of string 
 listOflogs =["splunkd.log","resource_usage.log","audit.log","metrics.log"]
 
-def s3_move_diag(BUCKET,NEW_BUCKET):
+def s3_copy_diag(BUCKET,NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)
         if "gz" in key_name:
@@ -40,7 +40,20 @@ def s3_move_diag(BUCKET,NEW_BUCKET):
                 else:
                     raise
 
-            
+
+def s3_copy_diag_files(files_needed, NEW_BUCKET):
+            try:
+                copy_source = {
+                'Bucket': new_name,
+               'Key': files_needed}
+                NEW_BUCKET.copy(copy_source, key_name)
+            except botocore.exceptions.ClientError as e:
+                if e.response['Error']['Code'] == "404":
+                    print("The object does not exist.")
+                else:
+                    raise
+
+
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
@@ -55,11 +68,12 @@ def s3_unpack(new_name,NEW_BUCKET):
             name=str(name)
             for x in listOflogs:
                 if x in name:
-                   print(name)     
+                   print(name)
+                   return x
     except Exception as e:
         raise
     
 if __name__ == '__main__':
-        s3_move_diag(BUCKET,NEW_BUCKET)
-        s3_unpack(new_name,NEW_BUCKET)
-     
+        s3_copy_diag(BUCKET,NEW_BUCKET)
+        files_needed = s3_unpack(new_name,NEW_BUCKET)
+        s3_copy_diag_files(files_needed, NEW_BUCKET)
