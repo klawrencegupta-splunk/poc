@@ -6,6 +6,7 @@ import io
 import gzip
 import tarfile
 import sys
+import shutil
 
 ACCESS_KEY = sys.argv[1]
 SECRET_KEY = sys.argv[2]
@@ -42,17 +43,11 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 
 
 def s3_copy_diag_files(files_needed, NEW_BUCKET):
-    key_name=str(files_needed)
-    try:
-        copy_source = {
-        'Bucket': new_name,
-        'Key': key_name}
-        NEW_BUCKET.copy(copy_source, key_name)
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            print("The object does not exist.")
-        else:
-            raise
+    for x in files_needed:
+        with gzip.open(x, 'wb') as f:
+             y=f.write(content)
+             y=str(y)
+             s3.upload_fileobj(f, new_name, y)          
 
 
 def s3_get_unpacked_list(new_name,NEW_BUCKET):
@@ -69,12 +64,11 @@ def s3_get_unpacked_list(new_name,NEW_BUCKET):
             name=str(name)
             for x in listOflogs:
                 if x in name:
-                    #tarx = tarfile.extract(fileobj=x)
-                    print(name)
+                    return x
     except Exception as e:
         raise
     
 if __name__ == '__main__':
         s3_copy_diag(BUCKET,NEW_BUCKET)
-        files_needed = s3_get_unpacked_list(new_name,NEW_BUCKET)
+        files_needed=s3_get_unpacked_list(new_name,NEW_BUCKET)
         s3_copy_diag_files(files_needed, NEW_BUCKET)
