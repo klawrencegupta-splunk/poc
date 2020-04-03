@@ -69,7 +69,7 @@ def s3_get_unpacked_list(new_name,NEW_BUCKET):
             name=str(name)
             for x in listOflogs:
                 if x in name:
-                    tarx = tarfile.extract(fileobj=x)
+                    #tarx = tarfile.extract(fileobj=x)
                     print(name)
     except Exception as e:
         raise
