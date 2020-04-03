@@ -42,7 +42,7 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 
 def s3_copy_diag_files(files_needed, NEW_BUCKET):
     for x in files_needed:
-        with tarfile.open(x, 'wb') as f:
+        with tarfile.open(x) as f:
              y=f.read()
              y=str(y)
              s3.upload_fileobj(f, new_name, y)          
