@@ -51,19 +51,17 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 #s3.upload_fileobj(f, new_name, y)
 #print y
 
+# Open the tarball - code borrowed from https://github.com/Kixeye/untar-to-s3/blob/master/untar-to-s3.py #https://github.com/Kixeye
 
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
         s3_object = client.get_object(Bucket=new_name,Key=key_name)
-        
-        # Open the tarball - code borrowed from https://github.com/Kixeye/untar-to-s3/blob/master/untar-to-s3.py #https://github.com/Kixeye
         tarball = tarfile.open(name=None, mode="r:*", fileobj=s3_object)
         files_uploaded = 0
-            #Parallelize the uploads so they don't take ages
         pool = Pool(concurrency)
-            
-            # Iterate over the tarball's contents.
+        #Parallelize the uploads so they don't take ages
+        # Iterate over the tarball's contents.
         try:
             for member in tarball:
                     # Ignore directories, links, devices, fifos, etc.
@@ -82,15 +80,13 @@ def s3_unpack(new_name,NEW_BUCKET):
                     pool.wait_available()
                     pool.apply_async(__deploy_asset_to_s3, (fd.read(), path, member.size, bucket, not no_compress))
             
-                files_uploaded += 1
-                
-                # Wait for all transfers to finish
+                    files_uploaded += 1
+                        # Wait for all transfers to finish
                     pool.join()
-            
                 except KeyboardInterrupt:
                 # Ctrl-C pressed
-                print("Cancelling upload...")
-                        pool.join()
+                    print("Cancelling upload...")
+                    pool.join()
 
     finally:
         print("Uploaded %i files" % (files_uploaded))
