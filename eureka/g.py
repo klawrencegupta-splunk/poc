@@ -14,6 +14,7 @@ SECRET_KEY = sys.argv[2]
 
 s3_resource = boto3.resource('s3')
 client = boto3.client('s3')
+
 s3 = boto3.resource('s3',
         aws_access_key_id=ACCESS_KEY,
         aws_secret_access_key=SECRET_KEY)
@@ -57,7 +58,7 @@ def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
         s3_object = client.get_object(Bucket=new_name,Key=key_name)
-        tarball = tarfile.open(name=None, mode="r:*", fileobj=s3_object)
+        tarball = tarfile.open(name=key_name, mode="r:*", fileobj=s3_object)
         files_uploaded = 0
         pool = Pool(concurrency)
         #Parallelize the uploads so they don't take ages
@@ -71,24 +72,19 @@ def s3_unpack(new_name,NEW_BUCKET):
                     stripped_name = member.name.split('/')[strip_components:]
                     if not bool(stripped_name):
                         continue
-                    path = os.path.join(prefix, '/'.join(stripped_name))
-                    
+                        path = os.path.join(prefix, '/'.join(stripped_name))
                     # Read file data from the tarball
-                    fd = tarball.extractfile(member)
-                    
+                        fd = tarball.extractfile(member)
                     # Send a job to the pool.
-                    pool.wait_available()
-                    pool.apply_async(__deploy_asset_to_s3, (fd.read(), path, member.size, bucket, not no_compress))
-            
-                    files_uploaded += 1
-                        # Wait for all transfers to finish
-                    pool.join()
+                        pool.wait_available()
+                        pool.apply_async(__deploy_asset_to_s3, (fd.read(), path, member.size, bucket, not no_compress))
+                        files_uploaded += 1
+                        pool.join()
         except KeyboardInterrupt:
                 # Ctrl-C pressed
             print("Cancelling upload...")
             pool.join()
 
-    
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
     s3_unpack(new_name,NEW_BUCKET)
