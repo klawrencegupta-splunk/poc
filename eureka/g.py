@@ -57,7 +57,7 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 def s3_unpack(new_name,NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
-        s3_object = client.get_object(Bucket=new_name,Key=key_name)
+        s3_object = client.get_object(Bucket=new_name,Key=s3_file.key)
         for x in s3_object:
             s3_object.get_object(x)
             tarball = tarfile.open(name=key_name, mode="r:*", fileobj=x)
