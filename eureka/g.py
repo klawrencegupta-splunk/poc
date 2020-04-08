@@ -88,14 +88,6 @@ def s3_unpack(new_name,NEW_BUCKET):
             print("Cancelling upload...")
             pool.join()
 
-    finally:
-        print("Uploaded %i files" % (files_uploaded))
-    
-    except tarfile.ReadError:
-        print("Unable to read asset tarfile", file=sys.stderr)
-        return
-    except Exception as e:
-        raise
     
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
