@@ -61,21 +61,18 @@ def s3_unpack(new_name,NEW_BUCKET):
         tarball = tarfile.open(name=None, mode="r:*", fileobj=s3_object)
         files_uploaded = 0
             #Parallelize the uploads so they don't take ages
-            pool = Pool(concurrency)
+        pool = Pool(concurrency)
             
             # Iterate over the tarball's contents.
-            try:
-                for member in tarball:
-                    
+        try:
+            for member in tarball:
                     # Ignore directories, links, devices, fifos, etc.
-                    if not member.isfile():
-                        continue
-                    
+                if not member.isfile():
+                    continue
                     # Mimic the behaviour of tar -x --strip-components=
                     stripped_name = member.name.split('/')[strip_components:]
                     if not bool(stripped_name):
                         continue
-                
                     path = os.path.join(prefix, '/'.join(stripped_name))
                     
                     # Read file data from the tarball
@@ -95,18 +92,15 @@ def s3_unpack(new_name,NEW_BUCKET):
                 print("Cancelling upload...")
                         pool.join()
 
-finally:
-    print("Uploaded %i files" % (files_uploaded))
+    finally:
+        print("Uploaded %i files" % (files_uploaded))
     
     except tarfile.ReadError:
         print("Unable to read asset tarfile", file=sys.stderr)
         return
-#return x
     except Exception as e:
         raise
     
 if __name__ == '__main__':
-        s3_copy_diag(BUCKET,NEW_BUCKET)
-        s3_unpack(new_name, NEW_BUCKET)
-#files_needed=s3_get_unpacked_list(new_name,NEW_BUCKET)
-#s3_copy_diag_files(files_needed, NEW_BUCKET)
+    s3_copy_diag(BUCKET,NEW_BUCKET)
+    s3_unpack(new_name,NEW_BUCKET)
