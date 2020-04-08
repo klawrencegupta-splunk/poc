@@ -59,8 +59,8 @@ def s3_unpack(new_name,NEW_BUCKET):
         key_name=str(s3_file.key)
         s3_object = client.get_object(Bucket=new_name,Key=key_name)
         tarball = tarfile.open(name=key_name, mode="r:*", name=key_name)
-            files_uploaded = 0
-            pool = Pool(concurrency)
+        files_uploaded = 0
+        pool = Pool(concurrency)
         #Parallelize the uploads so they don't take ages
         # Iterate over the tarball's contents.
         try:
