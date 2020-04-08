@@ -58,7 +58,7 @@ def s3_unpack(new_name,NEW_BUCKET):
         s3_object = client.get_object(Bucket=new_name,Key=key_name)
         
         # Open the tarball - code borrowed from https://github.com/Kixeye/untar-to-s3/blob/master/untar-to-s3.py #https://github.com/Kixeye
-        tarball = tarfile.open(name=None, mode="r:*", fileobj=s3_object):
+        tarball = tarfile.open(name=None, mode="r:*", fileobj=s3_object)
         files_uploaded = 0
             #Parallelize the uploads so they don't take ages
             pool = Pool(concurrency)
