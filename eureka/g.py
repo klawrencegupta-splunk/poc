@@ -83,10 +83,10 @@ def s3_unpack(new_name,NEW_BUCKET):
                     files_uploaded += 1
                         # Wait for all transfers to finish
                     pool.join()
-                except KeyboardInterrupt:
+        except KeyboardInterrupt:
                 # Ctrl-C pressed
-                    print("Cancelling upload...")
-                    pool.join()
+            print("Cancelling upload...")
+            pool.join()
 
     finally:
         print("Uploaded %i files" % (files_uploaded))
