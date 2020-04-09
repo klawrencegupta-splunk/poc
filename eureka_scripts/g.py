@@ -47,23 +47,28 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 def get_s3_objects(NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
-        #response = client.get_object(Bucket=new_name,Key=key_name)
         print key_name
-#return response
+        return key_name
 
-def get_from_archive(fileobj):
-        tarf = tarfile.open(fileobj=fileobj)
-        compressed = tarf.extractall()
-        data = pd.read_csv(compressed,sep="\t")
-        return data
+
+def get_from_archive(new_name,keys,NEW_BUCKET):
+    s3_object = s3client.get_object(Bucket=new_name, Key=keys)
+    tarf = tarfile.open(fileobj=fileobj)
+    compressed = tarf.extractall()
+    data = pd.read_csv(compressed,sep="\t")
+    NEW_BUCKET.put_file_objects(data)
+    return data
+
 
 def put_file_objects(data, NEW_BUCKET):
-    NEW_BUCKET.put_file_objects(data)
 
 
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
-    s3_all_files = get_s3_objects(NEW_BUCKET)
+    s3_keys = get_s3_objects(NEW_BUCKET)
+    get_from_archive(new_name,s3_keys,NEW_BUCKET)
+
+
 #for x in s3_all_files:
 #data = get_from_archive(x)
 #put_file_objects(x,NEW_BUCKET)
