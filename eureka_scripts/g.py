@@ -60,7 +60,8 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     fileobj = io.BytesIO(wholefile)
     tarf = tarfile.open(fileobj=fileobj)
     data = tarf.extractall()
-    NEW_BUCKET.upload_fileobj(data, 'mykey')
+    with open(data, 'rb') as data:
+        NEW_BUCKET.upload_fileobj(data, 'mykey')
 
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
