@@ -26,8 +26,9 @@ NEW_BUCKET = s3.Bucket(new_name)
 
 
 # List of string 
-listOflogs =["splunkd.log","resource_usage.log","audit.log","metrics.log"]
+#listOflogs =["splunkd.log","resource_usage.log","audit.log","metrics.log"]
 
+#make a copy of the original diag in case of fuckity
 def s3_copy_diag(BUCKET,NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)
@@ -35,56 +36,36 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
             try:
                 copy_source = {
                 'Bucket': name,
-               'Key': key_name}
+               'Key': key_name,
+                   'Delimiter' = '.tar.gz'}
                 NEW_BUCKET.copy(copy_source, key_name)
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == "404":
                     print("The object does not exist.")
                 else:
                     raise
-
-
-#def s3_copy_diag_files(files_needed, NEW_BUCKET):
-# for x in files_needed:
-#with tarfile.open(x) as f:
-#y=f.read()
-# y=str(y)
-#s3.upload_fileobj(f, new_name, y)
-#print y
-
-# Open the tarball - code borrowed from https://github.com/Kixeye/untar-to-s3/blob/master/untar-to-s3.py #https://github.com/Kixeye
-
-def s3_unpack(new_name,NEW_BUCKET):
+def get_s3_objects(NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
-        key_name=str(s3_file.key)
-        s3_object = client.get_object(Bucket=new_name,Key=key_name)
-        tarball = tarfile.open(name=key_name, mode="r:*", fileobj=s3_object.fileobj)
-        files_uploaded = 0
-        pool = Pool(concurrency)
-        #Parallelize the uploads so they don't take ages
-        # Iterate over the tarball's contents.
-        try:
-            for member in tarball:
-                    # Ignore directories, links, devices, fifos, etc.
-                if not member.isfile():
-                    continue
-                    # Mimic the behaviour of tar -x --strip-components=
-                    stripped_name = member.name.split('/')[strip_components:]
-                    if not bool(stripped_name):
-                        continue
-                        path = os.path.join(prefix, '/'.join(stripped_name))
-                    # Read file data from the tarball
-                        fd = tarball.extractfile(member)
-                    # Send a job to the pool.
-                        pool.wait_available()
-                        pool.apply_async(__deploy_asset_to_s3, (fd.read(), path, member.size, bucket, not no_compress))
-                        files_uploaded += 1
-                        pool.join()
-        except KeyboardInterrupt:
-                # Ctrl-C pressed
-            print("Cancelling upload...")
-            pool.join()
+        names = tarf.getnames()
+        if "splunkd" in names:
+            return names
+
+
+def get_from_archive(fileobj, compressed_file):
+    # Open the archive
+    tarf = tarfile.open(fileobj=fileobj)
+    # Get the file of interest
+    compressed = tarf.extractfile(compressed_file)
+    # Parse as TSV and return the results
+    data = pd.read_csv(compressed,sep="\t")
+    return data
+
+def put_file_objects(data, NEW_BUCKET):
+    NEW_BUCKET.put_file_objects(data)
+
 
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
-    s3_unpack(new_name,NEW_BUCKET)
+    files = get_s3_objects(NEW_BUCKET)
+    data = get_from_archive(files)
+    put_file_objects(data,NEW_BUCKET)
