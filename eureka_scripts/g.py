@@ -50,7 +50,6 @@ def get_s3_objects(NEW_BUCKET):
 
 
 def get_from_archive(fileobj):
-    for x in fileobj:
         tarf = tarfile.open(fileobj=fileobj)
         names = tarf.getnames()
         if "splunkd" in names:
