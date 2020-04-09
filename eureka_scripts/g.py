@@ -43,21 +43,19 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                     print("The object does not exist.")
                 else:
                     raise
+
 def get_s3_objects(NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
-        names = tarf.getnames()
-        if "splunkd" in names:
-            return names
+        return s3_file
 
 
 def get_from_archive(fileobj, compressed_file):
-    # Open the archive
     tarf = tarfile.open(fileobj=fileobj)
-    # Get the file of interest
-    compressed = tarf.extractfile(compressed_file)
-    # Parse as TSV and return the results
-    data = pd.read_csv(compressed,sep="\t")
-    return data
+    names = tarf.getnames()
+    if "splunkd" in names:
+        compressed = tarf.extractfile(compressed_file)
+        data = pd.read_csv(compressed,sep="\t")
+        return data
 
 def put_file_objects(data, NEW_BUCKET):
     NEW_BUCKET.put_file_objects(data)
