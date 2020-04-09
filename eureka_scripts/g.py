@@ -60,6 +60,7 @@ def put_file_objects(data, NEW_BUCKET):
 
 
 if __name__ == '__main__':
+    s3_copy_diag(BUCKET,NEW_BUCKET)
     s3_all_files = get_s3_objects(NEW_BUCKET)
     data = get_from_archive(s3_all_files)
     put_file_objects(data,NEW_BUCKET)
