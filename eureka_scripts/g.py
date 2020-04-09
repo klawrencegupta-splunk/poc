@@ -60,6 +60,7 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     fileobj = io.BytesIO(wholefile)
     tarf = tarfile.open(fileobj=fileobj)
     data = tarf.extractall()
+    data = str(data)
     with open(data, 'rb') as data:
         NEW_BUCKET.upload_fileobj(data, 'mykey')
 
