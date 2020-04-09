@@ -2,7 +2,7 @@
 
 import boto3
 import io
-#import gzip
+import botocore
 import tarfile
 import sys
 import mimetypes
