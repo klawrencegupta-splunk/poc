@@ -45,7 +45,7 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                     raise
 
 def get_s3_objects(NEW_BUCKET):
-    for s3_file in BUCKET.objects.all():
+    for s3_file in NEW_BUCKET.objects.all():
         key_name=str(s3_file.key)
         response = client.get_object(Bucket=new_name,Key=key_name)
         print response
