@@ -38,7 +38,6 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                 'Bucket': name,
                'Key': key_name}
                 NEW_BUCKET.copy(copy_source, key_name)
-                return key_name
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == "404":
                     print("The object does not exist.")
@@ -50,20 +49,20 @@ def get_s3_objects(NEW_BUCKET):
         return s3_file.objects
 
 
-def get_from_archive(fileobj, compressed_file):
-    tarf = tarfile.open(fileobj=fileobj)
-    names = tarf.getnames()
-    if "splunkd" in names:
-        compressed = tarf.extractfile(compressed_file)
-        data = pd.read_csv(compressed,sep="\t")
-        return data
+def get_from_archive(fileobj):
+    for x in fileobj:
+        tarf = tarfile.open(fileobj=fileobj)
+        names = tarf.getnames()
+        if "splunkd" in names:
+            compressed = tarf.extractall()
+            data = pd.read_csv(compressed,sep="\t")
+            return data
 
 def put_file_objects(data, NEW_BUCKET):
     NEW_BUCKET.put_file_objects(data)
 
 
 if __name__ == '__main__':
-    tar_name = s3_copy_diag(BUCKET,NEW_BUCKET)
-    files = get_s3_objects(NEW_BUCKET)
-    data = get_from_archive(files,tar_name)
+    s3_all_files = get_s3_objects(NEW_BUCKET)
+    data = get_from_archive(s3_all_files)
     put_file_objects(data,NEW_BUCKET)
