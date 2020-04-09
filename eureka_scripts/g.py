@@ -45,8 +45,9 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                     raise
 
 def get_s3_objects(NEW_BUCKET):
-    for s3_file in NEW_BUCKET.objects.all():
-        return str(s3_file.key)
+    for s3_file in NEW_BUCKET.get_all_keys():
+        files = s3_file.get_all_keys
+        return files
 
 
 def get_from_archive(fileobj):
