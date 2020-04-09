@@ -49,7 +49,7 @@ def get_s3_objects(NEW_BUCKET):
         key_name=str(s3_file.key)
         #response = client.get_object(Bucket=new_name,Key=key_name)
         print key_name
-        return response
+#return response
 
 def get_from_archive(fileobj):
         tarf = tarfile.open(fileobj=fileobj)
