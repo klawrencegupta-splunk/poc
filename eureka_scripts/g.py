@@ -48,6 +48,7 @@ def get_s3_objects(NEW_BUCKET):
     for s3_file in BUCKET.objects.all():
         key_name=str(s3_file.key)
         response = client.get_object(Bucket=new_name,Key=key_name)
+        print response
         return response
 
 def get_from_archive(fileobj):
@@ -63,6 +64,6 @@ def put_file_objects(data, NEW_BUCKET):
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
     s3_all_files = get_s3_objects(NEW_BUCKET)
-    for x in s3_all_files:
-        data = get_from_archive(x)
-        put_file_objects(x,NEW_BUCKET)
+#for x in s3_all_files:
+#data = get_from_archive(x)
+#put_file_objects(x,NEW_BUCKET)
