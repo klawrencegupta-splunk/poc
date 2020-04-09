@@ -38,6 +38,7 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                 'Bucket': name,
                'Key': key_name}
                 NEW_BUCKET.copy(copy_source, key_name)
+                return key_name
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == "404":
                     print("The object does not exist.")
@@ -62,7 +63,7 @@ def put_file_objects(data, NEW_BUCKET):
 
 
 if __name__ == '__main__':
-    s3_copy_diag(BUCKET,NEW_BUCKET)
+    tar_name = s3_copy_diag(BUCKET,NEW_BUCKET)
     files = get_s3_objects(NEW_BUCKET)
-    data = get_from_archive(files)
+    data = get_from_archive(files,tar_name)
     put_file_objects(data,NEW_BUCKET)
