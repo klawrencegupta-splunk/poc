@@ -57,7 +57,7 @@ def get_s3_objects(NEW_BUCKET):
 def get_from_archive(new_name,keys,NEW_BUCKET):
     s3_object = client.get_object(Bucket=new_name, Key=keys)
     for x in s3_object:
-        tarf = tarfile.open(x.Key)
+        tarf = tarfile.open(x)
         compressed = tarf.extractall()
         data = pd.read_csv(compressed,sep="\t")
         NEW_BUCKET.put_file_objects(data)
