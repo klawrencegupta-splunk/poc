@@ -59,15 +59,9 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     tarf = tarfile.open(fileobj=fileobj)
-
-
-s3_object = client.get_object(Bucket=new_name, Key=keys)
-    for x in s3_object:
-        tarf = tarfile.open(x)
-        compressed = tarf.extractall()
-        data = pd.read_csv(compressed,sep="\t")
-        NEW_BUCKET.put_file_objects(data)
-    return data
+    compressed = tarf.extractall()
+    data = pd.read_csv(compressed,sep="\t")
+    NEW_BUCKET.put_file_objects(data)
 
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
