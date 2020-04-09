@@ -27,6 +27,9 @@ NEW_BUCKET = s3.Bucket(new_name)
 
 # List of string 
 #listOflogs =["splunkd.log","resource_usage.log","audit.log","metrics.log"]
+#for x in s3_all_files:
+#data = get_from_archive(x)
+#put_file_objects(x,NEW_BUCKET)
 
 #make a copy of the original diag in case of fuckity
 def s3_copy_diag(BUCKET,NEW_BUCKET):
@@ -59,16 +62,9 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     NEW_BUCKET.put_file_objects(data)
     return data
 
-
-def put_file_objects(data, NEW_BUCKET):
-
-
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
     s3_keys = get_s3_objects(NEW_BUCKET)
     get_from_archive(new_name,s3_keys,NEW_BUCKET)
 
 
-#for x in s3_all_files:
-#data = get_from_archive(x)
-#put_file_objects(x,NEW_BUCKET)
