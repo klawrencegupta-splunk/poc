@@ -46,16 +46,14 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
 
 def get_s3_objects(NEW_BUCKET):
     for s3_file in NEW_BUCKET.objects.all():
-        return s3_file.objects
+        return s3_file
 
 
 def get_from_archive(fileobj):
         tarf = tarfile.open(fileobj=fileobj)
-        names = tarf.getnames()
-        if "splunkd" in names:
-            compressed = tarf.extractall()
-            data = pd.read_csv(compressed,sep="\t")
-            return data
+        compressed = tarf.extractall()
+        data = pd.read_csv(compressed,sep="\t")
+        return data
 
 def put_file_objects(data, NEW_BUCKET):
     NEW_BUCKET.put_file_objects(data)
