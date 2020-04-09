@@ -37,7 +37,7 @@ def s3_copy_diag(BUCKET,NEW_BUCKET):
                 copy_source = {
                 'Bucket': name,
                'Key': key_name,
-                   'Delimiter' = '.tar.gz'}
+                   'Delimiter': '.tar.gz'}
                 NEW_BUCKET.copy(copy_source, key_name)
             except botocore.exceptions.ClientError as e:
                 if e.response['Error']['Code'] == "404":
