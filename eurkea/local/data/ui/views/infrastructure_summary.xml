@@ -1,0 +1,202 @@
+<form>
+  <label>Infrastructure Overview</label>
+  <description>Summary of CPU/Memory/Storage Overall Status Page</description>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="timer">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="multiselect" token="host" searchWhenChanged="true">
+      <label>host</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>| rest splunk_server=* /services/server | rename splunk_server AS host| fields host | dedup host</query>
+        <earliest>-4h@m</earliest>
+        <latest>now</latest>
+      </search>
+      <valuePrefix>host=</valuePrefix>
+      <delimiter> OR </delimiter>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Minimum/Maximum Median</title>
+      <table>
+        <title>2 minute buckets</title>
+        <search>
+          <query>index=_introspection component=Hostwide $host$ | bucket _time span=2m |  stats min("data.cpu_idle_pct") AS idle by _time, host | stats min(idle) AS "Minimum %CPU Idle" max(idle) AS "Maximum %CPU Idle"  median(idle) AS "Median %CPU Idle"  by host</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+      </table>
+    </panel>
+    <panel>
+      <title>vCPU Info</title>
+      <single>
+        <title>Total vCPU found on host</title>
+        <search>
+          <query>index=_introspection component=Hostwide $host$ | stats max(data.virtual_cpu_count) AS "Virtual Cores" by host</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">host</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>CPU Health Summary</title>
+      <input type="dropdown" token="cpu_min" searchWhenChanged="true">
+        <label>cpu_min</label>
+        <choice value="15">15</choice>
+        <default>15</default>
+        <initialValue>15</initialValue>
+      </input>
+      <input type="dropdown" token="cpu_max" searchWhenChanged="true">
+        <label>cpu_max</label>
+        <choice value="85">85</choice>
+        <default>85</default>
+        <initialValue>85</initialValue>
+      </input>
+      <input type="dropdown" token="cpu_critical" searchWhenChanged="true">
+        <label>cpu_critical</label>
+        <choice value="15">15</choice>
+        <initialValue>15</initialValue>
+        <default>15</default>
+      </input>
+      <chart>
+        <title>CPU Utilization ranges (Critical/Moderate/Low) by Host</title>
+        <search>
+          <query>component=Hostwide index=_introspection $host$
+ | eval cpu_kpi_status=case(searchmatch("data.cpu_idle_pct&gt;$cpu_max$"),"low", searchmatch("data.cpu_idle_pct&gt;$cpu_min$ AND data.cpu_idle_pct&lt;$cpu_max$"),"moderate", searchmatch("data.cpu_idle_pct&lt;$cpu_min$"), "critical") | stats count by host cpu_kpi_status</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">collapsed</option>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">host</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Memory Health Status</title>
+      <input type="dropdown" token="mem_min" searchWhenChanged="true">
+        <label>mem_min</label>
+        <choice value="10">10</choice>
+        <default>10</default>
+        <initialValue>10</initialValue>
+      </input>
+      <input type="dropdown" token="mem_max" searchWhenChanged="true">
+        <label>mem_max</label>
+        <choice value="90">90</choice>
+        <default>90</default>
+        <initialValue>90</initialValue>
+      </input>
+      <single>
+        <search>
+          <query>component=Hostwide index=_introspection $host$
+ | eval data.mem_perc_util=round(('data.mem_used'/'data.mem')*100,2)
+ | eval mem_kpi_status=case(searchmatch("data.mem_perc_util&lt;$mem_min$"),"low", 
+  searchmatch("data.mem_perc_util&gt;$mem_min$ AND data.mem_perc_util&lt;$mem_max$"), "moderate", 
+  searchmatch("data.mem_perc_util&gt;=$mem_max$"),"critical" ) 
+  | stats count by mem_kpi_status host
+  | eval health_score=if(searchmatch("count&gt;0 AND mem_kpi_status=critical"), "Memory Exhaustion Detected", "Healthy") 
+| stats sum(count) AS count by host, health_score</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.size">medium</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Storage Health Status</title>
+      <input type="dropdown" token="io_low" searchWhenChanged="true">
+        <label>io_low</label>
+        <choice value="5.000">5ms</choice>
+        <choice value="10.000">10ms</choice>
+        <default>5.000</default>
+        <initialValue>5.000</initialValue>
+      </input>
+      <input type="dropdown" token="io_max" searchWhenChanged="true">
+        <label>io_max</label>
+        <choice value="40.000">40ms</choice>
+        <choice value="50.000">50ms</choice>
+        <initialValue>40.000</initialValue>
+        <default>40.000</default>
+      </input>
+      <input type="dropdown" token="io_critical" searchWhenChanged="true">
+        <label>io_critical</label>
+        <choice value="50.000">50ms</choice>
+        <choice value="100.000">100ms</choice>
+        <initialValue>50.000</initialValue>
+        <default>50.000</default>
+      </input>
+      <input type="dropdown" token="mount_point" searchWhenChanged="true">
+        <label>Mount Point</label>
+        <search>
+          <query>| rest splunk_server=* /services/server/status/partitions-space | fields mount_point</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <fieldForLabel>mount_point</fieldForLabel>
+        <fieldForValue>mount_point</fieldForValue>
+        <prefix>data.mount_point=</prefix>
+        <default>/</default>
+        <initialValue>/</initialValue>
+      </input>
+      <chart>
+        <search>
+          <query>component=IOstats index=_introspection $host$ $mount_point$
+ | eval io_kpi_status=case(searchmatch("data.avg_total_ms&lt;$io_low$"),"low", 
+  searchmatch("data.avg_total_ms&gt;$io_low$ AND data.avg_total_ms&lt;$io_max$"), "moderate", 
+  searchmatch("data.avg_total_ms&gt;=$io_critical$"),"critical" ) 
+  | stats count by io_kpi_status, data.mount_point, host</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.axisTitleY2.visibility">collapsed</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">host</option>
+      </chart>
+    </panel>
+  </row>
+</form>
