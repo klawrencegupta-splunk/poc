@@ -59,8 +59,7 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     tarf = tarfile.open(fileobj=fileobj)
-    compressed = tarf.extractall()
-    data = pd.read_csv(compressed,sep="\t")
+    data = tarf.extractall()
     NEW_BUCKET.put_file_objects(data)
 
 if __name__ == '__main__':
