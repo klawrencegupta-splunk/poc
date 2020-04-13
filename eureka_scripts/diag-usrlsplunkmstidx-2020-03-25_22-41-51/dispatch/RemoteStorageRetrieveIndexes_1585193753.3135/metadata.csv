@@ -1,2 +1,0 @@
-access,owner,app,ttl
-"read : [ splunk-system-user ], write : [ splunk-system-user ]","splunk-system-user",search,600

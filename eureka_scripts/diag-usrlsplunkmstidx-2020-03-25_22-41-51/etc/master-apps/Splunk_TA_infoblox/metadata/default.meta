@@ -1,6 +1,0 @@
-[]
-access = read : [ * ], write : [ admin ]
-export = system
-version = 5.0.4
-modtime = 1378037939.466823000
-

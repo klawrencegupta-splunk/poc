@@ -1,4 +1,0 @@
-[]
-owner = admin
-export = system
-access = read : [ * ]

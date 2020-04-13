@@ -1,7 +1,0 @@
-[]
-access = read : [ * ], write : [ admin ]
-export = system
-
-[outputs/tcpout%3Aprimary_indexers]
-version = 6.6.2
-modtime = 1503514303.811129000
