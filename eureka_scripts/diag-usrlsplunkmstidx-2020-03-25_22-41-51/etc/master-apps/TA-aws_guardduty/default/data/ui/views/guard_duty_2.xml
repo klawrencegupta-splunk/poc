@@ -1,0 +1,254 @@
+<form>
+  <label>GuardDuty - Dashboard Drilldown</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="multiselect" token="accountId" searchWhenChanged="true">
+      <label>Account ID</label>
+      <choice value="*">All</choice>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>account="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+      <fieldForLabel>title</fieldForLabel>
+      <fieldForValue>account_id</fieldForValue>
+      <search>
+        <query>| aclinputlookup all_account_ids | mvcombine delim=", " name | nomv name | eval title=account_id." (".name.")"</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel id="gd_single_value">
+      <title>GuardDuty FINDINGS - ALL REGIONS</title>
+      <single>
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty" $accountId$ | timechart count by gd_details</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">all</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">gd_details</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="trendInterval">-24h</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">0</option>
+        <drilldown>
+          <set token="gd_type">$trellis.split.gd_details$</set>
+          <unset token="is_ec2"></unset>
+          <unset token="is_iam"></unset>
+        </drilldown>
+      </single>
+    </panel>
+    <panel>
+      <title>Finding Provenance</title>
+      <map>
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty" $accountId$ | geostats latfield=lat longfield=lon count by gd_details</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0xDB5800</option>
+        <option name="mapping.choroplethLayer.minimumColor">0x2F25BA</option>
+        <option name="mapping.choroplethLayer.neutralPoint">0</option>
+        <option name="mapping.choroplethLayer.shapeOpacity">0.75</option>
+        <option name="mapping.choroplethLayer.showBorder">1</option>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.legend.placement">bottomright</option>
+        <option name="mapping.map.center">(0,0)</option>
+        <option name="mapping.map.panning">1</option>
+        <option name="mapping.map.scrollZoom">0</option>
+        <option name="mapping.map.zoom">2</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.showTiles">1</option>
+        <option name="mapping.tileLayer.maxZoom">7</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="mapping.tileLayer.tileOpacity">1</option>
+        <option name="mapping.type">marker</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </map>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$gd_type$">
+      <title>$gd_type$ Findings</title>
+      <table id="instance_details">
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty"
+subject=$gd_type$*
+| eval newtime=strftime(_time,"%m/%d/%y %H:%M:%S")
+| stats sparkline(count) as history max(newtime) as "event time" by awsresource detail.region detail.type detail.severity detail.description gd_object
+| eval times=mvindex(times, 0, 2)
+ | sort - "event time" detail.severity | fields *</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="detail.severity">
+          <colorPalette type="list">[#FFFFFF,#FDD6D6,#FFAEAE,#FF7575,#FF3A3A,#FF0000]</colorPalette>
+          <scale type="threshold">0,2,4,6,8,10</scale>
+        </format>
+        <fields>["awsresource","detail.region","detail.type","detail.severity","detail.description","history","event time"]</fields>
+        <drilldown>
+          <condition match="'row.gd_object'==&quot;EC2&quot;">
+            <set token="is_ec2">"true"</set>
+            <set token="aws_resource">$row.awsresource$</set>
+            <unset token="interface_id"></unset>
+          </condition>
+          <condition match="'row.gd_object'==&quot;IAMUser&quot;">
+            <set token="is_iam">"true"</set>
+            <set token="aws_resource">$row.awsresource$</set>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row depends="$is_ec2$">
+    <panel depends="$aws_resource$, $is_ec2$">
+      <table>
+        <title>$aws_resource$ Details from AWS Config</title>
+        <search depends="$is_ec2$">
+          <query>sourcetype=aws:config resourceType=AWS::EC2::Instance resourceId=$aws_resource$ configurationItemStatus!=ResourceDeleted | head 1
+| eval tag_info=mvzip('configuration.tags{}.key','configuration.tags{}.value'," : ")
+| mvexpand tag_info
+
+| stats values(configuration.networkInterfaces{}.networkInterfaceId) as InterfaceID values(configuration.networkInterfaces{}.privateIpAddress) as PrivateIP values(configuration.publicIpAddress) as PublicIP values(configuration.vpcId) as VPCid values(configuration.instanceType) as InstanceType values(tag_info) as Tags</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">10</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <condition field="InterfaceID">
+            <set token="interface_id">$click.value2$</set>
+            <set token="vpc_id">$row.VPCid$</set>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+    <panel depends="$interface_id$, $is_ec2$">
+      <chart>
+        <title>VPC: $vpc_id$ Accept/Reject Tends for $aws_resource$ on $interface_id$</title>
+        <search depends="$is_ec2$">
+          <query>`aws-vpc-flow-log-index` source="dest_port" protocol=* (interface_id=$interface_id$)  (aws_account_id="*") 
+                        | dedup _time interface_id aws_account_id protocol vpcflow_action
+                        | timechart sum(total_bytes) by vpcflow_action span=1h</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="charting.legend.mode">standard</option>
+        <drilldown>
+          <link target="_blank">/app/splunk_app_aws/vpc_flow_logs_security?earliest=$earliest$&amp;latest=now&amp;form.interfaces=$interface_id$&amp;form.protocol=*&amp;form.accountId=*&amp;form.region=*</link>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row depends="$is_iam$">
+    <panel depends="$aws_resource$ , $is_iam$">
+      <table>
+        <title>$aws_resource$ Details from AWS CloudTrail</title>
+        <search depends="$is_iam$">
+          <query>`aws-cloudtrail( (aws_account_id="*") ,  (region="*") )`   userName="$aws_resource$"
+                    | head 100
+                    | lookup unauthorized_errorCode errorCode OUTPUT Unauthorized
+                    | rename "userIdentity.arn" as arn
+                    | eval userName = coalesce(userName,"root")
+                    | stats count count(Unauthorized) as Unauthorized by eventName _time eventID arn region aws_account_id
+                    | eval eventNumber=tonumber(substr(md5(eventName), -6), 16)
+                    | sort _time
+                    | delta eventNumber as d1
+                    | fillnull value=0 d1
+                    | eval time=_time
+                    | autoregress d1 as d2
+                    | fillnull value="special" d2
+                    | eval t=if(d1=0 AND d2!="special", 1, if(NOT d1=d2, 2, 0))
+                    | transam eventName endswith="t=2" keepevicted=1 mvlist=time
+                    | eval time = if(mvcount(time)==1, mvindex(time, 0), mvindex(time,0)."|".mvindex(time,-1))
+                    | makemv delim="|" time
+                    | rename eventcount as count
+                    | fields eventName time count arn user* Unauthorized function region aws_account_id
+                    | fields - _raw _time | eval time=strftime(time, "%F %T %z")
+                    | lookup all_eventName eventName OUTPUT function
+                    | lookup regions region OUTPUT label as region
+                    | rename eventName as "Event Name", time as Time, count as Count, arn as ARN, function as Function, region as Region, aws_account_id as "Account ID"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="Event Name">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="category"></scale>
+        </format>
+        <drilldown>
+          <condition field="Event Name">
+            <set token="eventname">"$row.Event Name$"</set>
+            <set token="time">$row.Time$</set>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+    <panel depends="$eventname$, $is_iam$">
+      <event>
+        <title>CloudTrail Raw Events</title>
+        <search depends="$is_iam$">
+          <query>`aws-cloudtrail(*,*)` $aws_resource$ $eventname$
+ [| localop |stats count | rename count as earliest | eval time="$time$" | makemv delim="," time | eval time=strptime(time, "%F %T %z") | eval latest=tonumber(mvindex(time, 0))+1 | eval earliest=if(mvcount(time)==1, tonumber(mvindex(time, 0))-1, mvindex(time, -1)) | return earliest latest]</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="list.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <link target="_blank">/app/splunk_app_aws/vpc_flow_logs_security?earliest=$earliest$&amp;latest=now&amp;form.interfaces=$interface_id$&amp;form.protocol=*&amp;form.accountId=*&amp;form.region=*</link>
+        </drilldown>
+      </event>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,288 @@
+<setup>
+
+  <!--
+
+    ISE Setup
+
+  -->
+
+  <block title="Configure Remediation Workflow Actions for ISE">
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="EPS_Quarantine_By_Framed_IP_Address">
+    <input field="ise.host">
+      <label>Host for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="ise.version">
+      <label>Version for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="EPS_QuarantineByIPAddress">
+    <input field="ise.host">
+      <label>Host for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="ise.version">
+      <label>Version for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="EPS_QuarantineByMAC">
+    <input field="ise.host">
+      <label>Host for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="ise.version">
+      <label>Version for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="EPS_UnquarantineByIPAddress">
+    <input field="ise.host">
+      <label>Host for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="ise.version">
+      <label>Version for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="EPS_UnquarantineByMAC">
+    <input field="ise.host">
+      <label>Host for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="ise.version">
+      <label>Version for $name$</label>
+      <type>text</type>
+    </input>
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+    <text>
+      <![CDATA[ <script type="text/javascript">
+  $(function(){
+    /*
+       For each workflow input's version configuration, change to a select (drop-down) by
+       hiding the text box. Update the text box with the selection value
+       on each drop-down change
+    */
+
+    //Q_B_F_IP = Quarantine_By_Framed_IP_Address
+    var Q_B_F_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_Quarantine_By_Framed_IP_Address\\/ise\\.version_id');
+    var Q_B_F_IP_version_val = Q_B_F_IP_version.val();
+    var selectId = "Q_B_F_IP"
+    Q_B_F_IP_version.parent().after('<br /><select id="' + selectId +'"></select>');
+    buildDropdown(selectId,Q_B_F_IP_version_val)
+    Q_B_F_IP_version.parent().hide();
+    $('#Q_B_F_IP').on('change', function() {
+      var new_select = $('#Q_B_F_IP');
+      var Q_B_F_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_Quarantine_By_Framed_IP_Address\\/ise\\.version_id');
+      Q_B_F_IP_version.val(new_select.val());
+    });
+
+    //Q_B_IP = QuarantineByIPAddress
+    var Q_B_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_QuarantineByIPAddress\\/ise\\.version_id');
+    var Q_B_IP_version_val = Q_B_IP_version.val();
+    var selectId = "Q_B_IP"
+    Q_B_IP_version.parent().after('<br /><select id="' + selectId +'"></select>');
+    buildDropdown(selectId,Q_B_IP_version_val)
+    Q_B_IP_version.parent().hide();
+    $('#Q_B_IP').on('change', function() {
+      var new_select = $('#Q_B_IP');
+      var Q_B_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_QuarantineByIPAddress\\/ise\\.version_id');
+      Q_B_IP_version.val(new_select.val());
+    });
+
+    //Q_B_M = QuarantineByMAC
+    var Q_B_M_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_QuarantineByMAC\\/ise\\.version_id');
+    var Q_B_M_version_val = Q_B_M_version.val();
+    var selectId = "Q_B_M"
+    Q_B_M_version.parent().after('<br /><select id="' + selectId +'"></select>');
+    buildDropdown(selectId,Q_B_M_version_val)
+    Q_B_M_version.parent().hide();
+    $('#Q_B_M').on('change', function() {
+      var new_select = $('#Q_B_M');
+      var Q_B_M_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_QuarantineByMAC\\/ise\\.version_id');
+      Q_B_M_version.val(new_select.val());
+    });
+
+    //U_B_IP = UnquarantineByIPAddress
+    var U_B_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_UnquarantineByIPAddress\\/ise\\.version_id');
+    var U_B_IP_version_val = U_B_IP_version.val();
+    var selectId = "U_B_IP"
+    U_B_IP_version.parent().after('<br /><select id="' + selectId +'"></select>');
+    buildDropdown(selectId,U_B_IP_version_val)
+    U_B_IP_version.parent().hide();
+    $('#U_B_IP').on('change', function() {
+      var new_select = $('#U_B_IP');
+      var U_B_IP_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_UnquarantineByIPAddress\\/ise\\.version_id');
+      U_B_IP_version.val(new_select.val());
+    });
+
+    //U_B_M = UnquarantineByMAC
+    var U_B_M_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_UnquarantineByMAC\\/ise\\.version_id');
+    var U_B_M_version_val = U_B_M_version.val();
+    var selectId = "U_B_M"
+    U_B_M_version.parent().after('<br /><select id="' + selectId +'"></select>');
+    buildDropdown(selectId,U_B_M_version_val)
+    U_B_M_version.parent().hide();
+    $('#U_B_M').on('change', function() {
+      var new_select = $('#U_B_M');
+      var U_B_M_version=$('#\\/splunktaciscoise\\/workflow_sidecar\\/EPS_UnquarantineByMAC\\/ise\\.version_id');
+      U_B_M_version.val(new_select.val());
+    });
+
+    function buildDropdown(parentElement,currentVersion) {
+       console.log(parentElement);
+       console.log(currentVersion);
+
+      var options = ["1.2","1.3","1.4","2.0"];
+        var dropdown = document.getElementById(parentElement);
+        for(var i = 0; i < options.length; i++) {
+          var opt = options[i];
+          var el = document.createElement("option");
+          el.textContent = opt;
+          el.value = opt;
+          dropdown.appendChild(el);
+        }
+      var listItems = dropdown.options;
+
+      for(var i=0;i<dropdown.length;i++) {
+        var val = dropdown[i].value.toLowerCase();
+        if(val.indexOf(currentVersion) == 0) {
+          dropdown.selectedIndex = i;
+            break;
+        }
+      }
+    }
+  });
+</script> ]]>
+    </text>
+  </block>
+
+  <!--
+
+    pxGrid Setup
+
+  -->
+
+  <block title="Configure Remediation Workflow Actions for pxGrid">
+  </block>
+
+  <block title="pxGrid Setup" endpoint="splunktaciscoise/workflow_sidecar" entity="pxGrid_QuarantineByIP">
+    <input field="ise.host">
+      <label>Host</label>
+      <type>text</type>
+    </input>
+    <text>
+      <![CDATA[ <script type="text/javascript">
+      $(function(){
+        /*
+        pxgrid setup hides original form field and uses its value to create and populate the visible ones
+        */
+
+        var PXG_host=$('#\\/splunktaciscoise\\/workflow_sidecar\\/pxGrid_QuarantineByIP\\/ise\\.host_id');
+        var PXG_host_val = PXG_host.val().split('|')[0];
+
+        //console.log(PXG_host.parent().html());
+        //console.log(PXG_host.val());
+
+        PXG_host.parent().after(' \
+          <input id="pxgrid_host" type="text" value="' + (PXG_host.val().split('|')[0] || 'undefined_host') + '"/> \
+          <br />Username: <input id="pxgrid_user" type="text" value="' + (PXG_host.val().split('|')[1] || 'undefined_user') + '"/> \
+          <br />Keystore File (*.jks): <input id="pxgrid_keystore" type="text" value="' + (PXG_host.val().split('|')[2] || 'undefined_keystore') + '"/> \
+          <br />Truststore File (*.jks): <input id="pxgrid_truststore" type="text" value="' + (PXG_host.val().split('|')[3] || 'undefined_truststore') + '"/> \
+        ');
+
+        PXG_host.parent().hide();
+
+        // For each ID of "pxgrid_*", update host with csv values comprised of all
+        $('[id^=pxgrid_]').on('input propertychange paste', function() {
+          var PXG_host=$('#\\/splunktaciscoise\\/workflow_sidecar\\/pxGrid_QuarantineByIP\\/ise\\.host_id');
+          PXG_host.val(
+            $('#pxgrid_host').val() + '|' +
+            $('#pxgrid_user').val() + '|' +
+            $('#pxgrid_keystore').val() + '|' +
+            $('#pxgrid_truststore').val() + '|'
+          );
+        });
+      });
+      </script> ]]>
+    </text>
+  </block>
+
+  <block title="" endpoint="storage/passwords" entity="pxgrid*" mode="iterate" eai_strict="false">
+    <input field="password">
+      <label>Password for $username$ file</label>
+      <type>password</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="pxGrid_QuarantineByIP">
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="pxGrid_UnQuarantineByIP">
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="pxGrid_QuarantineByMAC">
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <block title="" endpoint="splunktaciscoise/workflow_sidecar" entity="pxGrid_UnQuarantineByMAC">
+    <input field="disabled" old_style_disable="true">
+      <label>Enable $name$</label>
+      <type>bool</type>
+    </input>
+  </block>
+
+  <!--
+
+    Generic Caveat
+
+  -->
+
+  <block title="Warning">
+    <text>
+      <![CDATA[
+        <b>NB:</b> Refresh this page after clicking Save to see current configuration<br />
+        <b>NB:</b> Submitting this form may take a long time. Please be patient and wait for it to complete before navigating away from this page
+      ]]>
+    </text>
+  </block>
+
+</setup>

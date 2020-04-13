@@ -1,0 +1,114 @@
+<!-- Add Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" name="myModalLabel">Add F5 BIG-IP Server</h4>
+      </div>
+      <form class="form form-horizontal" role="form" onsubmit="return false;">
+          <div class="modal-body">
+
+           <div class="form-group control-group">
+             <label class="col-sm-2 control-label">Destination App</label>
+             <div class="col-sm-10 controls" name="new_server_dialog_appName">
+             </div>
+           </div>
+
+
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Name</label>
+              <div class="col-sm-10 controls">
+                <input type="text" class="form-control" name="new_server_dialog_name" placeholder="Name"
+                       required
+                       maxlength="255"
+                       pattern="[\w_]{1,255}"
+                       title="Please enter a valid name containing alphanumeric and underscore characters only"
+                        >
+                <p class="help-block"></p>
+              </div>
+            </div>
+
+
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Description</label>
+              <div class="col-sm-10 controls">
+                <input type="text" class="form-control" name="new_server_dialog_description" placeholder="Optional"
+                        maxlength="255">
+              </div>
+            </div>
+
+            <div class="form-group control-group" name="dv_url">
+              <label class="col-sm-2 control-label">Host</label>
+              <div class="col-sm-10 controls">
+                <input type="text" class="form-control" name="new_server_dialog_url" placeholder="Host or IP of the F5 BIG-IP server" required>
+              </div>
+            </div>
+
+            <div class="form-group control-group" name="dv_partitions">
+              <label class="col-sm-2 control-label">Partitions</label>
+              <div class="col-sm-10 controls">
+                <input type="text" class="form-control" name="new_server_dialog_partitions" placeholder="Partitions to fetch data from" onchange="
+                    if(this.value != ''){
+                      form.new_server_dialog_partitions.pattern = '([0-9a-zA-z_-]+)?(,\s*[0-9a-zA-z_-]+)*';
+                    }
+                ">
+              </div>
+            </div>
+
+            <div name="dv_account">
+                    <div class="form-group control-group">
+                      <label class="col-sm-2 control-label">Username</label>
+                      <div class="col-sm-10 controls">
+                        <input type="text" class="form-control" name="new_server_dialog_account_name" placeholder="Username"
+                        maxlength="255">
+                      </div>
+                    </div>
+                    <div class="form-group control-group">
+                      <label class="col-sm-2 control-label">Password</label>
+                      <div class="col-sm-10 controls">
+                        <input type="password" pattern=".*" name="new_server_dialog_account_password" onchange="
+                          if(this.value != '') {
+                            form.new_server_dialog_account_password2.pattern = this.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+                            form.new_server_dialog_account_password2.setAttribute('required', 'required');
+                          } else {
+                            form.new_server_dialog_account_password2.pattern = '.{0}';
+                            form.new_server_dialog_account_password2.removeAttribute('required');
+                          }
+                        "
+                          maxlength="255">
+                      </div>
+                    </div>
+                    <div class="form-group control-group">
+                      <label class="col-sm-2 control-label">Confirm Password</label>
+                      <div class="col-sm-10 controls">
+                        <input title="Please enter the same Password as above" type="password" pattern=".*" name="new_server_dialog_account_password2" onchange="
+                          this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                        " data-validation-pattern-message="Password is different" maxlength="255">
+                      </div>
+                    </div>
+            </div>
+
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Data Collection Interval</label>
+              <div class="col-sm-10 controls">
+                <input type="number" min="1" class="form-control" name="new_server_dialog_interval" placeholder="Overrides the task polling interval" value=""
+                        data-validation-number-message="Please enter a number.">
+                <p class="help-block"></p>
+
+              </div>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <input type="submit" class="btn btn-primary submit-dialog" value="Create"/>
+          </div>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>

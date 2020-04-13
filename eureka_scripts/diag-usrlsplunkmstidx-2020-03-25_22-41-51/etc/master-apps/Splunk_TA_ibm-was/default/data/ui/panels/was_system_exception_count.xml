@@ -1,0 +1,18 @@
+<panel>
+  <title>IBM WAS - System Exception Count</title>
+  <single>
+    <search>
+      <query>sourcetype=ibm:was:systemErrLog "*Exception" OR "ERROR" | stats count as exceptions | rangemap field=exceptions low=0-3 elevated=4-20 default=severe</query>
+      <earliest>-30d@d</earliest>
+      <latest>now</latest>
+    </search>
+    <option name="classField">range</option>
+    <option name="field">exceptions</option>
+    <option name="afterLabel">System Exceptions</option>
+    <option name="beforeLabel">Found</option>
+    <option name="linkFields">result</option>
+    <option name="linkSearch">sourcetype=ibm:was:systemErrLog earliest=-30d@d latest=now "*Exception" OR "ERROR"</option>
+    <option name="linkView">search</option>
+    <option name="drilldown">none</option>
+  </single>
+</panel>

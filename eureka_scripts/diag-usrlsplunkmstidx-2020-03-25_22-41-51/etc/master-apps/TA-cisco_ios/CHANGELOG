@@ -1,0 +1,118 @@
++++ 2.3.2 (2016-01-14)
+Bug fixes:
+* Improvements to the general extractions contributed by m4dc0w
+
++++ 2.3.1 (2015-10-30)
+Features:
+* New CIM tags: insecure logins and privilege escalations
+Bug fixes:
+* IOS XR general field extraction and transform fixed
+* Corrected a few typos
+
++++ 2.3.0 (2015-09-11)
+Features:
+* Direct AP logging now supported. product field can now hold a value of IOS, WLC or IOS
+* IP version agnostic IP extractions
+* Lookup of ICMP codes and types in ACL logs
+Bug fixes:
+* Transform corrected in case of missing reported_hostname. General field extraction also edited.
+* EVAL searchmatch action lookup not working correctly due to conflict with vendor_action lookup. Will need to be fixed by moving all the searchmatches to vendor_action_lookup
+* Field extractions for Nexus interface admin changes + tags
+* Normalization of src_int in case it contains whitespaces, i.e. "vlan 3333" is now "vlan3333"
+
++++ 2.2.0 (2015-01-16)
+Features:
+* Four new extractions: ARP Inspection, IP Source guard ++
+Bug fixes:
+* Removed cisco_ios_hosts_last_period
+
++++ 2.1.0 (2014-11-10)
+Features:
+* NAME CHANGED to Cisco Networks Add-on.
+* RFC5424 support (untested). Rewrites sourcetype rfc5424_syslog to cisco:ios if it matches. Also extracts fields
+
++++ 2.0.0 (2014-09-19)
+Features:
+* CIM compliance
+
++++ 1.6.1 (2014-08-21)
+Bug fixes:
+* IPNAT extraction fixed. Thanks Emmaus Smith!
+
++++ 1.6.0 (2014-07-21)
+Features:
+* Lots of new extractions
+* Nexus ACL extractions
+* IOS Firewall extracts. Thanks Patrick Preuss!
+* Cisco IOS XE extraction fix for 4451. Thanks
+
+Bug fixes:
+* Cisco IOS Messages CSV file moved from this app to the Cisco IOS app.
+
++++ 1.5.2 (2014-05-19)
+Features:
+* Smart Call Home now supported. Adds inventory management etc.
+
++++ 1.5.1 (2014-05-09)
+Bug fixes:
+* The transform and field extraction now also works for WLC 8500!
+
++++ 1.5.0 (2014-05-08)
+Features:
+* Added lookup file for Cisco System Messages for the following devices:
+	- Nexus 7000, MDS 9000
+	- Catalyst 2960, 3750 etc
+	- Catalyst 4500
+	- Catalyst 6500
+	- WLC 5500
+
+Make this a dashboard:
+sourcetype=cisco:ios | stats count by facility severity_id mnemonic | lookup cisco_ios_messages facility mnemonic OUTPUT vendor_explanation vendor_recommended_action | sort severity_id, -count | table severity_id count facility mnemonic vendor_explanation vendor_recommended_action
+
+There are duplicates. I will review them at a later time
+
++++ 1.2.2 (2014-04-23)
+Features:
+* 16 new extractions:
+extract_cisco_ios-ILPOWER-3-CONTROLLER_PORT_ERR
+extract_cisco_ios-SYS-CPUHOG
+extract_cisco_ios-SYS-CPUHOG-2
+extract_cisco_ios-LDP-5-SP
+extract_cisco_ios-DHCP-6-ADDRESS_ASSIGN
+extract_cisco_ios-CLEAR-5-COUNTERS
+extract_cisco_ios-OSPF-4-ERRRCV
+extract_cisco_ios-CERM-4-RX_TX_BW_LIMIT
+extract_cisco_ios-SYS-5-PRIV_I
+extract_cisco_ios-UDLD-4-UDLD_PORT_DISABLED
+extract_cisco_ios-AUTHMGR-5-SECURITY_VIOLATION
+extract_cisco_ios-TRACKING-5-STATE
+extract_cisco_ios-RTT-6-SAATHRESHOLD
+extract_cisco_ios-EC-5-L3DONTBNDL
+extract_cisco_ios-EC-5-PORTDOWN
+extract_cisco_ios-EC-5-STAYDOWN
+
++++ 1.2.1 (2014-02-17)
+Features: 
+* This app must now be installed on both the search head AND indexer
+* We no longer rewrite the indexer to the "ios" index
+
++++ 1.2.0 (2014-01-09)
+Features: Added props, transforms, tags to this app for CIM compliance
+
++++ 1.0.4 (2013-09-20)
+Features: IOS XR support
+
++++ 1.0.3 (2013-08-12)
+Bug fixes: Don't capture ACS events, be stricter on capturing
+
++++ 1.0.2 (2013-06-07)
+Bug fixes:
+* Don't capture UCSM events
+
++++ 1.0.1 (2013-04-23)
+Bug fixes:
+* Fixed extraction of mnemonic and facility with integers in it
+
++++ 1.0.0 (2013-03-19)
+Features:
+* The app has been split up into two parts, one App for the search head and a TA for indexers. This app should be installed on your indexers

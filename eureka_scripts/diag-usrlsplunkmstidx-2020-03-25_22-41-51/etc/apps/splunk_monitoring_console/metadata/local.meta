@@ -1,0 +1,31 @@
+[splunk_monitoring_console_assets/settings]
+version = 7.1.1
+modtime = 1550497656.206077000
+
+[app/ui]
+version = 7.1.1
+modtime = 1550497656.308348000
+
+[app/launcher]
+version = 7.1.1
+modtime = 1550497656.312243000
+
+[app/package/check_for_updates]
+version = 7.1.1
+modtime = 1550497656.313644000
+
+[app/install/is_configured]
+version = 7.1.1
+modtime = 1550497656.314970000
+
+[savedsearches/DMC%20Asset%20-%20Build%20Standalone%20Asset%20Table]
+version = 7.1.1
+modtime = 1550497656.305031000
+
+[nav/default]
+version = 7.1.1
+modtime = 1550497656.328316000
+
+[savedsearches/DMC%20Alert%20-%20Total%20License%20Usage%20Near%20Daily%20Quota]
+version = 7.1.1
+modtime = 1535740578.516156000

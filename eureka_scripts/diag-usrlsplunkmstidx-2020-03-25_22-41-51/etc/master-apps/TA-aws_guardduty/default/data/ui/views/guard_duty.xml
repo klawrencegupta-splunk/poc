@@ -1,0 +1,140 @@
+<form>
+  <label>GuardDuty - App Drilldown</label>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="multiselect" token="accountId" searchWhenChanged="true">
+      <label>Account ID</label>
+      <choice value="*">All</choice>
+      <prefix>(</prefix>
+      <suffix>)</suffix>
+      <valuePrefix>account="</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+      <delimiter> OR </delimiter>
+      <fieldForLabel>title</fieldForLabel>
+      <fieldForValue>account_id</fieldForValue>
+      <search>
+        <query>| aclinputlookup all_account_ids | mvcombine delim=", " name | nomv name | eval title=account_id." (".name.")"</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel id="gd_single_value">
+      <title>GuardDuty FINDINGS - ALL REGIONS</title>
+      <single>
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty" $accountId$ | timechart count by gd_details</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">all</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x65a637","0x6db7c6","0xf7bc38","0xf58f39","0xd93f3c"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">gd_details</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="trendInterval">-12h</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+        <drilldown>
+          <set token="gd_type">$trellis.split.gd_details$</set>
+        </drilldown>
+      </single>
+    </panel>
+    <panel>
+      <title>Finding Provenance</title>
+      <map>
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty" $accountId$ | geostats latfield=lat longfield=lon count by gd_details</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="mapping.choroplethLayer.colorBins">5</option>
+        <option name="mapping.choroplethLayer.colorMode">auto</option>
+        <option name="mapping.choroplethLayer.maximumColor">0xDB5800</option>
+        <option name="mapping.choroplethLayer.minimumColor">0x2F25BA</option>
+        <option name="mapping.choroplethLayer.neutralPoint">0</option>
+        <option name="mapping.choroplethLayer.shapeOpacity">0.75</option>
+        <option name="mapping.choroplethLayer.showBorder">1</option>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.legend.placement">bottomright</option>
+        <option name="mapping.map.center">(0,0)</option>
+        <option name="mapping.map.panning">1</option>
+        <option name="mapping.map.scrollZoom">0</option>
+        <option name="mapping.map.zoom">2</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.showTiles">1</option>
+        <option name="mapping.tileLayer.maxZoom">7</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="mapping.tileLayer.tileOpacity">1</option>
+        <option name="mapping.type">marker</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </map>
+    </panel>
+  </row>
+  <row>
+    <panel depends="$gd_type$">
+      <title>$gd_type$ Findings By Instance</title>
+      <table id="instance_details">
+        <search>
+          <query>sourcetype="aws:cloudwatch:guardduty"
+subject=$gd_type$*
+| eval newtime=strftime(_time,"%m/%d/%y %H:%M:%S")
+
+| stats sparkline(count) as history max(newtime) as "event time" by awsresource detail.region detail.type detail.severity detail.description gd_object
+| eval times=mvindex(times, 0, 2)
+
+ | sort - "event time" detail.severity</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="detail.severity">
+          <colorPalette type="list">[#FFFFFF,#FDD6D6,#FFAEAE,#FF7575,#FF3A3A,#FF0000]</colorPalette>
+          <scale type="threshold">0,2,4,6,8,10</scale>
+        </format>
+        <fields>["awsresource","detail.region","detail.type","detail.severity","detail.description","history","event time"]</fields>
+        <drilldown>
+          <condition match="'row.gd_object'==&quot;EC2&quot;">
+            <link target="_blank">/app/splunk_app_aws/individual_instance_usage?form.instances=$row.awsresource$</link>
+          </condition>
+          <condition match="'row.gd_object'==&quot;IAMUser&quot;">
+            <link target="_blank">/app/splunk_app_aws/user_activity?form.username=$row.awsresource$</link>
+          </condition>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>

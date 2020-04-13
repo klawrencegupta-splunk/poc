@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Manage F5 BIG-IP Servers</title>
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/css/pages/dashboard-simple-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="all" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/search/dashboard.css" />
+    <link rel="stylesheet" type="text/css" href="{{SPLUNKWEB_URL_PREFIX}}/static/app/Splunk_TA_f5-bigip/js/css/add-on.css">
+</head>
+
+<body>
+
+<div class="header">
+  <div id="placeholder-splunk-bar">
+    <a href="{{SPLUNKWEB_URL_PREFIX}}/app/launcher/home" class="brand" title="splunk > listen to your data">splunk<strong>></strong></a>
+  </div>
+  <div id="placeholder-app-bar"></div>
+</div>
+
+<div class="addonContainer">
+    <div  class="addonInnerContainer">
+    <h4><span class="icon-tasks"></span>Manage F5 BIG-IP Servers</h4>
+    <hr>
+
+<!-- Tool Bars -->
+
+      <div>
+        <!-- Single button -->
+        <div class="btn-group btn-group-sm">
+          <button type="button" class="btn add-button btn-primary" disabled="disabled" id="addServerBtn">
+            <span class="glyphicon glyphicon-plus icon-plus"></span> Add Server
+          </button>
+        </div>
+      </div>
+
+    <p></p>
+
+  <!-- Server List-->
+  <div id="f5_bigip_server_list" style="overflow:auto"></div>
+    </div>
+  </div>
+
+<div id="f5_bigip_server_add_dialog"></div>
+<div id="f5_bigip_server_edit_dialog"></div>
+
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/config?autoload=1"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/i18n.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/js/build/simplexml.min/config.js"></script>
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/Splunk_TA_f5-bigip/js/profiles/app2.js"></script>
+
+<script src="{{SPLUNKWEB_URL_PREFIX}}/static/app/Splunk_TA_f5-bigip/js/pages/manage_servers.js"></script>
+
+</body>
+</html>

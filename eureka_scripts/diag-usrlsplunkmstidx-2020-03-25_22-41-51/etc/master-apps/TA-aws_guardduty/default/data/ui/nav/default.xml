@@ -1,0 +1,16 @@
+<nav search_view="search" color="#FB9728">
+
+    <!-- Add items to the list -->
+    <view name="search" default="true" />
+    <view name="data_models" />
+    <view name="reports" />
+    <view name="alerts" />
+    <view name="dashboards" />
+
+ <collection label="GuardDuty Examples">
+        <!-- Add items to the list -->
+        <view name="guard_duty" />
+        <view name="guard_duty_2" />
+
+</collection>
+</nav>

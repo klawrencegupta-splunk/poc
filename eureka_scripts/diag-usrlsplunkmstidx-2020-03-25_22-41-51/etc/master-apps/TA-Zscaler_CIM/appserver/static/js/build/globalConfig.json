@@ -1,0 +1,39 @@
+{
+    "meta": {
+        "restRoot": "TA_Zscaler_CIM", 
+        "name": "TA-Zscaler_CIM", 
+        "displayName": "Zscaler CIM", 
+        "version": "1.0.0", 
+        "apiVersion": "3.0.0"
+    }, 
+    "pages": {
+        "configuration": {
+            "description": "Set up your add-on", 
+            "title": "Configuration", 
+            "tabs": [
+                {
+                    "name": "additional_parameters", 
+                    "entity": [
+                        {
+                            "validators": [
+                                {
+                                    "minLength": 0, 
+                                    "errorMsg": "Max length of text input is 8192", 
+                                    "type": "string", 
+                                    "maxLength": 8192
+                                }
+                            ], 
+                            "label": "APK key", 
+                            "type": "text", 
+                            "field": "apikey", 
+                            "defaultValue": "", 
+                            "help": "API KEY", 
+                            "required": false
+                        }
+                    ], 
+                    "title": "Add-on Settings"
+                }
+            ]
+        }
+    }
+}

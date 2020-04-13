@@ -1,0 +1,48 @@
+.panel {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+}
+
+.panel > fieldset {
+    margin-bottom: 20px;
+}
+
+ul.dot-leader {
+    margin: 0 0 10px;
+}
+
+ul.dot-leader > li {
+    position: relative;
+    list-style-position: inside;
+    padding: 2px 0;
+}
+
+ul.dot-leader > li > span:first-child {
+    display: inline-block;
+    background-color: white;
+    position: absolute;
+    left: 0px;
+}
+
+ul.dot-leader > li > span:nth-child(2) {
+    display: inline-block;
+    background-color: white;
+    position: absolute;
+    left: 100px;
+}
+
+ul.dot-leader > li:after {
+    float: left;
+    width: 100px;
+    overflow: hidden;
+    content: ".......................................................";
+}
+
+span[class*=error_warning] {
+    margin-left: 10px;
+}
+
+.inline-alert {
+    display: inline-block;
+}

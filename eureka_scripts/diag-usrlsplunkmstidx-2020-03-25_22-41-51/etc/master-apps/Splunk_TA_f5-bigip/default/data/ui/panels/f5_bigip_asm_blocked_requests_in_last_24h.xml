@@ -1,0 +1,10 @@
+<panel>
+  <title>F5 BIG-IP ASM - Blocked Requests in Last 24H</title>
+  <table>
+    <search>
+      <query>sourcetype="f5:bigip:asm:syslog" req_status=blocked earliest =-1d | stats count by f5_bigip_server_host,ip_client | rename f5_bigip_server_host as "F5 Big-IP Server Host" | rename ip_client AS "Client IP Address" | rename count AS "Attack Count" | sort -"Attack Count" | head 10</query>
+      <earliest>0</earliest>
+      <latest></latest>
+    </search>
+  </table>
+</panel>

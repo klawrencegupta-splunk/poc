@@ -1,0 +1,8 @@
+ls -lR "/home/splunker/splunk/var/run/splunk/dispatch/remote_usrlsplunk002.global.baxter.com_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5da3050f0c0a3e0a3_at_1585193580_42827"
+/home/splunker/splunk/var/run/splunk/dispatch/remote_usrlsplunk002.global.baxter.com_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5da3050f0c0a3e0a3_at_1585193580_42827:
+total 48
+-rw-------. 1 splunker splunker   336 Mar 25 22:33 args.txt
+-rw-------. 1 splunker splunker 22078 Mar 25 22:33 info.csv
+-rw-------. 1 splunker splunker     2 Mar 25 22:33 pipeline_sets
+-rw-------. 1 splunker splunker     8 Mar 25 22:33 remote_status.csv
+-rw-------. 1 splunker splunker  9866 Mar 25 22:33 search.log

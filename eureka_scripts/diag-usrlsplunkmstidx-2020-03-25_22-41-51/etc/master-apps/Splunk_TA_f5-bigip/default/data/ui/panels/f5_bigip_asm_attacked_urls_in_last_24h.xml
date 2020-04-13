@@ -1,0 +1,10 @@
+<panel>
+  <title>F5 BIG-IP ASM - Attacked URLs in Last 24H</title>
+  <table>
+    <search>
+      <query>sourcetype="f5:bigip:asm:syslog" attack_type!="" earliest =-1d  | stats count AS "Attack Count" by f5_bigip_server_host,url | rename url AS "Attacked URL" | rename f5_bigip_server_host as "F5 Big-IP Server" | sort -"Attack Count" | head 10</query>
+      <earliest>0</earliest>
+      <latest></latest>
+    </search>
+  </table>
+</panel>
