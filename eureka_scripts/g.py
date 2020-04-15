@@ -58,9 +58,8 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     s3_object = client.get_object(Bucket=new_name, Key=keys)
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
-    tarf = tarfile.open(fileobj=fileobj)
-    data = tarf.extractall()
-    with open('filename', 'rb') as data:
+    with tarfile.open(fileobj=fileobj) as data:
+        data = tarf.extractall()
         NEW_BUCKET.upload_fileobj(data, 'klg1')
 
 
