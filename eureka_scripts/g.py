@@ -59,9 +59,8 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     tarf = tarfile.open(fileobj=fileobj)
-    data = tarf.extractall()
-    data = str(data)
-    print data
+    tarf.extractall("/tmp")
+
 #with open(data, 'rb') as data:
 #NEW_BUCKET.upload_fileobj(data, 'mykey')
 
