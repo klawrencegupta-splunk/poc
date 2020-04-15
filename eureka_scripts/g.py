@@ -67,5 +67,6 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
 if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
     keys = get_s3_objects(NEW_BUCKET)
-    get_from_archive(new_name,keys,NEW_BUCKET)
+    print keys
+#get_from_archive(new_name,keys,NEW_BUCKET)
 
