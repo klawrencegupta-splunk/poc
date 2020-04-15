@@ -59,8 +59,8 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     with tarfile.open(fileobj=fileobj) as data:
-        data = tarf.extractall()
-        NEW_BUCKET.upload_fileobj(data, 'klg1')
+         data = data.extractall()
+         NEW_BUCKET.upload_fileobj(data, 'klg1')
 
 
 if __name__ == '__main__':
