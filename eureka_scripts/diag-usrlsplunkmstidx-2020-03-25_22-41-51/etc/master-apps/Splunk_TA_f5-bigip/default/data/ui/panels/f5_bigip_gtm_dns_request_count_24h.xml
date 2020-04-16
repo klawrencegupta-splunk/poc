@@ -1,0 +1,14 @@
+<panel>
+  <title>F5 BIG-IP GTM - DNS Request Count (Top 20 in Past 24 Hours)</title>
+    <table>
+    <search>
+      <query>(sourcetype="f5_bigip:irule:dns:request" OR sourcetype="f5:bigip:gtm:dns:request:irule") earliest=-1d  | eval gtm_server2= gtm_server + " (" + dns_server_ip + ")" | stats count(gtm_server2) as "Request Count" by data_center gtm_server2 |rename gtm_server2 as "GTM Server"  |rename "data_center" as "Data Center" | sort - "Request Count" | head 20</query>
+      <earliest>0</earliest>
+    </search>
+    <option name="wrap">true</option>
+    <option name="rowNumbers">false</option>
+    <option name="dataOverlayMode">none</option>
+    <option name="drilldown">cell</option>
+    <option name="count">10</option>
+  </table>
+</panel>

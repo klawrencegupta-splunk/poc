@@ -1,0 +1,5 @@
+<endpoint name="instrumentation_logs" template="/splunk_instrumentation:/templates/splunk_instrumentation.html" type="html" showOnSearchHeadCluster="1">
+    <capabilities>
+        <read>edit_telemetry_settings</read>
+    </capabilities>
+</endpoint>

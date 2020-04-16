@@ -1,0 +1,43 @@
+ls -lR "/home/splunker/splunk/var/run/splunk/dispatch/RemoteStorageRetrieveIndexes_1585193753.3135"
+/home/splunker/splunk/var/run/splunk/dispatch/RemoteStorageRetrieveIndexes_1585193753.3135:
+total 272
+-rw-------. 1 splunker splunker    215 Mar 25 22:35 args.txt
+-rw-------. 1 splunker splunker      0 Mar 25 22:36 audited
+-rw-------. 1 splunker splunker   7538 Mar 25 22:35 info.csv
+-rw-------. 1 splunker splunker    117 Mar 25 22:35 metadata.csv
+-rw-------. 1 splunker splunker 105346 Mar 25 22:35 peers.csv
+-rw-------. 1 splunker splunker      2 Mar 25 22:35 pipeline_sets
+-rw-------. 1 splunker splunker   1817 Mar 25 22:35 remote_event_providers.csv
+drwx------. 2 splunker splunker   4096 Mar 25 22:35 remote_logs
+-rw-------. 1 splunker splunker  24790 Mar 25 22:35 search.log
+-rw-------. 1 splunker splunker   2725 Mar 25 22:35 status.csv
+-rw-------. 1 splunker splunker    421 Mar 25 22:35 tmp_rest_0.csv.gz
+-rw-------. 1 splunker splunker   6569 Mar 25 22:35 tmp_rest_10.csv.gz
+-rw-------. 1 splunker splunker   6534 Mar 25 22:35 tmp_rest_11.csv.gz
+-rw-------. 1 splunker splunker   6501 Mar 25 22:35 tmp_rest_12.csv.gz
+-rw-------. 1 splunker splunker   6529 Mar 25 22:35 tmp_rest_13.csv.gz
+-rw-------. 1 splunker splunker   6704 Mar 25 22:35 tmp_rest_1.csv.gz
+-rw-------. 1 splunker splunker   6538 Mar 25 22:35 tmp_rest_2.csv.gz
+-rw-------. 1 splunker splunker   6659 Mar 25 22:35 tmp_rest_3.csv.gz
+-rw-------. 1 splunker splunker   6617 Mar 25 22:35 tmp_rest_4.csv.gz
+-rw-------. 1 splunker splunker   6657 Mar 25 22:35 tmp_rest_5.csv.gz
+-rw-------. 1 splunker splunker   6567 Mar 25 22:35 tmp_rest_6.csv.gz
+-rw-------. 1 splunker splunker   6524 Mar 25 22:35 tmp_rest_7.csv.gz
+-rw-------. 1 splunker splunker   6572 Mar 25 22:35 tmp_rest_8.csv.gz
+-rw-------. 1 splunker splunker   6565 Mar 25 22:35 tmp_rest_9.csv.gz
+
+/home/splunker/splunk/var/run/splunk/dispatch/RemoteStorageRetrieveIndexes_1585193753.3135/remote_logs:
+total 156
+-rw-------. 1 splunker splunker 11514 Mar 25 22:35 usrlsplnkidx001.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 USRLSPLNKIDX002.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx003.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx004.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx005.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx006.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx007.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx008.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx009.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx010.search.log
+-rw-------. 1 splunker splunker 11514 Mar 25 22:35 usrlsplnkidx011.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx012.search.log
+-rw-------. 1 splunker splunker 11515 Mar 25 22:35 usrlsplnkidx013.search.log

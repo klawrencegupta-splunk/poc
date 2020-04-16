@@ -1,0 +1,17 @@
+# Application-level permissions
+
+[]
+access = read : [ * ], write : [ admin ]
+export = system
+
+[html/Servers]
+owner = none
+export = none
+
+[html/Tasks]
+owner = none
+export = none
+
+[html/Templates]
+owner = none
+export = none

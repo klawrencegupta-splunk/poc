@@ -1,0 +1,107 @@
+ <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" name="myModalLabel">Update F5 BIG-IP Server (<%- name %>)</h4>
+      </div>
+      <form class="form form-horizontal" role="form" onsubmit="return false;">
+
+      <div class="modal-body">
+
+        <input type="hidden" class="form-control" name="edit_server_dialog_id" value="<% print(typeof(id.replace)=='undefined'?id:id.replace(new RegExp('"','g'),'&quot;')); %>">
+        <input type="hidden" class="form-control" name="edit_server_dialog_appName" value="<% print(typeof(appName.replace)=='undefined'?appName:appName.replace(new RegExp('"','g'),'&quot;')); %>">
+        <input type="hidden" class="form-control" name="edit_server_dialog_name" value="<% print(typeof(name.replace)=='undefined'?name:name.replace(new RegExp('"','g'),'&quot;')); %>">
+
+        <div class="form-group control-group">
+          <label class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10 controls">
+            <input type="text" class="form-control" name="edit_server_dialog_description" placeholder="Optional"
+            value="<% print(typeof(description.replace)=='undefined'?description:description.replace(new RegExp('"','g'),'&quot;')); %>"
+                    maxlength="255">
+          </div>
+        </div>
+
+        <div class="form-group control-group" name="dv_url">
+          <label class="col-sm-2 control-label">Host</label>
+          <div class="col-sm-10 controls">
+            <input type="text" class="form-control" name="edit_server_dialog_url" placeholder="Host or IP of the F5 BIG-IP server" value="<% print(typeof(f5_bigip_url.replace)=='undefined'?f5_bigip_url:f5_bigip_url.replace(new RegExp('"','g'),'&quot;')); %>" required>
+          </div>
+        </div>
+
+        <div class="form-group control-group" name="dv_partitions">
+          <label class="col-sm-2 control-label">Partitions</label>
+          <div class="col-sm-10 controls">
+            <input type="text" class="form-control" name="edit_server_dialog_partitions" placeholder="Partions to fetch data from" value="<% print(typeof(f5_bigip_partitions.replace)=='undefined'?f5_bigip_partitions:f5_bigip_partitions.replace(new RegExp('"','g'),'&quot;')); %>" onchange="
+                if(this.value != ''){
+                  form.edit_server_dialog_partitions.pattern = '([0-9a-zA-z_-]+)?(,\s*[0-9a-zA-z_-]+)*';
+                }
+            ">
+          </div>
+        </div>
+
+
+        <div name="dv_account">
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Username</label>
+              <div class="col-sm-10 controls">
+                <input type="text" class="form-control" name="edit_server_dialog_account_name" placeholder="Username" value="<% print(typeof(account_name.replace)=='undefined'?account_name:account_name.replace(new RegExp('"','g'),'&quot;')); %>"
+                onchange="
+                  if(this.value == '<%= account_name %>'){
+                    form.edit_server_dialog_account_password.removeAttribute('required');
+                    form.edit_server_dialog_account_password2.removeAttribute('required');
+                  }else{
+                    form.edit_server_dialog_account_password.setAttribute('required', 'required');
+                    form.edit_server_dialog_account_password2.setAttribute('required', 'required');
+                  }
+                "
+                maxlength="255">
+              </div>
+            </div>
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Password</label>
+              <div class="col-sm-10 controls">
+                <input type="password" name="edit_server_dialog_account_password" onchange="
+                  if(this.value != '') {
+                    form.edit_server_dialog_account_password2.pattern = this.value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+                    form.edit_server_dialog_account_password2.setAttribute('required', 'required');
+                  } else {
+                    form.edit_server_dialog_account_password2.pattern = '.{0}';
+                    form.edit_server_dialog_account_password2.removeAttribute('required');
+                  }
+                " maxlength="255" value="">
+              </div>
+            </div>
+            <div class="form-group control-group">
+              <label class="col-sm-2 control-label">Confirm Password</label>
+              <div class="col-sm-10 controls">
+                <input title="Please enter the same Password as above" type="password" pattern=".*" name="edit_server_dialog_account_password2" onchange="
+                  this.setCustomValidity(this.validity.patternMismatch ? this.title : '');
+                " data-validation-pattern-message="Password is different" maxlength="255" value="">
+              </div>
+            </div>
+        </div>
+
+
+        <div class="form-group control-group">
+          <label class="col-sm-2 control-label">Data Collection Interval</label>
+          <div class="col-sm-10 controls">
+            <input type="number" min="1" class="form-control" name="edit_server_dialog_interval" placeholder="Overrides the task polling interval" value="<% print(typeof(interval.replace)=='undefined'?interval:interval.replace(new RegExp('"','g'),'&quot;')); %>"
+              data-validation-number-message="Please enter a number.">
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn btn-primary submit-dialog" value="Update"/>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>

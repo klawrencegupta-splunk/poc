@@ -1,0 +1,12 @@
+<endpoint name="data/inputs/Splunk_TA_f5_bigip_main" redirect="false" hideEnabledColumn="true" hidePermissionsColumn="true" hideActionsColumn="true">
+  <header>Manage F5 BIG-IP Inputs</header>
+
+  <introText> View and manage your F5 BIG-IP inputs in the Splunk Add-on for F5 BIG-IP configuration page. Click "New" to be redirected. </introText>
+
+  <elements>
+    <element name="spl-crtl_script" type="f5bigiptaskredirect">
+        <view name="create"/>
+        <view name="edit"/>
+    </element>
+  </elements>
+</endpoint>

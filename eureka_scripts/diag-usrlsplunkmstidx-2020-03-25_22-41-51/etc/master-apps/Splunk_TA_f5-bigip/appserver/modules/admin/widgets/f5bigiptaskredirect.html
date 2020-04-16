@@ -1,0 +1,13 @@
+<%page args="element" />
+<script type="text/javascript">
+    // <![CDATA[
+    $(function(){
+        var url = Splunk.util.make_url('app','Splunk_TA_f5-bigip','Servers');
+
+        if (top.location != window.location)
+            top.location.replace(url);
+        else
+            window.location.replace(url);
+    });
+    // ]]>
+</script>

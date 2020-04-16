@@ -1,0 +1,837 @@
+03-25-2020 19:33:00.931 INFO  dispatchRunner - Search process mode: preforked (first search in process) (build 8f0ead9ec3db).
+03-25-2020 19:33:00.931 INFO  dispatchRunner - initing LicenseMgr in search process: nonPro=0
+03-25-2020 19:33:00.932 INFO  LicenseMgr - Initing LicenseMgr
+03-25-2020 19:33:00.932 INFO  LMConfig - serverName=usrlsplunkmstidx guid=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD
+03-25-2020 19:33:00.934 INFO  LMConfig - connection_timeout=30
+03-25-2020 19:33:00.934 INFO  LMConfig - send_timeout=30
+03-25-2020 19:33:00.934 INFO  LMConfig - receive_timeout=30
+03-25-2020 19:33:00.934 INFO  LMConfig - squash_threshold=2000
+03-25-2020 19:33:00.934 INFO  LMConfig - strict_pool_quota=1
+03-25-2020 19:33:00.934 INFO  LMConfig - key=pool_suggestion not found in licenser stanza of server.conf, defaulting=''
+03-25-2020 19:33:00.934 INFO  LMConfig - key=test_aws_metering not found in licenser stanza of server.conf, defaulting=0
+03-25-2020 19:33:00.934 INFO  LMConfig - key=test_aws_product_code not found in licenser stanza of server.conf, defaulting=0
+03-25-2020 19:33:00.934 INFO  LicenseMgr - Initing LicenseMgr runContext_splunkd=false
+03-25-2020 19:33:00.934 INFO  LMStackMgr - closing stack mgr
+03-25-2020 19:33:00.934 INFO  LMSlaveInfo - all slaves cleared
+03-25-2020 19:33:00.934 INFO  LMStackMgr - partial init only since node has remote master=https://10.5.35.170:8089
+03-25-2020 19:33:00.934 INFO  LicenseMgr - StackMgr init complete...
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting default product type='enterprise'
+03-25-2020 19:33:00.934 INFO  LMTracker - this is not splunkd, will perform partial init
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=Acceleration state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=AdvancedSearchCommands state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=AdvancedXML state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=Alerting state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=ArchiveToHdfs state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=Auth state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.934 INFO  LMTracker - Setting feature=CustomRoles state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=DeployClient state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=DeployServer state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=DistSearch state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=FwdData state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=GuestPass state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=KVStore state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=LDAPAuth state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=LocalSearch state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=MultifactorAuth state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=MultisiteClustering state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=NontableLookups state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=RcvData state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=RcvSearch state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=RollingWindowAlerts state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SAMLAuth state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=ScheduledAlerts state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=ScheduledReports state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=ScheduledSearch state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=ScriptedAuth state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SearchheadPooling state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SigningProcessor state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SplunkWeb state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SubgroupId state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=SyslogOutputProcessor state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LMTracker - Setting feature=UnisiteClustering state=ENABLED (featureStatus=1)
+03-25-2020 19:33:00.935 INFO  LicenseMgr - Tracker init complete...
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'licenses'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'pools'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'stacks'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'groups'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'slaves'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'localslave'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'licensermessages'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'scriptedwarning'
+03-25-2020 19:33:00.939 INFO  AdminManagerDispatch - added factory for admin handler: 'licenseusage'
+03-25-2020 19:33:00.942 INFO  dispatchRunner - registering build time modules, count=1
+03-25-2020 19:33:00.942 INFO  dispatchRunner - registering search time components of build time module name=vix
+03-25-2020 19:33:00.942 INFO  dispatchRunner - Getting search configuration data from: /home/splunker/splunk/etc/modules/parsing/config.xml
+03-25-2020 19:33:00.943 WARN  KVStoreConfigurationProvider - KV Store is not available. Its status is 'failed'.
+03-25-2020 19:33:00.944 INFO  BundlesSetup - Setup stats for /home/splunker/splunk/etc: wallclock_elapsed_msec=16, cpu_time_used=0.016417, shared_services_generation=2, shared_services_population=1
+03-25-2020 19:33:00.952 INFO  UserManagerPro - Load authentication: forcing roles="admin, power, splunk-system-role, user"
+03-25-2020 19:33:00.954 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.954 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.954 INFO  dispatchRunner - search context: user="splunk-system-user", app="splunk_monitoring_console", bs-pathname="/home/splunker/splunk/etc"
+03-25-2020 19:33:00.959 INFO  dispatchRunner - Executing the Search orchestrator and iterator model.
+03-25-2020 19:33:00.959 INFO  SearchOrchestrator - SearchOrchestrator getting constructed
+03-25-2020 19:33:00.959 INFO  SearchOrchestrator -  Initialized the SRI
+03-25-2020 19:33:00.959 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:00.964 INFO  SearchOrchestrator - Initialzing the run time settings for the orchestrator.
+03-25-2020 19:33:00.964 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.964 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.964 INFO  SearchOrchestrator - Creating the search DAG.
+03-25-2020 19:33:00.964 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/pools \n| join type=outer stack_id splunk_server [rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id=stack_ids | fields splunk_server stack_id is_active] \n| search is_active=1 \n| fields splunk_server, stack_id, used_bytes \n| join type=outer stack_id splunk_server [rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields splunk_server stack_id stack_quota] \n| stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server \n| eval usedGB=round(used_bytes/1024/1024/1024,3) \n| eval totalGB=round(stack_quota/1024/1024/1024,3) \n| eval percentage=round(usedGB / totalGB, 3)*100 \n| fields splunk_server, percentage, usedGB, totalGB \n| where percentage > 90 \n| rename splunk_server AS Instance, percentage AS "License quota used (%)", usedGB AS "License quota used (GB)", totalGB as "Total license quota (GB)"
+03-25-2020 19:33:00.967 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.967 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:00.967 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.968 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:00.971 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.971 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.971 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.971 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.972 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.974 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:00.974 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:00.974 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:00.974 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.974 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.974 INFO  DispatchThread - Getting summary ID for summaryHash=NSc878de13c19bab4b
+03-25-2020 19:33:00.974 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:00.974 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.002830626
+03-25-2020 19:33:00.974 INFO  AstOptimizer - Original Search = rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id=stack_ids | fields splunk_server stack_id is_active
+03-25-2020 19:33:00.974 INFO  SearchParser - PARSING: rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id=stack_ids | fields splunk_server stack_id is_active
+03-25-2020 19:33:00.974 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.974 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:00.975 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000321358
+03-25-2020 19:33:00.975 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:00.975 INFO  SearchParser - PARSING:  | eval stack_id=stack_ids
+03-25-2020 19:33:00.975 INFO  SearchParser - PARSING: | search is_active=1
+03-25-2020 19:33:00.975 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups
+03-25-2020 19:33:00.975 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:00.983 INFO  AstOptimizer - SrchOptMetrics optimization=0.008184271
+03-25-2020 19:33:00.983 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:00.983 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:00.983 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000082080
+03-25-2020 19:33:00.983 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.983 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.983 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.983 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:00.984 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:00.984 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:00.984 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.984 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.985 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:00.985 INFO  DispatchThread - SrchOptMetrics FinalEval=0.001424238
+03-25-2020 19:33:00.985 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.985 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:00.985 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:00.985 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.985 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:00.985 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:00.985 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:00.985 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.985 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:00.985 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.985 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:00.986 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.986 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:00.987 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:00.987 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:00.987 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:00.987 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_tmp_1585182780.1/runtime.csv does not exist
+03-25-2020 19:33:00.987 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:00.987 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.987 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.987 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.987 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.987 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.988 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.988 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.988 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.988 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.989 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.988 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.989 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.989 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:00.989 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:00.989 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:00.990 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:00.990 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:00.990 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:00.990 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:00.990 INFO  ProxyConfig - Failed to initialize http_proxy from server.conf for splunkd. Please make sure that the http_proxy property is set as http_proxy=http://host:port in case HTTP proxying needs to be enabled.
+03-25-2020 19:33:00.990 INFO  ProxyConfig - Failed to initialize https_proxy from server.conf for splunkd. Please make sure that the https_proxy property is set as https_proxy=http://host:port in case HTTP proxying needs to be enabled.
+03-25-2020 19:33:00.990 INFO  ProxyConfig - Failed to initialize the no_proxy setting from server.conf for splunkd. Please provide a valid set of no_proxy rules in case HTTP proxying needs to be enabled.
+03-25-2020 19:33:01.004 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.005 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.005 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.005 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.005 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.005 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.016 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.017 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.018 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.018 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.018 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_tmp_1585182780.1', username='splunk-system-user')
+03-25-2020 19:33:01.019 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.020 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:01.022 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.022 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.022 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.023 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.023 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.023 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.023 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.023 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.023 INFO  DispatchThread - Getting summary ID for summaryHash=NS861c7f36d79351a0
+03-25-2020 19:33:01.023 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:01.023 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.000521650
+03-25-2020 19:33:01.023 INFO  AstOptimizer - Original Search = rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields splunk_server stack_id stack_quota
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING: rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields splunk_server stack_id stack_quota
+03-25-2020 19:33:01.023 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.023 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000123510
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING:  | eval stack_quota=quota
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING:  | eval stack_id=title
+03-25-2020 19:33:01.023 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks
+03-25-2020 19:33:01.023 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:01.024 INFO  AstOptimizer - SrchOptMetrics optimization=0.000333740
+03-25-2020 19:33:01.024 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.024 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.024 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000055920
+03-25-2020 19:33:01.024 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.024 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.024 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.024 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.024 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.024 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.024 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.025 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:01.025 INFO  DispatchThread - SrchOptMetrics FinalEval=0.001706486
+03-25-2020 19:33:01.026 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.026 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.026 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.026 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.026 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.026 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.027 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.027 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.027 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_tmp_1585182781.2/runtime.csv does not exist
+03-25-2020 19:33:01.027 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.027 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.028 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.028 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.028 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.028 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.028 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.028 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.029 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.030 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.030 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.030 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.030 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.030 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.034 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.036 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.036 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.036 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.036 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_tmp_1585182781.2', username='splunk-system-user')
+03-25-2020 19:33:01.037 INFO  SortOperator - maxmem = 209715200
+03-25-2020 19:33:01.037 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.037 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.038 INFO  DispatchCommandProcessor - summaryHash=665edb25bf007b52 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_665edb25bf007b52 remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:01.038 INFO  DispatchCommandProcessor - summaryHash=NS3a366cb878c11710 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS3a366cb878c11710 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:01.038 INFO  DispatchThread - Getting summary ID for summaryHash=NS3a366cb878c11710
+03-25-2020 19:33:01.047 INFO  DispatchThread - Did not find a usable summary_id, setting info._summary_mode=none, not modifying input summary_id=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS3a366cb878c11710
+03-25-2020 19:33:01.048 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/pools \n| join type=outer stack_id splunk_server [rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id=stack_ids | fields splunk_server stack_id is_active] \n| search is_active=1 \n| fields splunk_server, stack_id, used_bytes \n| join type=outer stack_id splunk_server [rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields splunk_server stack_id stack_quota] \n| stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server \n| eval usedGB=round(used_bytes/1024/1024/1024,3) \n| eval totalGB=round(stack_quota/1024/1024/1024,3) \n| eval percentage=round(usedGB / totalGB, 3)*100 \n| fields splunk_server, percentage, usedGB, totalGB \n| where percentage > 90 \n| rename splunk_server AS Instance, percentage AS "License quota used (%)", usedGB AS "License quota used (GB)", totalGB as "Total license quota (GB)"
+03-25-2020 19:33:01.048 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.048 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.048 INFO  SortOperator - maxmem = 209715200
+03-25-2020 19:33:01.048 INFO  SearchParser - PARSING: rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields splunk_server stack_id stack_quota
+03-25-2020 19:33:01.048 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.049 INFO  SearchParser - PARSING: rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id=stack_ids | fields splunk_server stack_id is_active
+03-25-2020 19:33:01.049 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.049 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.049 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.001287842
+03-25-2020 19:33:01.050 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active]| search is_active=1 | fields + splunk_server, stack_id, used_bytes | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota] | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3) | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3) | eval percentage=(round((usedGB / totalGB),3) * 100) | fields + splunk_server, percentage, usedGB, totalGB | where (percentage > 90) | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)"
+03-25-2020 19:33:01.050 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active]| search is_active=1 | fields + splunk_server, stack_id, used_bytes | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota] | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3) | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3) | eval percentage=(round((usedGB / totalGB),3) * 100) | fields + splunk_server, percentage, usedGB, totalGB | where (percentage > 90) | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)"
+03-25-2020 19:33:01.050 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.050 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.051 INFO  SortOperator - maxmem = 209715200
+03-25-2020 19:33:01.051 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.051 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.051 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.051 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.051 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.051 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.001022483
+03-25-2020 19:33:01.052 INFO  AstOptimizer - Will only run the following branching command specific optimizations=[replace_append_with_union merge_union]
+03-25-2020 19:33:01.053 INFO  AstOptimizer - Branch optimization had no effect
+03-25-2020 19:33:01.053 INFO  AstOptimizer - SrchOptMetrics optimization=0.003352113
+03-25-2020 19:33:01.053 INFO  SearchPhaseGenerator - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active]| search is_active=1 | fields + splunk_server, stack_id, used_bytes | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota] | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3) | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3) | eval percentage=(round((usedGB / totalGB),3) * 100) | fields + splunk_server, percentage, usedGB, totalGB | where (percentage > 90) | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)"
+03-25-2020 19:33:01.054 INFO  PhaseToPipelineVisitor - Phase Search =  | rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active]| search is_active=1 | fields + splunk_server, stack_id, used_bytes | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota] | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3) | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3) | eval percentage=(round((usedGB / totalGB),3) * 100) | fields + splunk_server, percentage, usedGB, totalGB | where (percentage > 90) | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)"
+03-25-2020 19:33:01.054 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active]| search is_active=1 | fields + splunk_server, stack_id, used_bytes | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota] | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3) | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3) | eval percentage=(round((usedGB / totalGB),3) * 100) | fields + splunk_server, percentage, usedGB, totalGB | where (percentage > 90) | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)"
+03-25-2020 19:33:01.054 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.055 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:01.057 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.057 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.058 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.058 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.058 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.058 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.058 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.058 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.058 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.058 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.058 INFO  DispatchThread - Getting summary ID for summaryHash=NSc878de13c19bab4b
+03-25-2020 19:33:01.058 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:01.058 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.000584109
+03-25-2020 19:33:01.058 INFO  AstOptimizer - Original Search =  | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.058 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.058 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.058 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.058 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000298414
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING:  | eval stack_id=stack_ids
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING: | search is_active=1
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups
+03-25-2020 19:33:01.059 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:01.059 INFO  AstOptimizer - SrchOptMetrics optimization=0.000381188
+03-25-2020 19:33:01.059 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.059 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000062796
+03-25-2020 19:33:01.059 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.059 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.059 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.059 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.059 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.060 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.060 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.060 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.061 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:01.061 INFO  DispatchThread - SrchOptMetrics FinalEval=0.001491719
+03-25-2020 19:33:01.061 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.061 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.061 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.061 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.061 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.061 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.061 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.061 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.061 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.062 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.063 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.3/runtime.csv does not exist
+03-25-2020 19:33:01.063 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.063 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.063 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.063 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.063 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.066 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.072 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.073 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.073 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.073 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.073 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.3', username='splunk-system-user')
+03-25-2020 19:33:01.074 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.075 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:01.077 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.077 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.077 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.078 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.078 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.078 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.078 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.078 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.078 INFO  DispatchThread - Getting summary ID for summaryHash=NS861c7f36d79351a0
+03-25-2020 19:33:01.078 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:01.078 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.000465672
+03-25-2020 19:33:01.078 INFO  AstOptimizer - Original Search =  | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.078 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.078 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000129380
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING:  | eval stack_quota=quota
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING:  | eval stack_id=title
+03-25-2020 19:33:01.078 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks
+03-25-2020 19:33:01.078 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:01.079 INFO  AstOptimizer - SrchOptMetrics optimization=0.000322068
+03-25-2020 19:33:01.079 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.079 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.079 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000083974
+03-25-2020 19:33:01.079 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.079 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.079 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.079 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.079 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.079 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.079 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.080 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:01.080 INFO  DispatchThread - SrchOptMetrics FinalEval=0.001386573
+03-25-2020 19:33:01.080 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.080 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.080 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.080 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.080 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.080 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.080 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.081 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.081 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.082 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.082 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.082 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.082 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.082 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.082 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.082 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.082 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.082 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.082 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.4/runtime.csv does not exist
+03-25-2020 19:33:01.082 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.082 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:01.082 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.082 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.082 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.082 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.083 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.083 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.083 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.083 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.083 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.083 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.083 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.083 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.086 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.091 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.092 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.092 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.092 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.092 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.4', username='splunk-system-user')
+03-25-2020 19:33:01.093 INFO  SortOperator - maxmem = 209715200
+03-25-2020 19:33:01.093 INFO  SearchPipeline - ReportSearch=1 AllowBatchMode=0
+03-25-2020 19:33:01.094 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:01.094 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - Disabling timeliner since source is not an event index
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - Disabling timeliner since event search is empty
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - No need for RTWindowProcessor
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - Timeliner will not be executed
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - required fields list to add to different pipelines = *
+03-25-2020 19:33:01.094 INFO  SearchPhaseGenerator - Search Phases created.
+03-25-2020 19:33:01.095 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.095 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.095 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:01.095 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.095 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.095 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.095 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.095 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.096 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  SearchPhaseGenerator - Adding noop to provide result collation at search head
+03-25-2020 19:33:01.097 INFO  SearchParser - PARSING: noop
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  SearchParser - PARSING: | streamnoop
+03-25-2020 19:33:01.097 INFO  SearchParser - PARSING: streamnoop  | rest splunk_server_group=dmc_group_license_master /services/licenser/pools  | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active] | search is_active=1  | fields + splunk_server, stack_id, used_bytes  | join max=1 overwrite=1 type=outer usetime=0 splunk_server,stack_id [ | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota]  | stats sum(used_bytes) as used_bytes max(stack_quota) as stack_quota by splunk_server  | eval usedGB=round((((used_bytes / 1024) / 1024) / 1024),3)  | eval totalGB=round((((stack_quota / 1024) / 1024) / 1024),3)  | eval percentage=(round((usedGB / totalGB),3) * 100)  | fields + splunk_server, percentage, usedGB, totalGB  | where (percentage > 90)  | rename percentage as "License quota used (%)", splunk_server as Instance, totalGB as "Total license quota (GB)", usedGB as "License quota used (GB)" | noop 
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.097 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.097 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/pools?count=0"
+03-25-2020 19:33:01.098 INFO  SearchOperator:rest - built uri=/services/licenser/pools?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.098 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.098 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.098 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.098 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.098 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.098 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.099 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.119 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.119 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.119 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.119 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.119 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.119 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.119 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.120 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.120 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.120 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.120 INFO  DispatchThread - Getting summary ID for summaryHash=NSc878de13c19bab4b
+03-25-2020 19:33:01.120 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:01.120 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.000722795
+03-25-2020 19:33:01.120 INFO  AstOptimizer - Original Search =  | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.120 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.120 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.120 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.120 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000278355
+03-25-2020 19:33:01.120 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.120 INFO  SearchParser - PARSING:  | eval stack_id=stack_ids
+03-25-2020 19:33:01.120 INFO  SearchParser - PARSING: | search is_active=1
+03-25-2020 19:33:01.120 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups
+03-25-2020 19:33:01.121 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:01.121 INFO  AstOptimizer - SrchOptMetrics optimization=0.000466430
+03-25-2020 19:33:01.121 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.121 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/groups| search is_active=1 | eval stack_id=stack_ids | fields + splunk_server, stack_id, is_active
+03-25-2020 19:33:01.121 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000078257
+03-25-2020 19:33:01.121 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.121 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.121 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.121 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.121 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.121 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.121 INFO  DispatchCommandProcessor - summaryHash=54e7549fbc0b006e summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_54e7549fbc0b006e remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.121 INFO  DispatchCommandProcessor - summaryHash=NSc878de13c19bab4b summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NSc878de13c19bab4b remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.132 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:01.132 INFO  DispatchThread - SrchOptMetrics FinalEval=0.011286123
+03-25-2020 19:33:01.132 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.132 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.132 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.132 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.133 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.133 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.133 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.134 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.134 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.5/runtime.csv does not exist
+03-25-2020 19:33:01.134 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:01.134 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.134 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.134 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.134 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.135 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/groups?count=0"
+03-25-2020 19:33:01.135 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  SearchOperator:rest - built uri=/services/licenser/groups?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.135 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.135 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.135 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.135 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.135 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.138 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.182 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.193 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.193 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.193 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.194 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.5', username='splunk-system-user')
+03-25-2020 19:33:01.199 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.208 INFO  ISplunkDispatch - Not running in splunkd. Bundle replication not triggered.
+03-25-2020 19:33:01.235 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.235 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.235 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.235 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.235 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.235 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.235 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.235 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.236 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.236 INFO  DispatchThread - Getting summary ID for summaryHash=NS861c7f36d79351a0
+03-25-2020 19:33:01.236 INFO  DispatchThread - Matches no summary
+03-25-2020 19:33:01.236 INFO  DispatchThread - SrchOptMetrics check_query_matches_ra=0.000733156
+03-25-2020 19:33:01.236 INFO  AstOptimizer - Original Search =  | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING:  | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title | eval stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.236 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.236 INFO  AstOptimizer - SrchOptMetrics optimize_toJson=0.000136012
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING:  | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING:  | eval stack_quota=quota
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING:  | eval stack_id=title
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks
+03-25-2020 19:33:01.236 INFO  ProjElim - Black listed processors=[addinfo]
+03-25-2020 19:33:01.236 INFO  AstOptimizer - SrchOptMetrics optimization=0.000355158
+03-25-2020 19:33:01.236 INFO  AstOptimizer - Optimized Search = | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING: | rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id=title, stack_quota=quota | fields + splunk_server, stack_id, stack_quota
+03-25-2020 19:33:01.236 INFO  DispatchThread - SrchOptMetrics reparse_optimized_query=0.000058944
+03-25-2020 19:33:01.236 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.236 INFO  SearchParser - PARSING: prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.237 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.237 INFO  DispatchThread - BatchMode: allowBatchMode: 1, conf(1): 1, timeline/Status buckets(0):0, realtime(0):0, report pipe empty(0):0, reqTimeOrder(0):0, summarize(0):0, statefulStreaming(0):0
+03-25-2020 19:33:01.237 INFO  DispatchThread - required fields list to add to remote search = *
+03-25-2020 19:33:01.237 INFO  DispatchCommandProcessor - summaryHash=3715e1b006baae6f summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_3715e1b006baae6f remoteSearch=prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.237 INFO  DispatchCommandProcessor - summaryHash=NS861c7f36d79351a0 summaryId=D3EF2C1D-BF4D-4D80-BAF3-75A79C4403BD_splunk_monitoring_console_nobody_NS861c7f36d79351a0 remoteSearch=prerest splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.248 INFO  DispatchThread - Setting summary_mode=NONE after optimization
+03-25-2020 19:33:01.248 INFO  DispatchThread - SrchOptMetrics FinalEval=0.011808087
+03-25-2020 19:33:01.248 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.248 INFO  UserManager - Done setting user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.248 INFO  UserManager - Unwound user context: splunk-system-user -> splunk-system-user
+03-25-2020 19:33:01.248 INFO  DistributedSearchResultCollectionManager - Stream search: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.248 INFO  ExternalResultProvider - No external result providers are configured
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - ERP_FACTORY initialized, but zero external result provider, hence disabling _isERPCollectionEnabled
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Default search group:dmc_group_indexer
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:USRLSPLNKIDX002 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'USRLSPLNKIDX002' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx001 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx001' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx003 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx003' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx004 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx004' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx005 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx005' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx006 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx006' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx007 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx007' because it has been optimized out. 
+03-25-2020 19:33:01.249 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx008 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.249 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx008' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx009 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx009' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx010 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx010' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx011 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx011' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx012 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx012' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  SearchTargeter - Not connecting to peer:usrlsplnkidx013 because none of it's groups match :^dmc_group_license_master$
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Not connecting to peer 'usrlsplnkidx013' because it has been optimized out. 
+03-25-2020 19:33:01.250 INFO  DistributedSearchResultCollectionManager - Connecting to peer usrlsplunkmstidx connectAll 0 connectToSpecificPeer 1
+03-25-2020 19:33:01.250 INFO  DispatchThread - Error reading runtime settings: File :/home/splunker/splunk/var/run/splunk/dispatch/subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.6/runtime.csv does not exist
+03-25-2020 19:33:01.250 INFO  DispatchThread - Disk quota = 10485760000
+03-25-2020 19:33:01.250 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.250 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.250 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.250 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.250 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.250 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.251 INFO  SearchParser - PARSING: prerest  splunk_server_group="dmc_group_license_master" timeout=60 "/services/licenser/stacks?count=0"
+03-25-2020 19:33:01.251 INFO  SearchOperator:rest - built uri=/services/licenser/stacks?count=0, server=https://127.0.0.1:8089
+03-25-2020 19:33:01.251 INFO  LocalCollector - Final required fields list = *
+03-25-2020 19:33:01.251 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.251 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.251 INFO  SearchOperator:rest - in RestProcessor::execute
+03-25-2020 19:33:01.250 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.251 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.252 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.252 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.252 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.252 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.253 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.253 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.293 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.305 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.305 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.305 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.305 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='subsearch_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711_1585182781.6', username='splunk-system-user')
+03-25-2020 19:33:01.309 INFO  SortOperator - maxmem = 209715200
+03-25-2020 19:33:01.309 INFO  SearchOrchestrator - Starting the status control thread.
+03-25-2020 19:33:01.309 INFO  SearchOrchestrator - Starting phase=1
+03-25-2020 19:33:01.310 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.310 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.310 INFO  UserManager - Setting user context: splunk-system-user
+03-25-2020 19:33:01.310 INFO  UserManager - Done setting user context: NULL -> splunk-system-user
+03-25-2020 19:33:01.310 INFO  SearchStatusEnforcer - Enforcing disk quota = 10485760000
+03-25-2020 19:33:01.310 INFO  ReducePhaseExecutor - Stating phase_1
+03-25-2020 19:33:01.310 INFO  PreviewExecutor - Preview Enforcing initialization done
+03-25-2020 19:33:01.310 INFO  DispatchExecutor - BEGIN OPEN: Processor=rest
+03-25-2020 19:33:01.310 INFO  DispatchExecutor - END OPEN: Processor=rest
+03-25-2020 19:33:01.310 INFO  DispatchExecutor - BEGIN OPEN: Processor=stats
+03-25-2020 19:33:01.310 INFO  DispatchExecutor - END OPEN: Processor=stats
+03-25-2020 19:33:01.311 INFO  DispatchExecutor - BEGIN OPEN: Processor=noop
+03-25-2020 19:33:01.311 INFO  DispatchExecutor - END OPEN: Processor=noop
+03-25-2020 19:33:01.322 INFO  SearchParser - PARSING: stats count AS query| search query > 0
+03-25-2020 19:33:01.323 INFO  StatsProcessor - No group-by fields specified, incompatible for high cardinality improvements
+03-25-2020 19:33:01.323 INFO  UnifiedSearch - Processed search targeting arguments
+03-25-2020 19:33:01.327 INFO  ReducePhaseExecutor - Ending phase_1
+03-25-2020 19:33:01.327 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.327 INFO  DispatchManager - DispatchManager::dispatchHasFinished(id='scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544e6bdae8b4cae07_at_1585182780_711', username='splunk-system-user')
+03-25-2020 19:33:01.328 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.337 INFO  UserManager - Unwound user context: splunk-system-user -> NULL
+03-25-2020 19:33:01.338 INFO  UserManager - Unwound user context: splunk-system-user -> NULL

@@ -1,0 +1,183 @@
+<setup>
+    <block title="Global Settings" endpoint="was_input_setup/was_global_settings" entity="was_global_settings">
+        <input field="was_install_dir">
+            <label>WebSphere Application Server installation directory (for example, /opt/IBM/WebSphere).</label>
+            <type>text</type>
+        </input>
+        <input field="index">
+            <label>Index in which to store data. Default is main.</label>
+            <type>text</type>
+        </input>
+        <input field="log_level">
+            <label>Log level.</label>
+            <type>text</type>
+        </input>
+    </block>
+    <block title="HPEL Settings" endpoint="was_input_setup/was_hpel_settings" entity="was_hpel_settings">
+        <input field="hpel_collection_enabled" old_style_disable="true">
+            <label>Enable HPEL data collection. Note: After saving this setup page, go to Settings > Data inputs to enable the input.</label>
+            <type>bool</type>
+        </input>
+        <input field="excluded_profiles">
+            <label>Profiles to exclude from HPEL data collection separated by commas (for example, MyProfile.*,OtherProfile).</label>
+            <type>text</type>
+        </input>
+        <input field="start_date">
+            <label>HPEL logs start date (UTC) in "MM/dd/yy H:m:s:S" format. (for example, 6/29/15 00:00:00:000). Default is 1 day ago.</label>
+            <type>text</type>
+        </input>
+        <input field="level">
+            <label>HPEL log level. Logs which equal this level will be collected. This option will override the min/max log levels.</label>
+            <type>text</type>
+        </input>
+        <input field="min_level">
+            <label>HPEL min log level. Logs which are equal to or above this level will be collected. FINEST is the lowest level.</label>
+            <type>text</type>
+        </input>
+        <input field="max_level">
+            <label>HPEL max log level. Logs which are equal to or below this level will be collected. FATAL is the highest level.</label>
+            <type>text</type>
+        </input>
+        <input field="duration">
+            <label>HPEL log collection interval in seconds.</label>
+            <type>integer</type>
+        </input>
+    </block>
+    <block title="File monitor settings" endpoint="was_input_setup/was_file_monitor_settings" entity="was_file_monitor_settings">
+        <input field="was_file_monitor_enabled" old_style_disable="true">
+            <label>Enable data collection from WAS log files.</label>
+            <type>bool</type>
+        </input>
+        <input field="file_whitelist">
+            <label>The whitelist of log files to be monitored.</label>
+            <type>text</type>
+        </input>
+        <input field="exclude_dirs">
+            <label>The directories to exclude from monitoring, separated by commas (e.g. cell.*,myprofile).</label>
+            <type>text</type>
+        </input>
+        <input field="gen_msg">
+            <label> </label>
+            <type>text</type>
+        </input>
+        <text>
+            <![CDATA[ <script type="text/javascript">
+            $(function() {
+                $(document).ready(function() {
+                require(["splunk.util"], function(splunkdUtils){
+                    var msg_input = $("#\\/was_input_setup\\/was_file_monitor_settings\\/was_file_monitor_settings\\/gen_msg_id");
+                    msg_input.hide();
+
+                    var hpel_check_box = $("#item-\\/was_input_setup\\/was_hpel_settings\\/was_hpel_settings\\/hpel_collection_enabled");
+                    var hpel_box_tags = ["excluded_profiles", "start_date", "level", "min_level", "max_level", "duration"];
+                    var hpel_boxes = [];
+                    for (var i = 0; i < hpel_box_tags.length; i++) {
+                        var box = $("#item-\\/was_input_setup\\/was_hpel_settings\\/was_hpel_settings\\/" + hpel_box_tags[i]);
+                        hpel_boxes.push(box);
+                    }
+
+                    var show_hide_hpel = function() {
+                        var checked = $("#\\/was_input_setup\\/was_hpel_settings\\/was_hpel_settings\\/hpel_collection_enabled_id")[0].checked;
+                        for (var i = 0; i < hpel_boxes.length; i++) {
+                            if (checked) {
+                                hpel_boxes[i].show();
+                            } else {
+                                hpel_boxes[i].hide();
+                            }
+                        }
+                    };
+                    show_hide_hpel();
+                    hpel_check_box.on("change", show_hide_hpel);
+
+                    var fm_check_box = $("#item-\\/was_input_setup\\/was_file_monitor_settings\\/was_file_monitor_settings\\/was_file_monitor_enabled");
+                    var fm_box_tags = ["file_whitelist", "exclude_dirs", "gen_msg"];
+                    var fm_boxes = [];
+                    for (var i = 0; i < fm_box_tags.length; i++) {
+                        var box = $("#item-\\/was_input_setup\\/was_file_monitor_settings\\/was_file_monitor_settings\\/" + fm_box_tags[i]);
+                        fm_boxes.push(box);
+                    }
+
+                    var show_hide_fm = function() {
+                        var checked = $("#\\/was_input_setup\\/was_file_monitor_settings\\/was_file_monitor_settings\\/was_file_monitor_enabled_id")[0].checked;
+                        for (var i = 0; i < fm_boxes.length; i++) {
+                            if (checked) {
+                                fm_boxes[i].show();
+
+                            } else {
+                                fm_boxes[i].hide();
+                            }
+                        }
+
+                        var gen_msg_label = $("label[for='/was_input_setup/was_file_monitor_settings/was_file_monitor_settings/gen_msg_id']");
+                        gen_msg_label.hide()
+                        gen_msg_label.text(msg_input[0].value);
+                        if (checked) {
+                            var failed_keys = ["error", "Error", "Fail", "fail", "Warning", "warning"];
+                            var idx = 0;
+                            for (idx = 0; idx < failed_keys.length; idx++) {
+                                if (msg_input[0].value.indexOf(failed_keys[idx]) >= 0) {
+                                    gen_msg_label.css("color", "red");
+                                    break;
+                                }
+                            }
+
+                            if (idx == failed_keys.length) {
+                                gen_msg_label.css("color", "green");
+                            }
+                            gen_msg_label.css("font-weight","Bold");
+                            gen_msg_label.hide();
+                        } else {
+                            gen_msg_label.hide();
+                        }
+                    };
+                    show_hide_fm();
+                    fm_check_box.on("change", show_hide_fm);
+
+                    $("#item-\\/was_input_setup\\/was_file_monitor_settings\\/was_file_monitor_settings\\/file_whitelist").addClass("splunk-components")
+                    var content = $("label[for='/was_input_setup/was_file_monitor_settings/was_file_monitor_settings/file_whitelist_id']").html();
+                    var helpLink = splunkdUtils.make_url("help") + "?location=app.was.whitelist";
+                    $("label[for='/was_input_setup/was_file_monitor_settings/was_file_monitor_settings/file_whitelist_id']").html(content + '<a class="external" target="_blank" href="'+helpLink+'">Learn more</a>');
+
+                    // log level dropdown
+                    var setup_logging_level = function (loglevel_dp_id, loglevels, loglevel_dropdown) {
+                        var loglevel = $(loglevel_dp_id);
+                        var current_level = loglevel.val();
+                        var index = loglevels.indexOf(current_level);
+                        if (index > -1) {
+                            loglevels.splice(index, 1);
+                        }
+
+                        var options = '<option selected="selected" value="' + current_level + '">' + current_level + '</option>';
+                        for (var i = 0; i < loglevels.length; i++) {
+                            options += '<option value="' + loglevels[i] + '">' + loglevels[i] + '</option>';
+                        }
+
+                        loglevel.parent().after('<br/><select id="' + loglevel_dropdown + '">' + options + '</select>');
+                        loglevel.parent().hide();
+                        $("#" + loglevel_dropdown).on("change", function() {
+                           var new_select = $("#" + loglevel_dropdown);
+                           var loglevel = $(loglevel_dp_id);
+                           loglevel.val(new_select.val());
+                        });
+                    };
+
+                    var loglevel_id = "#\\/was_input_setup\\/was_global_settings\\/was_global_settings\\/log_level_id";
+                    var loglevels = ["DEBUG", "INFO", "ERROR"];
+                    setup_logging_level(loglevel_id, loglevels, "loglevel_dropdown");
+
+                    var hpel_loglevels = ["FINEST", "FINER", "FINE", "DETAIL", "CONFIG", "INFO", "AUDIT", "WARNING", "SEVERE", "FATAL"];
+                    var hpel_loglevel_tags = ["min_level_id", "max_level_id"];
+                    for (var i = 0; i < hpel_loglevel_tags.length; i++) {
+                        var log_id = "#\\/was_input_setup\\/was_hpel_settings\\/was_hpel_settings\\/" + hpel_loglevel_tags[i];
+                        setup_logging_level(log_id, hpel_loglevels, "loglevel_" + hpel_loglevel_tags[i]);
+                    }
+                    hpel_loglevels = ["", "FINEST", "FINER", "FINE", "DETAIL", "CONFIG", "INFO", "AUDIT", "WARNING", "SEVERE", "FATAL"];
+                    var log_id = "#\\/was_input_setup\\/was_hpel_settings\\/was_hpel_settings\\/" + "level_id";
+                    setup_logging_level(log_id, hpel_loglevels, "loglevel_level_id");
+                    });
+                });
+            });
+            </script> ]]>
+        </text>
+    </block>
+</setup>

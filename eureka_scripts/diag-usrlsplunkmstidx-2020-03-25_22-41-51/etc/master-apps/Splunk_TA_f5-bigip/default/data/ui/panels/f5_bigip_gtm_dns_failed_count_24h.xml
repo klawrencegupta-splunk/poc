@@ -1,0 +1,30 @@
+<panel>
+  <title>F5 BIG-IP GTM - DNS Failed Count (Top 20 in Past 24 Hours)</title>
+    <chart>
+    <search>
+      <query>(sourcetype="f5_bigip:irule:dns:response" OR sourcetype="f5:bigip:gtm:dns:response:irule") earliest=-1d is_wideip=0  | stats count(question_name) as "Request Count" by question_name | rename question_name as "Domain Name" | sort - "Request Count" | head 20</query>
+      <earliest>0</earliest>
+    </search>
+    <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+    <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+    <option name="charting.axisTitleX.visibility">visible</option>
+    <option name="charting.axisTitleY.visibility">visible</option>
+    <option name="charting.axisTitleY2.visibility">visible</option>
+    <option name="charting.axisX.scale">linear</option>
+    <option name="charting.axisY.scale">linear</option>
+    <option name="charting.axisY2.enabled">false</option>
+    <option name="charting.axisY2.scale">inherit</option>
+    <option name="charting.chart">column</option>
+    <option name="charting.chart.bubbleMaximumSize">50</option>
+    <option name="charting.chart.bubbleMinimumSize">10</option>
+    <option name="charting.chart.bubbleSizeBy">area</option>
+    <option name="charting.chart.nullValueMode">zero</option>
+    <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+    <option name="charting.chart.stackMode">default</option>
+    <option name="charting.chart.style">shiny</option>
+    <option name="charting.drilldown">all</option>
+    <option name="charting.layout.splitSeries">0</option>
+    <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+    <option name="charting.legend.placement">right</option>
+  </chart>
+</panel>

@@ -1,0 +1,30 @@
+<panel>
+      <title>F5 BIG-IP APM - Active Session Count in Last 24H</title>
+      <chart>
+        <search>
+          <query>sourcetype="f5:bigip:apm:syslog" ((": New session from client IP") OR (": Session deleted due to")) earliest =-1d | transaction session_id startswith=": New session from client IP" endswith=": Session deleted due to" keepevicted=true | search ": New session from client IP" | multikv noheader=true | rex field=_raw "(?&lt;new_time_raw&gt;^[A-Za-z]{3,10}\s+\d{1,2}\s+\d{1,2}:\d{1,2}:\d{1,2})" | eval _time= strptime(new_time_raw, "%b %d %X") | rex field=_raw "(?&lt;session_status&gt;(: New session from client IP)|(: Session deleted due to))" | eval count_session=case(session_status==": New session from client IP",1,session_status==": Session deleted due to",-1) | sort +_time | timechart span=2min sum(count_session) as count_sum | streamstats sum(count_sum) as "Active Session Count"| table _time,"Active Session Count"</query>
+          <earliest>0</earliest>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.enabled">false</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.placement">right</option>
+      </chart>
+</panel>

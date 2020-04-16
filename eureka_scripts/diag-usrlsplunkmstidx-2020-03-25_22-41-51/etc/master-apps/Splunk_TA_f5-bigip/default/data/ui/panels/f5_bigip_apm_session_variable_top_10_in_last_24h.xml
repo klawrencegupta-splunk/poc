@@ -1,0 +1,14 @@
+<panel>
+  <title>F5 BIG-IP APM - Session Variable Top 10 in Last 24H</title>
+  <table>
+    <search>
+      <query>sourcetype="f5:bigip:apm:syslog" session_var_name!="" earliest=-1d | stats count by session_var_name| rename session_var_name AS "Session Variable Name" | rename count AS "Count" | sort -"Count" | head 10</query>
+      <earliest>0</earliest>
+    </search>
+    <option name="wrap">true</option>
+    <option name="rowNumbers">false</option>
+    <option name="dataOverlayMode">none</option>
+    <option name="drilldown">cell</option>
+    <option name="count">10</option>
+  </table>
+</panel>

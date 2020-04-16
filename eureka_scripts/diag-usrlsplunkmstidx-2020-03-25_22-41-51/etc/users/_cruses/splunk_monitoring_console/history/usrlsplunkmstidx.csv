@@ -1,0 +1,679 @@
+sid,search,"splunk_server","_time","is_realtime",provenance,"event_count","exec_time","result_count","savedsearch_name","scan_count",status,"total_run_time","search_et","search_lt","api_et","api_lt","__mv_sid","__mv_search","__mv_splunk_server","__mv__time","__mv_is_realtime","__mv_provenance","__mv_event_count","__mv_exec_time","__mv_result_count","__mv_savedsearch_name","__mv_scan_count","__mv_status","__mv_total_run_time","__mv_search_et","__mv_search_lt","__mv_api_et","__mv_api_lt"
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550176854.6","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550176854.108950",0,splunkjs,0,1550176854,1,"manager_7374",0,completed,"0.012",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550176854.7","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550176854.111259",0,splunkjs,0,1550176857,4,"manager_7434",0,completed,"1.355",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550176854.9","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550176854.184494",0,splunkjs,0,1550176854,203,"manager_7604",0,completed,"0.279",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550176854.10","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550176854.235812",0,splunkjs,0,1550176856,0,"manager_7704",0,completed,"1.155",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550176854.12","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550176854.277223",0,splunkjs,0,1550176856,1,"manager_7764",0,completed,"1.1260000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550176854.13","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550176854.311555",0,splunkjs,0,1550176854,9,"manager_7948",0,completed,"0.597",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550176854.14","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550176854.342068",0,splunkjs,0,1550176854,1,"manager_7884",0,completed,"0.592",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550176854.15","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550176854.541262",0,splunkjs,0,1550176855,13,"manager_8019",0,completed,"0.74",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550176854.16","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550176854.566986",0,splunkjs,0,1550176855,4,"manager_8113",0,completed,"1.524",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550176854.17","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550176854.661014",0,splunkjs,0,1550176855,4,"manager_8174",0,completed,"1.068",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550176854.18","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550176854.664904",0,splunkjs,0,1550176855,1,"manager_8235",0,completed,"0.6960000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550176854.19","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550176854.948315",0,splunkjs,0,1550176855,13,"manager_8296",0,completed,"0.47600000000000003",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550176855.20","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550176855.002150",0,splunkjs,0,1550176855,1,"manager_8357",0,completed,"0.292",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550176855.21","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550176855.077271",0,splunkjs,0,1550176857,0,"alerts-fired-search",0,completed,"0.9430000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5005d04be2c3b4490_1550176914.22","search `dmc_set_index_internal` splunk_server_group=* search_group=dmc_group_indexer earliest=-60m (source=*splunkd.log* (component=AggregatorMiningProcessor OR component= LineBreakingProcessor OR component=DateParserVerbose) (log_level=WARN OR log_level=ERROR)) OR (source=*metrics.log* group=thruput name=index_thruput) 
+| stats sum(eval(round(ev,0))) AS event_count count(eval(component==""AggregatorMiningProcessor"")) AS aggregation_issues count(eval(component==""LineBreakingProcessor"")) AS line_breaking_issues count(eval(component==""DateParserVerbose"")) AS date_parsing_issues by host 
+| eval crap_score = round((aggregation_issues + line_breaking_issues + date_parsing_issues) / event_count * 1000, 3) 
+| eval severity_level = case(crap_score == 0, 0, crap_score > 0 AND crap_score < 1, 1, True(), 2) 
+| rename host AS instance 
+| fields - crap_score",usrlsplunkmstidx,"1550176914.926860",0,splunkjs,0,1550176915,0,"manager_8123",134,completed,"2.015","1550173314.000000000","1550176915.076325000",,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5469030520689e79c_1550176916.23","| rest splunk_server_group=* splunk_server_group=dmc_group_license_master /services/licenser/licenses 
+| join type=outer group_id splunk_server [ 
+    rest splunk_server_group=* splunk_server_group=dmc_group_license_master /services/licenser/groups 
+    | where is_active = 1 
+    | rename title AS group_id 
+    | fields is_active group_id splunk_server] 
+| where is_active = 1 
+| eval days_left = floor((expiration_time - now()) / 86400) 
+| where NOT (quota = 1048576 OR label == ""Splunk Enterprise Reset Warnings"" OR label == ""Splunk Lite Reset Warnings"") 
+| eval status = case(days_left >= 14, days_left."" days left"", days_left < 14 AND days_left >= 0, ""Expires soon: "".days_left."" days left"", days_left < 0, ""Expired"") 
+| eval size_gb = round(quota/1024/1024/1024,3) 
+| fields splunk_server label license_hash size_gb days_left status 
+| eval license_info = label."" (size = "".size_gb."" GB ; hash = "".license_hash."") - "".status 
+| eval severity_level = case(days_left >= 14, 0, days_left < 14 AND days_left >= 0, 2, days_left < 0, 3) 
+| stats values(license_info) AS license_information max(severity_level) AS severity_level by splunk_server 
+| rename splunk_server AS instance",usrlsplunkmstidx,"1550176916.550908",0,splunkjs,0,1550176916,0,"manager_8147",0,completed,"0.027",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5732a607343c64a81_1550176917.24","| rest splunk_server_group=* splunk_server_group=dmc_group_indexer /services/server/introspection/indexer 
+| fields splunk_server, status, reason 
+| eval severity_level = if(status == ""normal"", 0, 2) 
+| rename splunk_server as instance",usrlsplunkmstidx,"1550176917.731292",0,splunkjs,0,1550176917,4,"manager_8159",0,completed,"0.124",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD507457d9ee972a9f7_1550176918.25","| rest splunk_server_group=* splunk_server_group=dmc_group_license_master /services/licenser/slaves 
+| join type=outer splunk_server [rest splunk_server_group=* /services/server/info | fields version, splunk_server] 
+| fields label splunk_server version warning_count 
+| eval in_violation = if(warning_count >= 5, 1, 0) 
+| eval severity_level = case(in_violation == 1, 3, warning_count > 0 AND warning_count < 5, 2, warning_count == 0, 0) 
+| rename label AS instance splunk_server AS license_master version AS ""license_master version"" warning_count AS ""warning_count (current / limit)"" 
+| fieldformat warning_count (current / limit) = 'warning_count (current / limit)'."" / 5"" 
+| fields - _timediff",usrlsplunkmstidx,"1550176918.993458",0,splunkjs,0,1550176919,0,"manager_8195",0,completed,"0.042",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a977c1d80dc98839_1550176919.26","| rest splunk_server_group=* /services/server/info 
+| fields splunk_server isForwarding server_roles 
+| where (server_roles==""search_head"" OR server_roles==""cluster_master"" OR server_roles==""license_master"" OR server_roles==""shc_deployer"" OR server_roles==""deployment_server"" OR isNull(server_roles)) 
+| eval severity_level = case( isForwarding==1, 0, isForwarding == 0, 2, true(), -1) 
+| rename splunk_server AS instance",usrlsplunkmstidx,"1550176919.997727",0,splunkjs,0,1550176920,1,"manager_8219",0,completed,"0.027",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5528ae8f4a1aeb7de_1550176921.27","| inputlookup dmc_forwarder_assets 
+| stats count AS forwarder_count by status 
+| eval severity_level = case(status==""active"", 0, status==""missing"", 2, true(), -1) 
+| eventstats max(severity_level) AS max_severity_level 
+| where severity_level = max_severity_level 
+| fields status forwarder_count severity_level",usrlsplunkmstidx,"1550176921.265961",0,splunkjs,0,1550176921,0,"manager_8231",0,completed,"0.007",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD52d5ee07b80bf96bf_1550176922.28","| rest splunk_server_group=* /services/server/introspection/queues 
+| search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue* 
+| eval fill_perc = round(current_size_bytes / max_size_bytes * 100,2) 
+| rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?"" 
+| fields splunk_server fill_perc queue_name pipeline_number 
+| eval severity_level = if( fill_perc > 90, 2, 0) 
+| eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc) 
+| chart values(fill_perc) AS fill_perc max(severity_level) AS severity_level over splunk_server by queue_name 
+| rename ""fill_perc: *"" AS * ""severity_level: *"" AS ""sev_*"" 
+| eval severity_level = max(sev_parsingQueue, sev_aggQueue, sev_typingQueue, sev_indexQueue) 
+| fields splunk_server severity_level parsingQueue aggQueue typingQueue indexQueue 
+| rename splunk_server AS instance parsingQueue as ""Parsing Queue Fill Ratio (%)"", aggQueue as ""Aggregation Queue Fill Ratio (%)"", ""typingQueue"" as ""Typing Queue Fill Ratio (%)"", indexQueue as ""Indexing Queue Fill Ratio (%)""",usrlsplunkmstidx,"1550176922.276226",0,splunkjs,0,1550176922,4,"manager_8267",0,completed,"0.036000000000000004",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5ac098f9cf15dc1b7_1550176923.29","| rest splunk_server_group=* splunk_server_group=dmc_group_search_head /services/search/distributed/peers 
+| fields splunk_server peerName server_roles status status_details 
+| eval peer_health = case(status == ""Up"" AND isnull(status_details), ""optimal"", status != ""Down"" AND isnotnull(status_details), ""degraded"", status == ""Down"" , ""down"", status!= ""Up"" OR status != ""Down"", ""inconclusive"") 
+| stats count AS peer_count count(eval(peer_health == ""optimal"")) AS peer_count_optimal count(eval(peer_health == ""degraded"")) AS peer_count_degraded,  count(eval(peer_health == ""down"")) AS peer_count_down, count(eval(peer_health == ""inconclusive"")) AS peer_count_inconclusive, by splunk_server 
+| eval severity_level = case(peer_count_down > 0, 3, peer_count_degraded > 0, 2, peer_count_inconclusive > 0, 1, peer_count_optimal > 0, 0, True(), -1) 
+| rename splunk_server AS search_head",usrlsplunkmstidx,"1550176923.537162",0,splunkjs,0,1550176923,1,"manager_8111",0,completed,"0.037",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5f9db2363af417b15_1550176924.30","search earliest=-60m `dmc_set_index_internal` search_group=dmc_group_search_head sourcetype=scheduler (status=""completed"" OR status=""skipped"") 
+| stats count(eval(status==""completed"" OR status==""skipped"")) AS total_executions, count(eval(status==""skipped"")) AS skipped_executions by host 
+| eval skip_ratio = skipped_executions/total_executions * 100 
+| eval severity_level = case(skip_ratio == 0, 0, skip_ratio > 0, 2) 
+| eval skip_ratio = round(skip_ratio, 2).""%"" 
+| rename host AS instance 
+| fields instance total_executions skipped_executions skip_ratio severity_level",usrlsplunkmstidx,"1550176924.668991",0,splunkjs,0,1550176924,0,"manager_8279",663,completed,"2.0140000000000002","1550173324.000000000","1550176924.806117000",,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD52d8b39fb03f39030_1550176925.31","| rest splunk_server_group=* /services/server/status/resource-usage/hostwide 
+| eval percentage = round(mem_used/mem,3)*100 
+| eval severity_level = if(percentage >= 90, 2, 0) 
+| lookup local=true dmc_assets serverName AS splunk_server OUTPUT machine 
+| eval machine = mvdedup(machine) 
+| fields splunk_server, machine, mem_used, mem, percentage, severity_level 
+| rename splunk_server AS instance, mem AS ""Physical memory installed (MB)"", percentage AS ""Memory used (%)"", mem_used AS ""Memory used (MB)""",usrlsplunkmstidx,"1550176925.677333",0,splunkjs,0,1550176925,4,"manager_8135",0,completed,"0.043000000000000003",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53fba4b981ca60fdf_1550176926.32","| rest splunk_server_group=* /services/server/info 
+| join type=outer splunk_server [rest splunk_server_group=* /services/server/status/installed-file-integrity 
+    | fields splunk_server check_ready check_failures.* 
+    | untable splunk_server file_path check_result 
+    | replace ""check_failures.*"" WITH ""*"" IN file_path 
+    | eval check_ready = if(file_path == ""check_ready"", check_result, NULL) 
+    | eval file_path = if(file_path == ""check_ready"", NULL, file_path) 
+    | eval checker_not_working = if(file_path == ""fail"", check_result, NULL) 
+    | stats count(eval(isnotnull(file_path))) AS file_integrity_failures max(check_ready) AS check_ready first(checker_not_working) AS checker_not_working by splunk_server] 
+| fields splunk_server check_ready file_integrity_failures checker_not_working 
+| eval severity_level = case(check_ready != ""true"", -1, file_integrity_failures = 0, 0, isnull(file_integrity_failures), 1, checker_not_working == ""check_disabled"", 1, file_integrity_failures > 0, 2, True(), -1) 
+| eval file_integrity_failures = if(isnotnull(checker_not_working), checker_not_working, file_integrity_failures) 
+| eval file_integrity_failures = if(isnotnull(file_integrity_failures), file_integrity_failures, ""integrity check not available"") 
+| eval check_ready = if(isnotnull(check_ready), check_ready, ""integrity check not available"") 
+| rename splunk_server AS instance 
+| fields - checker_not_working _timediff",usrlsplunkmstidx,"1550176926.937387",0,splunkjs,0,1550176926,4,"manager_8171",0,completed,"0.268",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5efbe512196f96e95_1550176928.33","| rest splunk_server_group=* splunk_server_group=dmc_group_kv_store /services/server/info 
+| fields splunk_server kvStoreStatus 
+| eval severity_level = case(isNull(kvStoreStatus), -1, kvStoreStatus == ""ready"", 0, kvStoreStatus == ""disabled"" OR kvStoreStatus == ""starting"", 1, kvStoreStatus == ""failed"", 2) 
+| rename splunk_server AS instance",usrlsplunkmstidx,"1550176928.068753",0,splunkjs,0,1550176928,0,"manager_8183",0,completed,"0.006",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5942f726b474eed68_1550176929.34","| rest splunk_server_group=* /servicesNS/-/-/saved/searches add_orphan_field=yes count=0 
+| where disabled=0 AND is_scheduled=1 
+| stats count(eval(orphan=1)) AS orphaned_search_count by splunk_server 
+| eval severity_level = if(orphaned_search_count > 0, 3, 0) 
+| rename splunk_server AS instance",usrlsplunkmstidx,"1550176929.081492",0,splunkjs,0,1550176929,4,"manager_8255",0,completed,"0.18",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54f5d86f44c4fc901_1550176931.35","| rest splunk_server_group=* /services/properties/server/pooling/state 
+| where value=enabled 
+| eval shpooling = 1 
+| join type=outer splunk_server [rest splunk_server_group=* /services/server/info | fields version, splunk_server] 
+| stats max(shpooling) AS shpooling_state max(version) AS version by splunk_server 
+| fields splunk_server version shpooling_state 
+| eval severity_level = if(shpooling_state = 1 AND match(version,""^(6\.[234]|[7-9]\.)""), 1, 0) 
+| rename splunk_server AS instance 
+| fields - _timediff",usrlsplunkmstidx,"1550176931.531080",0,splunkjs,0,1550176931,0,"manager_8291",0,completed,"0.08700000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5dc0b4c82c1f2cbfd_1550176932.36","| rest splunk_server_group=* /services/server/info 
+| join type=outer splunk_server [rest splunk_server_group=* /services/server/sysinfo | fields splunk_server ulimits.data_segment_size ulimits.open_files ulimits.user_processes] 
+| eval ulimits.data_segment_size = if(isnotnull('ulimits.data_segment_size'), 'ulimits.data_segment_size', ""unavailable"") 
+| eval ulimits.open_files = if(isnotnull('ulimits.open_files'), 'ulimits.open_files', ""unavailable"") 
+| eval ulimits.user_processes = if(isnotnull('ulimits.user_processes'), 'ulimits.user_processes', ""unavailable"") 
+| eval sev_segment_size = case('ulimits.data_segment_size' == -1 OR 'ulimits.data_segment_size' >= 1073741824, 0, 'ulimits.data_segment_size' == ""unavailable"", -1, True(), 2) 
+| eval sev_open_files = case('ulimits.open_files' == -1 OR 'ulimits.open_files' >= 8192, 0, 'ulimits.open_files' == ""unavailable"", -1, True(), 2) 
+| eval sev_user_processes = case('ulimits.user_processes' == -1 OR 'ulimits.user_processes' >= 8192, 0, 'ulimits.user_processes' == ""unavailable"", -1, True(), 2) 
+| eval severity_level = max(sev_segment_size, sev_open_files, sev_user_processes) 
+| fields splunk_server ulimits.data_segment_size ulimits.open_files ulimits.user_processes severity_level 
+| rename splunk_server AS instance ulimits.data_segment_size AS ""ulimits.data_segment_size (current / recommended)"" ulimits.open_files AS ""ulimits.open_files (current / recommended)"" ulimits.user_processes AS ""ulimits.user_processes (current / recommended)"" 
+| fieldformat ulimits.data_segment_size (current / recommended) = if('ulimits.data_segment_size (current / recommended)' >= 0, 'ulimits.data_segment_size (current / recommended)'."" / 1073741824"", 'ulimits.data_segment_size (current / recommended)') 
+| fieldformat ulimits.open_files (current / recommended) = if('ulimits.open_files (current / recommended)' >= 0, 'ulimits.open_files (current / recommended)'."" / 8192"", 'ulimits.open_files (current / recommended)') 
+| fieldformat ulimits.user_processes (current / recommended) = if('ulimits.user_processes (current / recommended)' >= 0, 'ulimits.user_processes (current / recommended)'."" / 8192"", 'ulimits.user_processes (current / recommended)') 
+| fields - _timediff",usrlsplunkmstidx,"1550176932.538719",0,splunkjs,0,1550176932,4,"manager_8099",0,completed,"0.123",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5943f32c7164594c3_1550176933.37","| rest splunk_server_group=* /services/server/info 
+| join type=outer splunk_server [rest splunk_server_group=* /services/server/sysinfo | fields splunk_server transparent_hugepages.*] 
+| eval transparent_hugepages.effective_state = if(isnotnull('transparent_hugepages.effective_state'), 'transparent_hugepages.effective_state', ""unknown"") 
+| eval transparent_hugepages.enabled = case(len('transparent_hugepages.enabled') > 0, 'transparent_hugepages.enabled', 'transparent_hugepages.effective_state' == ""ok"" AND (isnull('transparent_hugepages.enabled') OR len('transparent_hugepages.enabled') = 0), ""feature not available"", 'transparent_hugepages.effective_state' == ""unknown"" AND isnull('transparent_hugepages.enabled'), ""unknown"", True(), ""unknown"") 
+| eval transparent_hugepages.defrag = case(len('transparent_hugepages.defrag') > 0, 'transparent_hugepages.defrag', 'transparent_hugepages.effective_state' == ""ok"" AND (isnull('transparent_hugepages.defrag') OR len('transparent_hugepages.defrag') = 0), ""feature not available"", 'transparent_hugepages.effective_state' == ""unknown"" AND isnull('transparent_hugepages.defrag'), ""unknown"", True(), ""unknown"") 
+| eval severity_level = case('transparent_hugepages.effective_state' == ""unavailable"", -1, 'transparent_hugepages.effective_state' == ""ok"", 0, 'transparent_hugepages.effective_state' == ""unknown"", 1, 'transparent_hugepages.effective_state' == ""bad"", 2) 
+| fields splunk_server transparent_hugepages.enabled transparent_hugepages.defrag transparent_hugepages.effective_state severity_level 
+| rename splunk_server AS instance 
+| fields - _timediff",usrlsplunkmstidx,"1550176933.776474",0,splunkjs,0,1550176934,4,"manager_8207",0,completed,"0.058",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5bcb0e9e26ee400cb_1550176934.38","| rest splunk_server_group=* /services/server/status/partitions-space 
+| eval free = if(isnotnull(available), available, free) 
+| eval usage = capacity - free 
+| eval pct_usage = floor(usage / capacity * 100) 
+| stats first(pct_usage) AS pct_usage by splunk_server, mount_point 
+| eval severity_level = case(pct_usage < 90, 0, pct_usage >= 90, 2, True(), -1) 
+| eval mount_info = if(isNull(pct_usage), ""No disk information available"", mount_point."": "".pct_usage.""%"") 
+| stats values(mount_info) AS mount_information max(severity_level) AS severity_level by splunk_server 
+| lookup local=true dmc_assets serverName AS splunk_server OUTPUT machine 
+| eval machine = mvdedup(machine) 
+| fields splunk_server machine mount_information severity_level 
+| rename splunk_server AS instance",usrlsplunkmstidx,"1550176934.940504",0,splunkjs,0,1550176934,4,"manager_8243",0,completed,"0.028",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD51766ff1ba71e3ac8_1550176936.39","| rest splunk_server_group=* /services/server/info 
+| eval cpu_core_count = if(isnotnull(numberOfVirtualCores), numberOfVirtualCores, numberOfCores) 
+| eval physical_memory_GB = round(physicalMemoryMB / 1024, 0) 
+| fields splunk_server cpu_core_count physical_memory_GB 
+| eval severity_level = case(cpu_core_count <= 4 OR physical_memory_GB <= 4, 2, cpu_core_count < 12 OR physical_memory_GB < 12, 1, cpu_core_count >= 12 AND physical_memory_GB >= 12, 0, true(), -1) 
+| rename splunk_server AS instance cpu_core_count AS ""cpu_core_count (current / recommended)"" physical_memory_GB AS ""physical_memory_GB (current / recommended)"" 
+| fieldformat cpu_core_count (current / recommended) = 'cpu_core_count (current / recommended)'."" / 12"" 
+| fieldformat physical_memory_GB (current / recommended) = 'physical_memory_GB (current / recommended)'."" / 12""",usrlsplunkmstidx,"1550176936.057113",0,splunkjs,0,1550176936,4,"manager_8303",0,completed,"0.03",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550497451.829","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550497451.837948",0,splunkjs,0,1550497451,1,"manager_7374",0,completed,"0.015",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550497451.832","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550497451.869876",0,splunkjs,0,1550497451,203,"manager_7604",0,completed,"0.47600000000000003",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550497451.833","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550497451.882063",0,splunkjs,0,1550497454,0,"manager_7704",0,completed,"2.08",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550497451.834","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550497451.966448",0,splunkjs,0,1550497451,9,"manager_7948",0,completed,"0.384",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550497451.835","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550497451.974451",0,splunkjs,0,1550497453,1,"manager_7764",0,completed,"1.048",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD561dff1da465ea487_1550497451.836","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/clients | stats count",usrlsplunkmstidx,"1550497451.980757",0,splunkjs,0,1550497452,1,"manager_7824",0,completed,"0.333",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550497451.837","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550497451.983914",0,splunkjs,0,1550497452,1,"manager_7884",0,completed,"0.42",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550497452.838","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550497452.020230",0,splunkjs,0,1550497452,13,"manager_8019",0,completed,"0.56",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550497452.839","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550497452.038810",0,splunkjs,0,1550497452,4,"manager_8113",0,completed,"1.206",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550497452.840","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550497452.103307",0,splunkjs,0,1550497452,4,"manager_8174",0,completed,"1.363",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550497452.841","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550497452.405490",0,splunkjs,0,1550497452,1,"manager_8235",0,completed,"0.354",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550497452.842","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550497452.558436",0,splunkjs,0,1550497453,13,"manager_8296",0,completed,"0.629",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550497452.843","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550497452.654459",0,splunkjs,0,1550497453,1,"manager_8357",0,completed,"0.386",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550497452.844","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550497452.716070",0,splunkjs,0,1550497455,0,"alerts-fired-search",0,completed,"1.154",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550497466.845","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550497466.372026",0,"UI:Dashboard:indexing_performance_deployment",0,1550497466,1,search1,0,completed,"0.008",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550497467.846","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550497467.589081",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,4,"parallel_pipe_api_base",0,completed,"0.593",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550497467.847","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497467.607372",0,"UI:Dashboard:indexing_performance_deployment",0,1550497467,0,"instances_by_estimated_indexing_rate",0,completed,"1.084","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550497467.848","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497467.687741",0,"UI:Dashboard:indexing_performance_deployment",0,1550497467,0,search7,0,completed,"1.184","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550497467.849","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550497467.705301",0,"UI:Dashboard:indexing_performance_deployment",0,1550497467,0,search9,0,completed,"1.242","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search10_1550497467.850","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput 
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps dc(host) AS num_hosts 
+| eval kbps = kbps / 1 
+| eval kbps = round(kbps, 0)
+| fields - num_hosts",usrlsplunkmstidx,"1550497467.876210",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,0,search10,0,completed,"1.082","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550497467.851","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497467.884888",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,0,search11,0,completed,"1.1260000000000001","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550497467.852","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497467.936732",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,0,search12,0,completed,"1.254","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550497467.853","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550497467.947766",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,0,search14,0,completed,"1.111","1550483040.000000000","1550497467.000000000","1550483040.000000000","1550497467.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550497468.854","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550497468.111950",0,"UI:Dashboard:indexing_performance_deployment",0,1550497468,0,search15,0,completed,"1.05","1550483040.000000000","1550497468.000000000","1550483040.000000000","1550497468.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550497510.856","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550497510.775157",0,splunkjs,0,1550497513,4,"manager_7434",0,completed,"1.216",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53a744da99146d9b1_1550497510.857","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/peers",usrlsplunkmstidx,"1550497510.779646",0,splunkjs,0,1550497510,13,"manager_7544",0,completed,"0.051000000000000004",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550497510.858","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550497510.807973",0,splunkjs,0,1550497512,0,"manager_7704",0,completed,"1.786",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550497510.859","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550497510.820687",0,splunkjs,0,1550497510,203,"manager_7604",0,completed,"0.312",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550497510.860","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550497510.910534",0,splunkjs,0,1550497512,1,"manager_7764",0,completed,"0.924",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550497510.861","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550497510.914386",0,splunkjs,0,1550497511,1,"manager_7884",0,completed,"0.216",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD561dff1da465ea487_1550497510.862","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/clients | stats count",usrlsplunkmstidx,"1550497510.915828",0,splunkjs,0,1550497511,1,"manager_7824",0,completed,"0.47600000000000003",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550497510.863","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550497510.920207",0,splunkjs,0,1550497511,9,"manager_7948",0,completed,"0.646",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550497510.864","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550497510.956298",0,splunkjs,0,1550497511,13,"manager_8019",0,completed,"0.744",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550497510.865","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550497510.970095",0,splunkjs,0,1550497511,4,"manager_8113",0,completed,"1.295",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550497511.866","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550497511.382032",0,splunkjs,0,1550497512,4,"manager_8174",0,completed,"1.038",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550497511.867","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550497511.409602",0,splunkjs,0,1550497512,1,"manager_8235",0,completed,"0.531",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550497511.868","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550497511.437002",0,splunkjs,0,1550497512,13,"manager_8296",0,completed,"0.599",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550497511.869","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550497511.444144",0,splunkjs,0,1550497511,1,"manager_8357",0,completed,"0.718",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550497511.870","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550497511.461472",0,splunkjs,0,1550497514,0,"alerts-fired-search",0,completed,"0.885",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550497536.871","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550497536.526350",0,splunkjs,0,1550497536,1,"manager_7374",0,completed,"0.016",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550497536.873","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550497536.531023",0,splunkjs,0,1550497539,4,"manager_7434",0,completed,"1.181",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550497536.875","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550497536.570878",0,splunkjs,0,1550497536,203,"manager_7604",0,completed,"0.593",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550497536.874","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550497536.575428",0,splunkjs,0,1550497538,0,"manager_7704",0,completed,"2.186",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550497536.876","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550497536.681392",0,splunkjs,0,1550497536,9,"manager_7948",0,completed,"0.418",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550497536.877","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550497536.695264",0,splunkjs,0,1550497539,1,"manager_7764",0,completed,"0.847",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550497536.879","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550497536.700009",0,splunkjs,0,1550497537,1,"manager_7884",0,completed,"0.588",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550497536.880","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550497536.722959",0,splunkjs,0,1550497537,13,"manager_8019",0,completed,"0.544",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550497536.881","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550497536.739572",0,splunkjs,0,1550497537,4,"manager_8113",0,completed,"1.3840000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550497537.882","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550497537.076831",0,splunkjs,0,1550497537,4,"manager_8174",0,completed,"1.36",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550497537.883","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550497537.314465",0,splunkjs,0,1550497537,1,"manager_8235",0,completed,"0.462",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550497537.884","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550497537.373558",0,splunkjs,0,1550497537,13,"manager_8296",0,completed,"0.621",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550497537.885","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550497537.430714",0,splunkjs,0,1550497538,1,"manager_8357",0,completed,"0.556",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550497537.886","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550497537.519137",0,splunkjs,0,1550497540,0,"alerts-fired-search",0,completed,"1.0010000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550497661.888","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550497661.616510",0,splunkjs,0,1550497661,1,"manager_7374",0,completed,"0.018000000000000002",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550497661.889","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550497661.621416",0,splunkjs,0,1550497666,5,"manager_7434",0,completed,"2.592",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53a744da99146d9b1_1550497661.890","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/peers",usrlsplunkmstidx,"1550497661.625961",0,splunkjs,0,1550497661,13,"manager_7544",0,completed,"0.625",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550497661.891","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550497661.658130",0,splunkjs,0,1550497661,203,"manager_7604",0,completed,"0.623",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550497661.892","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550497661.660151",0,splunkjs,0,1550497662,0,"manager_7704",0,completed,"1.92",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550497661.893","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550497661.759915",0,splunkjs,0,1550497661,42,"manager_7948",0,completed,"0.491",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550497661.894","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550497661.761809",0,splunkjs,0,1550497663,1,"manager_7764",0,completed,"1.968",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD561dff1da465ea487_1550497661.896","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/clients | stats count",usrlsplunkmstidx,"1550497661.766640",0,splunkjs,0,1550497662,1,"manager_7824",0,completed,"0.352",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550497661.897","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550497661.804319",0,splunkjs,0,1550497662,13,"manager_8019",0,completed,"0.624",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550497661.898","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550497661.810647",0,splunkjs,0,1550497662,0,"manager_8113",0,completed,"3.255",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550497662.899","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550497662.079878",0,splunkjs,0,1550497662,13,"manager_8174",0,completed,"3.266",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550497662.900","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550497662.315042",0,splunkjs,0,1550497663,1,"manager_8235",0,completed,"0.454",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550497662.901","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550497662.322400",0,splunkjs,0,1550497663,13,"manager_8296",0,completed,"0.481",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550497662.902","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550497662.432904",0,splunkjs,0,1550497662,1,"manager_8357",0,completed,"0.553",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550497662.903","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550497662.542076",0,splunkjs,0,1550497666,0,"alerts-fired-search",0,completed,"0.868",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550497682.904","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550497682.683379",0,"UI:Dashboard:indexing_performance_deployment",0,1550497682,2,search1,0,completed,"0.008",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550497683.905","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550497683.903037",0,"UI:Dashboard:indexing_performance_deployment",0,1550497692,13,"parallel_pipe_api_base",0,completed,"0.718",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550497683.906","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497683.943273",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,"instances_by_estimated_indexing_rate",0,completed,"7.65","1550483280.000000000","1550497683.000000000","1550483280.000000000","1550497683.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550497683.907","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497683.951033",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search7,0,completed,"7.529","1550483280.000000000","1550497683.000000000","1550483280.000000000","1550497683.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550497683.908","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550497683.963596",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search9,0,completed,"7.6610000000000005","1550483280.000000000","1550497683.000000000","1550483280.000000000","1550497683.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search10_1550497683.909","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput 
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps dc(host) AS num_hosts 
+| eval kbps = kbps / 1 
+| eval kbps = round(kbps, 0)
+| fields - num_hosts",usrlsplunkmstidx,"1550497683.967281",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search10,0,completed,"7.5280000000000005","1550483280.000000000","1550497683.000000000","1550483280.000000000","1550497683.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550497683.910","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497683.999242",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search11,0,completed,"7.635","1550483280.000000000","1550497683.000000000","1550483280.000000000","1550497683.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550497684.911","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497684.036568",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search12,0,completed,"7.372","1550483280.000000000","1550497684.000000000","1550483280.000000000","1550497684.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550497684.912","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550497684.077223",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search14,0,completed,"7.319","1550483280.000000000","1550497684.000000000","1550483280.000000000","1550497684.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550497684.913","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550497684.098740",0,"UI:Dashboard:indexing_performance_deployment",0,1550497684,0,search15,0,completed,"7.235","1550483280.000000000","1550497684.000000000","1550483280.000000000","1550497684.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550497916.914","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497916.769313",0,"UI:Dashboard:indexing_performance_deployment",321967,1550497917,6,"instances_by_estimated_indexing_rate",321967,completed,"242.029","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550497916.915","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550497916.782498",0,"UI:Dashboard:indexing_performance_deployment",321967,1550497917,6,search7,321967,completed,"242.034","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550497916.916","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550497916.826687",0,"UI:Dashboard:indexing_performance_deployment",321967,1550497917,6,search9,321967,completed,"241.979","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search10_1550497916.917","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput 
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps dc(host) AS num_hosts 
+| eval kbps = kbps / 1 
+| eval kbps = round(kbps, 0)
+| fields - num_hosts",usrlsplunkmstidx,"1550497916.851099",0,"UI:Dashboard:indexing_performance_deployment",321967,1550497917,6,search10,321967,completed,"241.917","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550497916.918","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497916.911979",0,"UI:Dashboard:indexing_performance_deployment",317861,1550497917,6,search11,317861,completed,"241.874","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550497916.919","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550497916.922470",0,"UI:Dashboard:indexing_performance_deployment",317861,1550497917,6,search12,317861,completed,"241.838","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550497916.920","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550497916.974428",0,"UI:Dashboard:indexing_performance_deployment",317861,1550497917,6,search14,317861,completed,"241.851","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550497916.921","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550497916.998507",0,"UI:Dashboard:indexing_performance_deployment",317861,1550497917,6,search15,317861,completed,"241.75","1549890000.000000000","1550497916.000000000","1549890000.000000000","1550497916.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550583499.1264","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550583499.013375",0,"UI:Dashboard:indexing_performance_deployment",0,1550583499,2,search1,0,completed,"0.01",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550583500.1265","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550583500.992081",0,"UI:Dashboard:indexing_performance_deployment",0,1550583509,13,"parallel_pipe_api_base",0,completed,"3.262",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550583501.1266","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550583501.040062",0,"UI:Dashboard:indexing_performance_deployment",327671,1550583501,6,"instances_by_estimated_indexing_rate",327671,completed,"252.937","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550583501.1267","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550583501.970011",0,"UI:Dashboard:indexing_performance_deployment",327671,1550583502,6,search7,327671,completed,"252.046","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550583501.1268","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550583501.974319",0,"UI:Dashboard:indexing_performance_deployment",327671,1550583502,6,search9,327671,completed,"252.017","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550583501.1270","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550583501.979184",0,"UI:Dashboard:indexing_performance_deployment",323479,1550583502,6,search12,323479,completed,"251.967","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550583501.1271","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550583501.982467",0,"UI:Dashboard:indexing_performance_deployment",323479,1550583502,6,search14,323479,completed,"252.023","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550583501.1272","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550583501.985375",0,"UI:Dashboard:indexing_performance_deployment",323479,1550583502,6,search11,323479,completed,"251.972","1549976400.000000000","1550583501.000000000","1549976400.000000000","1550583501.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550583502.1273","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550583502.100765",0,"UI:Dashboard:indexing_performance_deployment",323483,1550583502,6,search15,323483,completed,"251.666","1549976400.000000000","1550583502.000000000","1549976400.000000000","1550583502.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550672022.136","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550672022.320064",0,splunkjs,0,1550672022,1,"manager_7374",0,completed,"0.017",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550672022.137","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550672022.325561",0,splunkjs,0,1550672027,5,"manager_7434",0,completed,"0.9460000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53a744da99146d9b1_1550672022.138","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/peers",usrlsplunkmstidx,"1550672022.328812",0,splunkjs,0,1550672022,13,"manager_7544",0,completed,"0.5720000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD519eb32bc376be3a7_1550672022.139","| rest splunk_server_group=dmc_group_license_master /services/licenser/pools | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/groups | search is_active=1 | eval stack_id = stack_ids | fields splunk_server stack_id is_active] | search is_active=1 | stats sum(used_bytes) AS used_bytes by splunk_server, stack_id | join type=outer stack_id splunk_server [ rest splunk_server_group=dmc_group_license_master /services/licenser/stacks | eval stack_id = title | eval stack_quota = quota | stats sum(stack_quota) AS stack_quota by splunk_server, stack_id] | stats sum(used_bytes) as used_bytes sum(stack_quota) as stack_quota | eval usedMB  = round(used_bytes/1024/1024, 0) | eval usedGB  = round(used_bytes/1024/1024/1024, 2) | eval totalMB = round(stack_quota/1024/1024, 0) | eval totalGB = round(stack_quota/1024/1024/1024, 2) | eval used  = if(totalMB > 1024, usedGB, usedMB) | eval total = if(totalMB > 1024, totalGB, totalMB) | eval unit  = if(totalMB > 1024, ""GB"", ""MB"") | eval usage_pct = round(used / total, 3)*100 | eval output = used. "" / "" .total."" "".unit | fields usage_pct, output",usrlsplunkmstidx,"1550672022.351929",0,splunkjs,0,1550672024,0,"manager_7704",0,completed,"2.128",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550672022.140","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550672022.359080",0,splunkjs,0,1550672022,204,"manager_7604",0,completed,"0.372",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550672022.141","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550672022.443906",0,splunkjs,0,1550672022,42,"manager_7948",0,completed,"0.448",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5d76bb777b473704e_1550672022.142","| rest splunk_server_group=dmc_group_license_master /services/licenser/slaves | mvexpand active_pool_ids | where warning_count>0 | eval pool=active_pool_ids | join type=outer pool [rest splunk_server_group=dmc_group_license_master /services/licenser/pools | eval pool=title | fields pool stack_id] | eval in_violation=if(warning_count>4 OR (warning_count>2 AND stack_id==""free""),""yes"",""no"") | fields label, title, pool, warning_count, in_violation | fields - _timediff | rename label as ""Slave"" title as ""GUID"" pool as ""Pool"" warning_count as ""Hard Warnings"" in_violation AS ""In Violation?"" | stats count",usrlsplunkmstidx,"1550672022.457917",0,splunkjs,0,1550672025,1,"manager_7764",0,completed,"1.546",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550672022.144","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550672022.461981",0,splunkjs,0,1550672023,1,"manager_7884",0,completed,"0.497",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550672022.145","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550672022.492067",0,splunkjs,0,1550672023,13,"manager_8019",0,completed,"0.619",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550672022.146","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550672022.507188",0,splunkjs,0,1550672023,14,"manager_8113",0,completed,"3.79",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550672022.147","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550672022.808441",0,splunkjs,0,1550672023,14,"manager_8174",0,completed,"3.595",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550672022.148","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550672022.924796",0,splunkjs,0,1550672023,1,"manager_8235",0,completed,"0.605",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550672023.149","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550672023.144938",0,splunkjs,0,1550672023,13,"manager_8296",0,completed,"0.512",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550672023.150","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550672023.223581",0,splunkjs,0,1550672023,1,"manager_8357",0,completed,"0.64",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550672023.151","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550672023.245435",0,splunkjs,0,1550672026,0,"alerts-fired-search",0,completed,"0.899",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550672059.152","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | search search_group!=""dmc_group_*""",usrlsplunkmstidx,"1550672059.620407",0,"UI:Dashboard:indexing_performance_instance",0,1550672059,1,search1,0,completed,"0.007",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search2_1550672060.153","| `dmc_get_instance_info(dmc_group_indexer)`
+        | where search_group=""dmc_group_indexer""",usrlsplunkmstidx,"1550672060.385507",0,"UI:Dashboard:indexing_performance_instance",0,1550672060,13,search2,0,completed,"0.007",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search5_1550672060.154","search `dmc_set_index_internal` host=$row.host$ source=""*metrics.log"" sourcetype=splunkd group=pipeline 
+            | stats count by ingest_pipe",usrlsplunkmstidx,"1550672060.391175",0,"UI:Dashboard:indexing_performance_instance",0,1550672060,0,search5,0,canceled,"0.8210000000000001","1550657640.000000000","1550672060.000000000","1550657640.000000000","1550672060.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search6_1550672060.155","search `dmc_set_index_internal` host=$row.host$ source=""*metrics.log"" sourcetype=splunkd group=per_Sourcetype_thruput
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | `dmc_timechart_for_metrics_log` per_second(kb) by series useother=false limit=15",usrlsplunkmstidx,"1550672060.521599",0,"UI:Dashboard:indexing_performance_instance",0,1550672060,0,search6,0,canceled,"0.633","1550657640.000000000","1550672060.000000000","1550657640.000000000","1550672060.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550672060.157","search `dmc_set_index_internal` host=$row.host$ source=*metrics.log sourcetype=splunkd group=queue (name=parsingqueue OR name=aggqueue OR name=typingqueue OR name=indexqueue) | eval name=case(name==""aggqueue"",""2 - Aggregation Queue"",name==""indexqueue"",""4 - Indexing Queue"",name==""parsingqueue"",""1 - Parsing Queue"",name==""typingqueue"",""3 - Typing Queue"")
+| eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+| search ingest_pipe=*
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) 
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) 
+| eval fill_perc=round((curr/max)*100,2) 
+| `dmc_timechart_for_metrics_log` Median(fill_perc) by name useother=false limit=15",usrlsplunkmstidx,"1550672060.525902",0,"UI:Dashboard:indexing_performance_instance",0,1550672060,0,search7,0,canceled,"0.967","1550657640.000000000","1550672060.000000000","1550657640.000000000","1550672060.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550672060.159","search `dmc_set_index_internal` host=$row.host$ source=*metrics.log sourcetype=splunkd group=pipeline name=indexerpipe processor=indexer
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | `dmc_timechart_for_metrics_log` sum(write_cpu_seconds) AS ""raw data write"" sum(service_cpu_seconds) AS ""index service""",usrlsplunkmstidx,"1550672060.531519",0,"UI:Dashboard:indexing_performance_instance",0,1550672060,0,search9,0,canceled,"1.101","1550657640.000000000","1550672060.000000000","1550657640.000000000","1550672060.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5986eb27bdb3c272e_1550672061.160","| rest splunk_server=usrlsplnkidx001 /services/server/introspection/queues
+      | eval current_fill_perc = round(current_size_bytes / max_size_bytes * 100, 0)
+      | fields title, current_fill_perc",usrlsplunkmstidx,"1550672061.106129",0,"UI:Dashboard:indexing_performance_instance",0,1550672061,38,"pipeline_queue_api_base",0,completed,"0.54",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550672061.162","| rest splunk_server=usrlsplnkidx001 /services/properties/server/general/parallelIngestionPipelines",usrlsplunkmstidx,"1550672061.140870",0,"UI:Dashboard:indexing_performance_instance",0,1550672062,1,search15,0,completed,"0.367",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search5_1550672061.163","search `dmc_set_index_internal` host=usrlsplnkidx001 source=""*metrics.log"" sourcetype=splunkd group=pipeline 
+            | stats count by ingest_pipe",usrlsplunkmstidx,"1550672061.144722",0,"UI:Dashboard:indexing_performance_instance",38277,1550672062,4,search5,38277,completed,"1.308","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search6_1550672061.164","search `dmc_set_index_internal` host=usrlsplnkidx001 source=""*metrics.log"" sourcetype=splunkd group=per_Sourcetype_thruput
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | `dmc_timechart_for_metrics_log` per_second(kb) by series useother=false limit=15",usrlsplunkmstidx,"1550672061.227844",0,"UI:Dashboard:indexing_performance_instance",17989,1550672062,49,search6,17989,completed,"1.601","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550672061.165","search `dmc_set_index_internal` host=usrlsplnkidx001 source=*metrics.log sourcetype=splunkd group=queue (name=parsingqueue OR name=aggqueue OR name=typingqueue OR name=indexqueue) | eval name=case(name==""aggqueue"",""2 - Aggregation Queue"",name==""indexqueue"",""4 - Indexing Queue"",name==""parsingqueue"",""1 - Parsing Queue"",name==""typingqueue"",""3 - Typing Queue"")
+| eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+| search ingest_pipe=*
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size) 
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size) 
+| eval fill_perc=round((curr/max)*100,2) 
+| `dmc_timechart_for_metrics_log` Median(fill_perc) by name useother=false limit=15",usrlsplunkmstidx,"1550672061.340423",0,"UI:Dashboard:indexing_performance_instance",7200,1550672062,49,search7,7200,completed,"1.576","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search8_1550672061.166","search `dmc_set_index_internal` host=usrlsplnkidx001 source=*metrics.log sourcetype=splunkd group=pipeline NOT processor=sendout
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | `dmc_timechart_for_metrics_log` per_second(eval(cpu_seconds*100)) AS pctCPU by processor useother=false limit=15",usrlsplunkmstidx,"1550672061.611882",0,"UI:Dashboard:indexing_performance_instance",32878,1550672062,49,search8,32878,completed,"1.6440000000000001","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550672061.167","search `dmc_set_index_internal` host=usrlsplnkidx001 source=*metrics.log sourcetype=splunkd group=pipeline name=indexerpipe processor=indexer
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | `dmc_timechart_for_metrics_log` sum(write_cpu_seconds) AS ""raw data write"" sum(service_cpu_seconds) AS ""index service""",usrlsplunkmstidx,"1550672061.706280",0,"UI:Dashboard:indexing_performance_instance",1799,1550672062,49,search9,1799,completed,"1.097","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search10_1550672061.168","search `dmc_set_index_internal` host=usrlsplnkidx001 source=*metrics.log sourcetype=splunkd group=subtask_seconds
+            | eval ingest_pipe = if(isnotnull(ingest_pipe), ingest_pipe, ""none"")
+            | search ingest_pipe=*
+            | fields replicate_semislice, sync_hotBkt, throttle_optimize, flushBlockSig, retryMove_1hotBkt, size_hotBkt, roll_hotBkt, chillOrFreeze, update_checksums, fork_recovermetadata, rebuild_metadata, update_bktManifest, service_volumes, service_maxSizes, service_externProc
+            | `dmc_timechart_for_metrics_log` sum(*) AS *",usrlsplunkmstidx,"1550672061.710699",0,"UI:Dashboard:indexing_performance_instance",2258,1550672062,49,search10,2258,completed,"1.193","1550657640.000000000","1550672061.000000000","1550657640.000000000","1550672061.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550672095.173","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550672095.623387",0,"UI:Dashboard:indexing_performance_deployment",0,1550672095,2,search1,0,completed,"0.01",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550672096.174","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550672096.610671",0,"UI:Dashboard:indexing_performance_deployment",0,1550672099,14,"parallel_pipe_api_base",0,completed,"0.772",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550672096.176","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550672096.654764",0,"UI:Dashboard:indexing_performance_deployment",22696,1550672097,47,search7,22696,completed,"1.988","1550657640.000000000","1550672096.000000000","1550657640.000000000","1550672096.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550672096.177","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550672096.658354",0,"UI:Dashboard:indexing_performance_deployment",22696,1550672097,47,search9,22696,completed,"2.287","1550657640.000000000","1550672096.000000000","1550657640.000000000","1550672096.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550672096.179","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550672096.663122",0,"UI:Dashboard:indexing_performance_deployment",22696,1550672097,47,search11,22696,completed,"1.8800000000000001","1550657640.000000000","1550672096.000000000","1550657640.000000000","1550672096.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550672096.180","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550672096.738286",0,"UI:Dashboard:indexing_performance_deployment",22696,1550672097,47,search12,22696,completed,"2.088","1550657640.000000000","1550672096.000000000","1550657640.000000000","1550672096.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550672096.182","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550672096.801048",0,"UI:Dashboard:indexing_performance_deployment",22696,1550672097,47,search14,22696,completed,"2.168","1550657640.000000000","1550672096.000000000","1550657640.000000000","1550672096.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550672267.184","|  `dmc_get_instance_info(""dmc_group_license_master"")`
+     | fields host, serverName",usrlsplunkmstidx,"1550672267.608570",0,"UI:Dashboard:license_usage_30days",0,1550672267,0,search1,0,completed,"0.009000000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search6_1550672268.185","|rest splunk_server=local /servicesNS/nobody/splunk_monitoring_console/saved/searches/DMC%20License%20Usage%20Data%20Cube | fields auto_summarize | eval no_acceleration=if(auto_summarize == 1, NULL, ""yes"")",usrlsplunkmstidx,"1550672268.039492",0,"UI:Dashboard:license_usage_30days",0,1550672268,1,search6,0,completed,"0.028",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550672303.186","|  `dmc_get_instance_info(""dmc_group_license_master"")`
+     | fields host, serverName",usrlsplunkmstidx,"1550672303.379994",0,"UI:Dashboard:license_usage_30days",0,1550672303,0,search1,0,completed,"0.009000000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search6_1550672303.187","|rest splunk_server=local /servicesNS/nobody/splunk_monitoring_console/saved/searches/DMC%20License%20Usage%20Data%20Cube | fields auto_summarize | eval no_acceleration=if(auto_summarize == 1, NULL, ""yes"")",usrlsplunkmstidx,"1550672303.797379",0,"UI:Dashboard:license_usage_30days",0,1550672303,1,search6,0,completed,"0.034",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550672311.188","|  `dmc_get_instance_info(""dmc_group_license_master"")`
+     | fields host, serverName",usrlsplunkmstidx,"1550672311.922207",0,"UI:Dashboard:license_usage_today",0,1550672311,0,search1,0,completed,"0.006",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59dd2bc438254f743_1550677883.209","| localop | inputlookup dmc_assets | stats dc(serverName) as instance_count dc(machine) as machine_count by search_group | where match(search_group,""dmc_group_"") | eval count = ""count"" | chart format=$VAL$_$AGG$ values(instance_count) AS instance_count values(machine_count) AS machine_count over count by search_group",usrlsplunkmstidx,"1550677883.759103",0,splunkjs,0,1550677883,1,"manager_7374",0,completed,"0.016",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53a744da99146d9b1_1550677883.210","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/peers",usrlsplunkmstidx,"1550677883.765332",0,splunkjs,0,1550677883,13,"manager_7544",0,completed,"0.317",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5a339481d349664f2_1550677883.211","| inputlookup dmc_assets | join type=outer serverName [ | rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval cpu_pct = cpu_system_pct + cpu_user_pct | eval mem_used_pct = mem_used / mem * 100 | fields cpu_pct mem_used_pct splunk_server | rename splunk_server as serverName ] | join type=outer peerURI [ | rest splunk_server=local /services/search/distributed/peers | fields title status | rename title as peerURI ] | eval status=if(((status!=""Up"") OR isnull(status)) AND (peerURI!=""localhost""), 1, 0) | stats dc(serverName) as instances dc(machine) as machines sum(status) as num_down avg(cpu_pct) as cpu avg(mem_used_pct) as mem by search_group | eval cpu=round(cpu, 2) | eval mem=round(mem, 2)",usrlsplunkmstidx,"1550677883.775066",0,splunkjs,0,1550677918,0,"manager_7434",0,canceled,"17.029",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD57823ce003973389e_1550677883.213","| rest splunk_server_group=dmc_group_cluster_master /services/cluster/master/indexes",usrlsplunkmstidx,"1550677883.798594",0,splunkjs,0,1550677883,205,"manager_7604",0,completed,"0.368",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD54c02a7d159f69be5_1550677883.215","| localop | inputlookup dmc_assets",usrlsplunkmstidx,"1550677883.895154",0,splunkjs,0,1550677884,42,"manager_7948",0,completed,"0.556",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD561dff1da465ea487_1550677883.216","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/clients | stats count",usrlsplunkmstidx,"1550677883.902648",0,splunkjs,0,1550677884,1,"manager_7824",0,completed,"0.418",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD59631b30d853faba6_1550677883.217","| rest splunk_server_group=dmc_group_deployment_server /services/deployment/server/applications | stats count",usrlsplunkmstidx,"1550677883.908184",0,splunkjs,0,1550677884,1,"manager_7884",0,completed,"0.506",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD544d808dae7734262_1550677883.218","| rest splunk_server_group=dmc_group_search_head /services/search/distributed/peers | fields peerName splunk_server | dedup peerName splunk_server | rename peerName as indexer splunk_server as search_head ",usrlsplunkmstidx,"1550677883.936393",0,splunkjs,0,1550677884,13,"manager_8019",0,completed,"0.837",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD518f73454405c51d1_1550677883.219","| rest splunk_server_group=dmc_group_* /services/server/status/resource-usage/hostwide | eval mem_used=round(mem_used/mem*100) | eval cpu_system_pct = cpu_system_pct + cpu_user_pct | fields splunk_server cpu_system_pct mem_used",usrlsplunkmstidx,"1550677883.969632",0,splunkjs,0,1550677884,0,"manager_8113",0,canceled,"31.839000000000002",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5306e614c0d76a5f3_1550677884.220","| rest splunk_server_group=dmc_group_indexer /services/server/introspection/indexer | fields splunk_server average_KBps  | eval indexing_rate=round(average_KBps) | fields splunk_server indexing_rate",usrlsplunkmstidx,"1550677884.298845",0,splunkjs,0,1550677884,0,"manager_8174",0,canceled,"32.75",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD503bb804fcfb8cd22_1550677884.221","| rest splunk_server_group=dmc_group_search_head /services/server/status/resource-usage/splunk-processes | stats dc(search_props.sid) as search_concurrency by splunk_server | fields splunk_server search_concurrency",usrlsplunkmstidx,"1550677884.347480",0,splunkjs,0,1550677884,1,"manager_8235",0,completed,"0.399",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD53bbd09ea83ead80f_1550677884.222","| rest splunk_server=local /services/search/distributed/peers | eval up_down_status=if(status==""Down"",0,1) | rename peerName as splunk_server | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version splunk_server up_down_status",usrlsplunkmstidx,"1550677884.444974",0,splunkjs,0,1550677885,13,"manager_8296",0,completed,"0.549",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5e397d0eda7dece67_1550677884.223","| rest splunk_server=local /services/server/info | fields cpu_arch os_name os_version numberOfCores numberOfVirtualCores physicalMemoryMB version",usrlsplunkmstidx,"1550677884.548902",0,splunkjs,0,1550677885,1,"manager_8357",0,completed,"0.639",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5139f82c3d5c90434_1550677884.224","| `dmc_get_all_triggered_alerts(1440)`",usrlsplunkmstidx,"1550677884.641358",0,splunkjs,0,1550677887,0,"alerts-fired-search",0,completed,"0.353",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550677913.225","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550677913.392850",0,"UI:Dashboard:indexing_performance_deployment",0,1550677913,2,search1,0,completed,"0.009000000000000001",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550677914.226","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550677914.391359",0,"UI:Dashboard:indexing_performance_deployment",0,1550677941,14,"parallel_pipe_api_base",0,completed,"16.934",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550677914.227","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550677914.428295",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677914,47,"instances_by_estimated_indexing_rate",22332,completed,"17.923000000000002","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search9_1550677914.230","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps by host
+| eval kbps = round(kbps, 0)",usrlsplunkmstidx,"1550677914.452743",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677914,47,search9,22332,completed,"18.661","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550677914.231","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550677914.522850",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677914,47,search11,22332,completed,"19.472","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550677914.232","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550677914.542250",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677914,47,search12,22332,completed,"18.051000000000002","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550677914.233","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550677914.562013",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677915,47,search14,22332,completed,"19.72","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550677914.234","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550677914.590676",0,"UI:Dashboard:indexing_performance_deployment",22332,1550677915,47,search15,22332,completed,"18.685","1550663460.000000000","1550677914.000000000","1550663460.000000000","1550677914.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search1_1550696768.303","| `dmc_get_groups_containing_role(dmc_group_indexer)`
+          | where search_group!=""dmc_group_indexer""",usrlsplunkmstidx,"1550696768.659970",0,"UI:Dashboard:indexing_performance_deployment",0,1550696768,2,search1,0,completed,"0.012",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5462ed53e71a7d299_1550696770.304","| rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/queues
+        | search title=parsingQueue* OR title=aggQueue* OR title=typingQueue* OR title=indexQueue*
+        | eval fill_perc=round(current_size_bytes / max_size_bytes * 100,2)
+        | fields splunk_server, title, fill_perc
+        | rex field=title ""(?<queue_name>^\w+)(?:\.(?<pipeline_number>\d+))?""
+        | eval fill_perc = if(isnotnull(pipeline_number), ""pset"".pipeline_number."": "".fill_perc, fill_perc)
+        | chart values(fill_perc) over splunk_server by queue_name
+        | eval pset_count = mvcount(parsingQueue)
+        | join type=outer splunk_server [
+          | rest splunk_server_group=dmc_group_indexer splunk_server_group=""*"" /services/server/introspection/indexer
+          | eval average_KBps = round(average_KBps, 0)
+          | eval status = if((reason == ""."") OR (reason == """") OR isnull(reason), status, status."": "".reason)
+          | fields splunk_server, average_KBps, status]
+        | fields splunk_server pset_count average_KBps status parsingQueue aggQueue typingQueue indexQueue
+        | sort -average_KBps",usrlsplunkmstidx,"1550696770.248126",0,"UI:Dashboard:indexing_performance_deployment",0,1550696779,14,"parallel_pipe_api_base",0,completed,"0.833",,,,,,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5169de6363cce6bf3_1550696770.305","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=* group=thruput name=index_thruput
+                    | `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+                    | untable _time host kbps
+                    | eval kbps = round(kbps,0)
+                    | `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550696770.252592",0,"UI:Dashboard:indexing_performance_deployment",19932,1550696770,47,"instances_by_estimated_indexing_rate",19932,completed,"8.68","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search7_1550696770.306","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput
+| `dmc_timechart_for_metrics_log` partial=f limit=0 per_second(kb) AS kbps by host
+| untable _time host kbps
+| eval kbps = round(kbps,0)
+| `dmc_indexing_rate_rangemap_and_timechart`",usrlsplunkmstidx,"1550696770.270707",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696770,47,search7,19936,completed,"8.672","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search10_1550696770.308","search `dmc_set_index_internal` source=*metrics.log* sourcetype=splunkd search_group=dmc_group_indexer search_group=""*"" group=thruput name=index_thruput 
+| `dmc_timechart_for_metrics_log` partial=f per_second(kb) AS kbps dc(host) AS num_hosts 
+| eval kbps = kbps / 1 
+| eval kbps = round(kbps, 0)
+| fields - num_hosts",usrlsplunkmstidx,"1550696770.277266",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696770,47,search10,19936,completed,"8.589","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search11_1550696770.309","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+                    | eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+                    | eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+                    | eval fill_perc=round((curr/max)*100,2)
+                    | bin _time minspan=30s
+                    | stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+                    | `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550696770.284687",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696770,47,search11,19936,completed,"8.534","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search12_1550696770.310","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| bin _time minspan=30s
+| stats Median(fill_perc) AS ""fill_percentage"" by host, _time
+| `dmc_queue_fill_ratio_rangemap_and_timechart`",usrlsplunkmstidx,"1550696770.318633",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696770,47,search12,19936,completed,"8.538","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search14_1550696770.311","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f limit=25 Median(fill_perc) AS fill_percentage by host",usrlsplunkmstidx,"1550696770.322569",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696770,47,search14,19936,completed,"8.674","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
+"_cruses_X2NydXNlcw_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__search15_1550696770.312","search `dmc_set_index_internal` sourcetype=splunkd source=*metrics.log search_group=dmc_group_indexer search_group=""*"" group=queue name=indexqueue
+| eval max=if(isnotnull(max_size_kb),max_size_kb,max_size)
+| eval curr=if(isnotnull(current_size_kb),current_size_kb,current_size)
+| eval fill_perc=round((curr/max)*100,2)
+| `dmc_timechart_for_metrics_log` partial=f Median(fill_perc) AS fill_percentage",usrlsplunkmstidx,"1550696770.341891",0,"UI:Dashboard:indexing_performance_deployment",19936,1550696771,47,search15,19936,completed,"8.389","1550682360.000000000","1550696770.000000000","1550682360.000000000","1550696770.000000000",,,,,,,,,,,,,,,,,
