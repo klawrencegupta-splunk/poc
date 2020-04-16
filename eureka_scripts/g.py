@@ -60,7 +60,6 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     filename = tarfile.open(fileobj=fileobj)
     compressed = filename.extractall()
     # Parse as TSV and return the results
-    data = pd.read(compressed,sep="\n")  
     return data
 
 
