@@ -59,7 +59,7 @@ def get_from_archive(new_name,keys,NEW_BUCKET,log_file):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     filename = tarfile.open(fileobj=fileobj)
-    compressed = tarf.extractfile(log_file)
+    compressed = filename.extractfile(log_file)
     # Parse as TSV and return the results
     data = pd.read(compressed,sep="\n")  
     return data
