@@ -58,7 +58,7 @@ def get_from_archive(new_name,keys,NEW_BUCKET):
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     filename = tarfile.open(fileobj=fileobj)
-    compressed = filename.extractall()
+    data = filename.extractall()
     # Parse as TSV and return the results
     return data
 
