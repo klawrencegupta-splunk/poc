@@ -1,0 +1,4 @@
+VERSION=7.1.1
+BUILD=8f0ead9ec3db
+PRODUCT=splunk
+PLATFORM=Linux-x86_64

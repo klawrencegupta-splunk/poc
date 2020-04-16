@@ -1,0 +1,14 @@
+<panel>
+  <title>F5 BIG-IP APM - Session Duration Top 10 in Last 24H</title>
+  <table>
+    <search>
+      <query>sourcetype="f5:bigip:apm:syslog" ((": New session from client IP") OR (": Session deleted due to")) earliest =-1d | transaction session_id startswith=": New session from client IP" endswith=": Session deleted due to" | concurrency duration=duration | join session_id [search sourcetype="f5:bigip:apm:syslog"] | sort -duration | Rename session_id AS "Session ID" | rename user AS Username | eval Duration=tostring(duration, "duration") | table "Session ID",Username,Duration | head 10</query>
+      <earliest>0</earliest>
+    </search>
+    <option name="wrap">true</option>
+    <option name="rowNumbers">false</option>
+    <option name="dataOverlayMode">none</option>
+    <option name="drilldown">cell</option>
+    <option name="count">10</option>
+  </table>
+</panel>

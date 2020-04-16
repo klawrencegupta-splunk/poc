@@ -1,0 +1,55 @@
+<div class="inputs">
+    <p><%= _("Select date range to view data log").t() %>:</p>
+    <div class="dateRangeSelectorContainer">
+        <div data-component=dateRangeSelector></div>
+    </div>
+    <a trigger-route href="<%= viewModel.get('viewAllDataHref') %>" class="btn btn-primary view-all-data-button"><%= _("View Selected Data").t() %></a>
+</div>
+<% if (viewModel.get('hasLoaded')) { %>
+    <% if (collection.models.length > 0) { %>
+        <div class="table-label">
+            <p class="pull-left">
+                <h3><%= _("Data Send Attempts").t() %></h3>
+            </p>
+            <div data-component="paginator"></div>
+            <div class="clearfix"></div>
+        </div>
+        <table class="table table-chrome table-striped instrumentation-logs-table">
+            <thead>
+                <th data-component="sortingTableHeadCell" data-component-id="sendTime"></th>
+                <th data-component="sortingTableHeadCell" data-component-id="status"></th>
+                <th data-component="sortingTableHeadCell" data-component-id="dateRange"></th>
+                <th><%= _("Actions").t() %></th>
+            </thead>
+            <tbody>
+                <% collection.each(function (model, index) { %>
+                    <tr>
+                        <td><%= model.timeDisplayString() %></td>
+                        <td><%= model.get("status") === "success" ? _("Success").t() : _("Failed").t() %></td>
+                        <td>
+                            <%= model.dateRangeDisplayString() %>
+                        </td>
+                        <td><a trigger-route class="view-logs-link" href="<%= getUrlFromLogs(model.get('start'), model.get('end'), model.get('start_date'), model.get('end_date')) %>" title="<%= _('View data sent to Splunk').t() %>">
+                            <%= _("View Data").t() %>
+                        </a></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <div class="emptyTablePlaceholder">
+            <div class="alert-error">
+                <i class="icon-alert"></i>
+                <%= _("No data for the selected time range.").t() %>
+                <%= _("Please ensure that forwarding is enabled from the cluster master / search heads to the indexer tier.").t() %>
+            </div>
+        </div>
+    <% } %>
+<% } else { %>
+    <div class="emptyTablePlaceholder">
+        <div class="alert-info">
+            <i class="icon-alert"></i>
+            <%= _("Fetching records...").t() %>
+        </div>
+    </div>
+<% } %>

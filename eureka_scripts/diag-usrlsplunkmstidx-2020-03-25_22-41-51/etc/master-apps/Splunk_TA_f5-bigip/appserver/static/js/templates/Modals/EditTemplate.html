@@ -1,0 +1,45 @@
+<!-- Add Modal -->
+<div class="modal fade higherWiderEx" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title">Update Collection Template (<%- name %>)</h4>
+      </div>
+      <form class="form templateForm form-horizontal" role="form" onsubmit="return false;">
+      <div class="modal-body">
+
+
+        <input type="hidden" class="form-control" name="edit_template_dialog_id" value="<% print(typeof(id.replace)=='undefined'?id:id.replace(new RegExp('"','g'),'&quot;')); %>">
+        <input type="hidden" class="form-control" name="edit_template_dialog_app_name" value="<% print(typeof(appName.replace)=='undefined'?appName:appName.replace(new RegExp('"','g'),'&quot;')); %>">
+        <input type="hidden" class="form-control" name="edit_template_dialog_name" value="<% print(typeof(name.replace)=='undefined'?name:name.replace(new RegExp('"','g'),'&quot;')); %>">
+
+        <div class="form-group control-group">
+          <label class="col-sm-2 control-label">Description</label>
+          <div class="col-sm-10 controls">
+            <input type="text" class="form-control" name="edit_template_dialog_description" placeholder="Optional" value="<% print(typeof(description.replace)=='undefined'?description:description.replace(new RegExp('"','g'),'&quot;')); %>"
+                    maxlength="255">
+          </div>
+        </div>
+        <div class="form-group control-group">
+          <label class="col-sm-2 control-label">Content</label>
+          <div class="col-sm-10 controls">
+            <textarea class="form-control" rows="5" name="edit_template_dialog_content"  placeholder="Middle language template for F5 BIG-IP iControl API's.
+Each template record must be of the form:
+call <API Name> [against <API Name> [; <API Name>…][ withField RESULT.<Field Name>]][ breakField RESULT.<Field Name>][ interval <interval value>][ --GLOBAL]
+            " required><%- content %></textarea>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <input type="submit" class="btn btn-primary submit-dialog" value="Update"/>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+<panel>
+  <title>Cisco ISE Single Value - Clients Created</title>
+  <single>
+    <search>
+      <query>sourcetype=cisco:ise:syslog tag=change action=created "Client provisioning succeeded" | stats count</query>
+      <earliest>-7d@h</earliest>
+      <latest>now</latest>
+    </search>
+  </single>
+</panel>

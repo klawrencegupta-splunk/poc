@@ -1,0 +1,12 @@
+--id=remote_usrlsplunk002.global.baxter.com_scheduler__nobody_c3BsdW5rX21vbml0b3JpbmdfY29uc29sZQ__RMD5da3050f0c0a3e0a3_at_1585193580_42827
+--maxbuckets=0
+--ttl=60
+--maxout=0
+--maxtime=0
+--lookups=1
+--streaming
+--sidtype=normal
+--outCsv=true
+--user=splunk-system-user
+--pro
+--roles=admin:alert_manager_user:power:splunk-system-role:user

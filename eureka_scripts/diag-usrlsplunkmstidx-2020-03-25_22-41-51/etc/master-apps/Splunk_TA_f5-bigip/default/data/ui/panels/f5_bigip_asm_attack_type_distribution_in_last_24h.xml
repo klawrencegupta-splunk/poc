@@ -1,0 +1,32 @@
+<panel>
+  <title>F5 BIG-IP ASM - Attack Type Distribution in Last 24H</title>
+  <chart>
+    <search>
+      <query>sourcetype="f5:bigip:asm:syslog" attack_type!="" earliest =-1d | eval full_display_name="\""+attack_type+"\" on "+f5_bigip_server_host | timechart span=2min limit=5 count(full_display_name) as "Attack Count" by full_display_name | rename full_display_name AS "Attack Type on Big-IP Server Host"</query>
+      <earliest>0</earliest>
+      <latest></latest>
+    </search>
+    <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+    <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+    <option name="charting.axisTitleX.visibility">visible</option>
+    <option name="charting.axisTitleY.text">Attack Count</option>
+    <option name="charting.axisTitleY.visibility">visible</option>
+    <option name="charting.axisTitleY2.visibility">visible</option>
+    <option name="charting.axisX.scale">linear</option>
+    <option name="charting.axisY.scale">linear</option>
+    <option name="charting.axisY2.enabled">0</option>
+    <option name="charting.axisY2.scale">inherit</option>
+    <option name="charting.chart">line</option>
+    <option name="charting.chart.bubbleMaximumSize">50</option>
+    <option name="charting.chart.bubbleMinimumSize">10</option>
+    <option name="charting.chart.bubbleSizeBy">area</option>
+    <option name="charting.chart.nullValueMode">gaps</option>
+    <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+    <option name="charting.chart.stackMode">default</option>
+    <option name="charting.chart.style">shiny</option>
+    <option name="charting.drilldown">all</option>
+    <option name="charting.layout.splitSeries">0</option>
+    <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+    <option name="charting.legend.placement">right</option>
+  </chart>
+</panel>

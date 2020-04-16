@@ -1,0 +1,14 @@
+<panel>
+  <title>F5 BIG-IP LTM - HTTP Error Count (Top 20 Totally since F5 Server Is Installed)</title>
+    <table>
+    <search>
+      <query>(sourcetype="f5_bigip:icontrol:system:statistics" OR sourcetype="f5:bigip:system:statistics:icontrol") |regex "get_http_statistics.type"="STATISTIC_HTTP_\d{1}XX_RESPONSES" | rex field="get_http_statistics.type" "STATISTIC_HTTP_(?&lt;http_resp_code&gt;\d{1}XX)_RESPONSES" |search http_resp_code != "2XX"| stats last(get_http_statistics.value.low) as "Count" by http_resp_code  | rename  http_resp_code as "Http Error Code"</query>
+      <earliest>0</earliest>
+    </search>
+    <option name="wrap">true</option>
+    <option name="rowNumbers">false</option>
+    <option name="dataOverlayMode">none</option>
+    <option name="drilldown">cell</option>
+    <option name="count">10</option>
+  </table>
+</panel>

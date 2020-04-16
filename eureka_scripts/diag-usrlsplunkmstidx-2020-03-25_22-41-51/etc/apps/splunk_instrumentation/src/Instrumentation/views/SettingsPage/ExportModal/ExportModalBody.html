@@ -1,0 +1,22 @@
+<div class="content-wrapper query-dialog-wrapper">
+    <div class="export-modal-body">
+        <div data-component="alertMessage"></div>
+        <p><%= _("Select date range to export usage report for").t() %>:</p>
+        <div class="date-range-selector-container">
+            <div data-component="dateRangeSelector"></div>
+        </div>
+        <p class="clearfix"><span class="center-vertically"><%= _("Send data directly to Splunk").t() %></span>
+            <button class="send-data-button btn btn-primary pull-right" <%= viewModel.get("sending") ? 'disabled' : '' %>>
+                <%= viewModel.get("sending") ? _("Sending").t() : _("Send").t() %>
+            </button>
+            <span class="clearfix"></span>
+        </p>
+        <p class="clearfix"><span class="center-vertically"><%= _("Export data to file.").t() %> <span class="license_instrumentation_doc_link" data-component="exportDocLink"></span></span>
+            <button class="export-data-button btn btn-primary pull-right" <%= viewModel.get("exporting") ? 'disabled' :'' %>>
+                <%= viewModel.get("exporting") ? _("Exporting").t() : _("Export").t() %>
+            </button>
+            <span class="clearfix"></span>
+        </p>
+    </div>
+</div>
+<div class="timerange-picker-wrapper"></div>

@@ -1,0 +1,10 @@
+<panel>
+  <title>F5 BIG-IP ASM - Violations in Last 24H</title>
+  <table>
+    <search>
+      <query>sourcetype="f5:bigip:asm:syslog" violations!="" earliest =-1d | stats count AS "Violations Count" by f5_bigip_server_host,violations | rename violations AS "Security Violations" | rename f5_bigip_server_host as "F5 Big-IP Server Host" | sort -"Violations Count" | head 10</query>
+      <earliest>0</earliest>
+      <latest></latest>
+    </search>
+  </table>
+</panel>

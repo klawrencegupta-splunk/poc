@@ -1,0 +1,46 @@
+<!--Copyright (C) 2005-2017 Splunk Inc. All Rights Reserved.-->
+<view autoCancelInterval="90" isPersistable="true" isSticky="true" isVisible="true" objectMode="viewconf" onunloadCancelJobs="true" template="dashboard.html">
+	<label>Base Hydra Node Configuration</label>
+	<module name="AccountBar" layoutPanel="appHeader"/>
+	<module name="AppBar" layoutPanel="navigationHeader"/>
+	<module name="Message" layoutPanel="messaging">
+		<param name="filter"></param>
+		<param name="clearOnJobDispatch">False</param>
+		<param name="maxSize">1</param>
+	</module>
+	<module name="SOLNCommon" layoutPanel="panel_row1_col1">
+		<param name="useStandardCSS">True</param>
+		<module name="SOLNContent" layoutPanel="panel_row1_col1">
+			<param name="content"><![CDATA[
+				<h1>Data Collection Nodes</h1>
+			]]></param>
+		</module>
+		<module name="SOLNContextGate">
+			<param name="key">hydra_node</param>
+			<param name="default_state">open</param>
+			<module name="HiddenSearch" layoutPanel="panel_row1_col1" autoRun="true">
+				<param name="search"><![CDATA[
+					| rest /servicesNS/nobody/Splunk_TA_ontap/configs/conf-hydra_node count=0 splunk_server=local | fields eai:acl.app, host, user, heads, updated, credential_validation | eval credential_validation=if(credential_validation=="1", "Valid", "Invalid") | rename heads as "Worker Processes", host as "Data Collection Node", user as "User", updated as "Last Updated", eai:acl.app as "App", credential_validation as "Credential Validation"
+				]]></param>
+				<module name="Paginator">
+					<param name="entityName">results</param>
+					<module name="HydraResultsTable">
+						<param name="drilldown">all</param>
+						<module name="HydraNodeEditor">
+							<param name="app">Splunk_TA_ontap</param>
+							<param name="gate_key">hydra_node</param>
+							<param name="node_stanza">click.Data Collection Node</param>
+							<param name="node_path">click.Data Collection Node</param>
+							<param name="node_user">click.User</param>
+							<param name="node_heads">click.Worker Processes</param>
+						</module>
+					</module>
+				</module>
+				<module name="HydraNodeAdder">
+					<param name="app">Splunk_TA_ontap</param>
+					<param name="gate_key">hydra_node</param>
+				</module>
+			</module>
+		</module>
+	</module>
+</view>

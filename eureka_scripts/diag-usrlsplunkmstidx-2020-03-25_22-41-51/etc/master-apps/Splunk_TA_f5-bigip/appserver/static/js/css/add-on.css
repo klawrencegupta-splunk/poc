@@ -1,0 +1,93 @@
+.submit-dialog{
+    cursor:pointer;
+}
+
+.delete-item {
+    cursor:pointer;
+}
+
+.update-item{
+    cursor:pointer;
+}
+
+.enable-item {
+    cursor:pointer;
+}
+
+.disable-item{
+    cursor:pointer;
+}
+
+.modal-body {
+    max-height: 800px;
+}
+
+.higherWider {
+    width:550px;
+    left: 45%;
+}
+
+.higherWiderEx {
+    width:700px;
+    left: 35%;
+}
+
+
+.addonContainer {
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    /*box-shadow: 2px 2px 2px 2px #888;*/
+    /*-moz-box-shadow: 2px 2px 2px 2px #888;*/
+    height: auto;
+    margin: auto;
+    /*margin-top: 20px;*/
+    margin: 10px;
+    margin-right:18px;
+    /*overflow: hidden;  applies a clearfix */
+}
+
+.addonInnerContainer {
+    padding-top: 20px;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 10px;
+}
+
+.templateForm input{
+    width: 450px;
+    max-width:450px;
+}
+
+
+.templateForm textarea{
+    width: 450px;
+    max-width:450px;
+}
+
+.templateForm select{
+    width: 464px;
+    max-width:464px;
+}
+
+.templateForm input[type='submit']{
+    width: auto;
+}
+
+.normalTable table > input select{
+    width: 100px;
+}
+
+
+th.bs-checkbox {
+ padding-left: 0px !important;
+}
+
+td.bs-checkbox{
+ padding-left: 12px !important;
+}
+
+/*Fix add server/template/task dialog footer margin bug*/
+.modal-footer{
+  margin-bottom: -16px !important;
+}

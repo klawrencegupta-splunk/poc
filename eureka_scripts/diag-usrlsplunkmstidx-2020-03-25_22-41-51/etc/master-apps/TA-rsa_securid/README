@@ -1,0 +1,10 @@
+RSA SecurID Splunk Addon
+
+Created by: Discovered Intelligence (www.discoveredintelligence.ca)
+
+Description: This addon for Splunk contains the sourcetype and index renaming for RSA securid events coming in via syslog. It also provides CIM-compliant field extractions.
+
+Has Index-time operations: Yes (optional)
+Has Search-time operations: Yes
+
+
