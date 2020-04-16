@@ -54,14 +54,16 @@ def get_s3_objects(NEW_BUCKET):
         return key_name
 
 
-def get_from_archive(new_name,keys,NEW_BUCKET):
+def get_from_archive(new_name,keys,NEW_BUCKET,log_file):
     s3_object = client.get_object(Bucket=new_name, Key=keys)
     wholefile = s3_object['Body'].read()
     fileobj = io.BytesIO(wholefile)
     filename = tarfile.open(fileobj=fileobj)
-    data = filename.extractall()
-    with open(data, "rb") as f:
-        client.upload_fileobj(f,new_name,"klg1")
+    compressed = tarf.extractfile(log_file)
+    # Parse as TSV and return the results
+    data = pd.read(compressed,sep="\n")  
+    return data
+
 
 #NEW_BUCKET.put_object(data,"klg1")
 #NEW_BUCKET.upload_fileobj(data, 'klg1')
@@ -70,5 +72,5 @@ if __name__ == '__main__':
     s3_copy_diag(BUCKET,NEW_BUCKET)
     keys = get_s3_objects(NEW_BUCKET)
     print keys
-    get_from_archive(new_name,keys,NEW_BUCKET)
+    get_from_archive(new_name,keys,NEW_BUCKET,"splunkd.log")
 
