@@ -71,6 +71,6 @@ if __name__ == '__main__':
     keys = get_s3_objects(NEW_BUCKET)
     print keys
     data = get_from_archive(new_name,keys,NEW_BUCKET)
-    NEW_BUCKET.upload_fileobj(data)
+    NEW_BUCKET.upload_fileobj(data,"diag")
 
 
