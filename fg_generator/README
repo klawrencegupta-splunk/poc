@@ -1,0 +1,33 @@
+fg_generator
+============
+
+This script and accompanying files are to assist in flamegraph creation from a directory of pstacks.
+
+### How to run
+
+Unzip this tar:
+
+> $ tar -xf fg_generator.tar.gz
+> 
+> $ cd fg_generator
+
+Run bash script against unzipped directory of pstacks:
+
+> $ ./prepare_flamegraph.sh -s ~/Downloads/stacks-3295-icpcarl04703-2019-09-04T13h38m11s291485504ns-0400/ -o foobar
+
+This will pull the relevent stacks from the pstack directory, scrub them and create a flamegraph labeled foobar.svg
+
+Usage:
+> $ ./prepare_flamegraph.sh -h
+> usage: ./prepare_flamegraph.sh [-Viq] [-s|--stacks <PSTACKS DIRECTORY>] [-o|--output OUTPUT NAME] 
+>   Either -i or [-s|--stacks <PSTACKS DIRECTORY>] and 
+>                [-o|--output OUTPUT NAME] are required
+> 
+>   -s|--stacks <PSTACKSDIR> Set input pstacks directory
+>   -o|--output <OUTPUTNAME> Set output name for flamegraph
+>   -i|--interactive         Interactive mode will prompt user for stacks and output dir
+>   -V|--version             Prints script version (as if it's really needed....)
+>   -q|--quiet               Quiet mode supresses output messages
+>   -h|--help                Prints this lovely message
+
+

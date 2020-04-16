@@ -1,2 +1,0 @@
-access,owner,app,ttl
-"read : [ admin, splunk-system-user ], write : [ admin, splunk-system-user ]","splunk-system-user","splunk_monitoring_console",14400

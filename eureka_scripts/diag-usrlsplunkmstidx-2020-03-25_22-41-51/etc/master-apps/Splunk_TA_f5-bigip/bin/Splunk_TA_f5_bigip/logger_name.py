@@ -1,2 +1,0 @@
-logger_name=None
-logger_level=None
