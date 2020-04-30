@@ -1,0 +1,97 @@
+<form>
+  <label>Capacity Estimates</label>
+  <fieldset submitButton="false" autoRun="true">
+    <input type="time" token="timer" searchWhenChanged="true">
+      <label>Time RAnge</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="dropdown" token="workload" searchWhenChanged="true">
+      <label>workload filter</label>
+      <choice value="75.00">75.00</choice>
+      <choice value="80.00">80.00</choice>
+      <choice value="85.00">85.00</choice>
+      <choice value="90.00">90.00</choice>
+      <choice value="100.00">no limit</choice>
+      <default>100.00</default>
+      <initialValue>100.00</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Blended Ingest Range across all hosts</title>
+      <single>
+        <title>50/60/80/90 STDEV Percentiles</title>
+        <search>
+          <query>index=_introspection "data.writes_ps"="*" component=IOstats data.cpu_pct&lt;$workload$ | stats perc80(data.writes_kb_ps) AS wps perc80(data.reads_kb_ps) AS rps by host, _time 
+| eval extrap_writes_daily_gb=((wps)*1440)/1024/1024 | eval extrap_reads_daily_gb=((rps)*1440)/1024/1024 | eval extrap_total_volume=extrap_writes_daily_gb+extrap_reads_daily_gb
+| stats perc50(extrap_total_volume) AS 50%idxGBScore perc60(extrap_total_volume) AS 60%idxGBScore perc70(extrap_total_volume) AS 70%idxGBScore perc80(extrap_total_volume) AS 80%idxGBScore perc90(extrap_total_volume) AS 90%idxGBScore</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="numberPrecision">0.0</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">1</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trellis.splitBy">_aggregation</option>
+        <option name="unit">GB</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Range of Ingest Using STDEV Percentiles</title>
+      <chart>
+        <title>50/60/70/80 percentiles listed</title>
+        <search>
+          <query>index=_introspection "data.writes_ps"="*" component=IOstats data.cpu_pct&lt;$workload$  | stats perc80(data.writes_kb_ps) AS wps perc80(data.reads_kb_ps) AS rps by host, _time 
+| eval extrap_writes_daily_gb=((wps)*1440)/1024/1024 | eval extrap_reads_daily_gb=((rps)*1440)/1024/1024 | eval extrap_total_volume=extrap_writes_daily_gb+extrap_reads_daily_gb
+| stats perc50(extrap_total_volume) AS 50%idxGBScore perc60(extrap_total_volume) AS 60%idxGBScore perc70(extrap_total_volume) AS 70%idxGBScore perc80(extrap_total_volume) AS 80%idxGBScore perc90(extrap_total_volume) AS 90%idxGBScore by host</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Ingest Pattern - Reads/Writes per-second</title>
+      <input type="dropdown" token="res" searchWhenChanged="true">
+        <label>Time Resolution</label>
+        <choice value="1h">1h</choice>
+        <choice value="30m">30m</choice>
+        <choice value="15m">15m</choice>
+        <choice value="5m">5m</choice>
+        <choice value="1m">1m</choice>
+        <default>1h</default>
+        <initialValue>1h</initialValue>
+      </input>
+      <chart>
+        <title>average over the time resolution</title>
+        <search>
+          <query>index=_introspection "data.writes_ps"="*" component=IOstats data.cpu_pct&lt;$workload$ | timechart span=$res$ avg(data.cpu_pct) AS workload avg(data.writes_kb_ps) AS wps avg(data.reads_kb_ps) AS rps</query>
+          <earliest>$timer.earliest$</earliest>
+          <latest>$timer.latest$</latest>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.overlayFields">workload</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</form>
